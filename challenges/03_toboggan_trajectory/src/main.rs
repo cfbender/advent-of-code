@@ -10,36 +10,21 @@ fn get_input() -> Vec<Vec<char>> {
 }
 
 fn get_encounters(input: &Vec<Vec<char>>, right: usize, down: usize) -> usize {
-    let mut x = 0;
-    let mut y = 0;
-
-    input.iter().fold(0, |acc, curr_row| {
-        let result: usize;
-        if y == 0 || y % down != 0 {
-            result = acc
-        } else {
-            result = if curr_row[x] == '#' { acc + 1 } else { acc };
-        }
-        if y % down == 0 {
-            x = (x + right) % curr_row.len();
-        }
-        y = y + 1;
-        result
-    })
+    input
+        .iter()
+        .step_by(down)
+        .enumerate()
+        .filter(|(y, line)| line.iter().cycle().nth(right * y) == Some(&'#'))
+        .count()
 }
 
 fn main() {
     let map = get_input();
 
-    let encounters = vec![
-        get_encounters(&map, 1, 1),
-        get_encounters(&map, 3, 1),
-        get_encounters(&map, 5, 1),
-        get_encounters(&map, 7, 1),
-        get_encounters(&map, 1, 2),
-    ]
-    .iter()
-    .fold(1, |acc, curr| acc * curr);
+    let encounters: usize = vec![(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
+        .iter()
+        .map(|&(right, down)| get_encounters(&map, right, down))
+        .product();
 
     println!("{}", encounters)
 }
