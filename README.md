@@ -1,3 +1,7 @@
-# Advent of Code 2020
+# Advent of Code 
 
-[Link to about page](https://adventofcode.com/2020/about)
+[AoC 2020](https://adventofcode.com/2020/about)
+
+### Dependencies
+    - Deno
+    - Rust (Rustup/Cargo)
