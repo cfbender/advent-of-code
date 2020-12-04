@@ -1,7 +1,7 @@
 use std::fs;
 
 fn get_input() -> Vec<String> {
-    fs::read_to_string("input.txt")
+    fs::read_to_string("../input.txt")
         .expect("Something went wrong reading the input")
         .lines()
         .into_iter()
