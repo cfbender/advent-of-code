@@ -1,10 +1,6 @@
-//THIS CODE IS NOT WORKING. See print statements on run for negative number behavior that I
-//couldn't fix. the jmp/-93 instruction should subtract 93 from the index, but instead it adds 1.
-//It logs out as being negative at runtime, but doesn't pass that "if" branch when put into the
-//"add" function
 use std::{collections::HashSet, convert::TryInto, fs};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct Instruction {
     ins_type: String,
     amount: i32,
@@ -22,44 +18,68 @@ fn get_input() -> Vec<Instruction> {
 }
 
 fn add(u: usize, i: i32) -> usize {
-    if i < 0 {
-        let result = u.overflowing_sub(i.wrapping_abs() as u32 as usize);
-        if result.1 == true {
-            0
-        } else {
-            result.0
-        }
+    if i.is_negative() {
+        u.wrapping_sub(i.wrapping_abs() as usize)
     } else {
-        u.overflowing_add(i as usize).0
+        u.wrapping_add(i as usize)
     }
+}
+
+fn fix_program(input: &Vec<Instruction>) -> Vec<Instruction> {
+    let mut idx = 0;
+    input.iter().fold(Vec::new(), |acc, curr| {
+        if idx >= input.len() {
+            return acc;
+        }
+        let mut clone = input.clone();
+        let new_type: String = match curr.ins_type.as_str() {
+            "jmp" => String::from("nop"),
+            "nop" => String::from("jmp"),
+            _ => curr.ins_type.clone(),
+        };
+
+        clone.splice(
+            idx..idx + 1,
+            vec![Instruction {
+                ins_type: new_type,
+                amount: curr.amount,
+            }],
+        );
+        let result = run_program(&clone);
+
+        idx = idx + 1;
+        if let Ok(_x) = result {
+            clone
+        } else {
+            acc
+        }
+    })
 }
 
 fn run_program(input: &Vec<Instruction>) -> Result<usize, usize> {
     let mut checked: HashSet<usize> = HashSet::new();
     let mut i = 0;
-    let mut acc = 0;
+    let mut acc: i32 = 0;
     let mut terminated = false;
-    input.iter().try_for_each(|curr| -> Option<()> {
+
+    input.iter().try_for_each(|_x| -> Option<()> {
         checked.insert(i);
 
-        println!("{}", i);
         if i >= input.len() {
-            terminated = true;
             return None;
         }
 
-        let current = input.iter().nth(i).unwrap();
+        let current = input.get(i).unwrap();
 
-        println!("{:?}", current);
         match current.ins_type.as_str() {
             "jmp" => {
-                i = add(i, curr.amount);
+                i = add(i, current.amount);
             }
             "acc" => {
-                acc = acc + curr.amount;
+                acc = acc + current.amount;
                 i = i + 1;
             }
-            _ => {
+             _ => {
                 i = i + 1;
             }
         }
@@ -82,5 +102,7 @@ fn main() {
     let input = get_input();
 
     let result = run_program(&input);
-    println!("{:?}", result)
+    println!("Part 1: {:?}", result);
+    let fix = fix_program(&input);
+    println!("Part 2: {:?}", run_program(&fix));
 }
