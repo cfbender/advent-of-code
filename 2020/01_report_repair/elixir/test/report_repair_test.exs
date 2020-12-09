@@ -1,5 +1,6 @@
-defmodule ReportRepairTest do
+defmodule AoCTest do
   use ExUnit.Case
+  doctest AoC
 
   test "Parts" do
     assert AoC.run1() == 935_419
