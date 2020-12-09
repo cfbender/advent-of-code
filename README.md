@@ -2,7 +2,7 @@
 
 [AoC 2020](https://adventofcode.com/2020/about)
 
-Please don't judge any Rust code here :weary:
+Please don't judge any Rust or Elixir code here :weary:
 
 ### Dependencies
     - Deno
