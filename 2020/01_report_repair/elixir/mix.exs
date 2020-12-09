@@ -1,4 +1,4 @@
-defmodule ReportRepair.MixProject do
+defmodule AoC.MixProject do
   use Mix.Project
 
   def project do

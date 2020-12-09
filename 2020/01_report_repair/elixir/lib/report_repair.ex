@@ -20,7 +20,7 @@
 # console.log(`Pair result: ${reducePairs(2020)}`)
 # console.log(`Triplet result: ${tripletResult}`)
 
-defmodule ReportRepair do
+defmodule AoC do
   def get_input do
     {:ok, input} = File.read("../input.txt")
     input |> String.split("\n", trim: true) |> Enum.map(&String.to_integer/1)
@@ -44,7 +44,7 @@ defmodule ReportRepair do
   def part2(lines) do 
     lines |> Enum.reduce(0, fn (curr, acc) -> 
       if(curr < 2020) do
-        pair_quotient = ReportRepair.reduce_pairs(lines, 2020 - curr)
+        pair_quotient = reduce_pairs(lines, 2020 - curr)
         if(pair_quotient > 1) do
           curr * pair_quotient
         else
