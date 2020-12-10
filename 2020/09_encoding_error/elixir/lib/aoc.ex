@@ -32,8 +32,9 @@ defmodule AoC do
     else
       cond do
         sum < check ->
-          list ++ [Enum.at(full_list, i + 1)]
+          (list ++ [Enum.at(full_list, i + 1)])
           |> list_check(check, i + 1, full_list)
+
         true ->
           List.delete_at(list, 0)
           |> list_check(check, i, full_list)
