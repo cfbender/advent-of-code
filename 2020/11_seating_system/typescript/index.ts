@@ -1,67 +1,99 @@
+import isEqual from 'http://deno.land/x/lodash@4.17.11-es/isEqual.js'
+
 const input = await Deno.readTextFile('../input.txt')
 const seats: string[][] = input
   .trim()
-  .split(/\r?\n/)
-  .map((line) => line.split(''))
+  .split(/\n/)
+  .map((line) => `*${line}*`.trim().split(''))
 
-const getSurrounding = (list: string[][], row: number, col: number) => {
-  const limits = [-1, list.length, list[0].length]
-  const checks = [
-    [row - 1, col - 1],
-    [row - 1, col],
-    [row - 1, col + 1],
-    [row, col - 1],
-    [row, col + 1],
-    [row + 1, col - 1],
-    [row + 1, col],
-    [row + 1, col + 1],
-  ]
-  return checks.flatMap(([row, col]) => {
-    return limits.includes(row) || limits.includes(col) ? [] : [list[row][col]]
+const padding = new Array(seats[0].length).fill('*')
+seats.unshift(padding)
+seats.push(padding)
+
+const checks = [
+  [-1, -1],
+  [-1, 0],
+  [-1, 1],
+  [0, -1],
+  [0, 1],
+  [1, -1],
+  [1, 0],
+  [1, 1],
+]
+
+const checkAll = (list: string[][], checks: number[][]): string[] => {
+  return checks.flatMap(([checkRow, checkCol]) => {
+    if (checkRow === -1 || checkCol === -1) {
+      return []
+    }
+
+    return checkRow >= list.length || checkCol >= list[0].length
+      ? []
+      : [list[checkRow][checkCol]]
   })
 }
-const gridCompare = (grid1: string[][], grid2: string[][]) => {
-  if (grid1.length !== grid2.length) {
-    return false
-  }
-  for (let i = 0; i < grid1.length; i++) {
-    for (let j = 0; j < grid1[0].length; j++) {
-      if (grid1[i][j] !== grid2[i][j]) {
-        return false
+const getSurrounding = (list: string[][], row: number, col: number) => {
+  const gridChecks = checks.map(([dx, dy]) => [dx + row, dy + col])
+  return checkAll(list, gridChecks)
+}
+
+const getAllSeen = (list: string[][], initX: number, initY: number) => {
+  const gridChecks = checks.flatMap(([dx, dy]) => {
+    let x = initX + dx
+    let y = initY + dy
+    if (x === -1 || y === -1 || x >= list.length || y >= list[0].length) {
+      return []
+    }
+
+    while (list[x][y] === '.') {
+      if (list[x][y] === '*') {
+        return []
       }
+
+      x += dx
+      y += dy
+    }
+
+    return [[x, y]]
+  })
+
+  return checkAll(list, gridChecks)
+}
+const get = (part: number) => {
+  let result = seats
+  while (true) {
+    const nextGrid = result.map((row, rowNum, fullGrid) => {
+      return row.map((seat, colNum) => {
+        const occupied =
+          part === 1
+            ? getSurrounding(fullGrid, rowNum, colNum).filter((x) => x === '#')
+                .length
+            : getAllSeen(fullGrid, rowNum, colNum).filter((x) => x === '#')
+                .length
+
+        if (seat === 'L') {
+          return !occupied ? '#' : seat
+        }
+
+        if (seat === '#') {
+          return occupied >= (part === 1 ? 4 : 5) ? 'L' : seat
+        }
+        return seat
+      })
+    })
+
+    if (isEqual(result, nextGrid)) {
+      break
+    } else {
+      result = nextGrid
     }
   }
-  return true
+
+  return result.reduce(
+    (acc, curr) => acc + curr.filter((x) => x === '#').length,
+    0
+  )
 }
 
-let result = seats
-while (true) {
-  const nextGrid = result.map((row, rowNum) => {
-    return row.map((seat, colNum) => {
-      const occupied = getSurrounding(result, rowNum, colNum).filter(
-        (x) => x === '#'
-      )
-      switch (seat) {
-        case 'L':
-          return !occupied.length ? '#' : seat
-        case '#':
-          return occupied.length >= 4 ? 'L' : seat
-        default:
-          return seat
-      }
-    })
-  })
-
-  if (gridCompare(result, nextGrid)) {
-    break
-  } else {
-    result = nextGrid
-  }
-}
-
-const occupied = result.reduce(
-  (acc, curr) => acc + curr.filter((x) => x === '#').length,
-  0
-)
-
-console.log(`Part 1: ${occupied}`)
+console.log(`Part 1: ${get(1)}`)
+console.log(`Part 2: ${get(2)}`)
