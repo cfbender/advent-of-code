@@ -8,14 +8,6 @@ const nav: Instruction[] = input
   .split(/\r?\n/)
   .map((x) => [x[0], parseInt(x.substr(1))])
 
-const testData: Instruction[] = `F10
-N3
-F7
-R90
-F11`
-  .split('\n')
-  .map((x) => [x[0], parseInt(x.substr(1))])
-
 interface Position {
   long: number;
   lat: number;
@@ -39,10 +31,6 @@ const getMovement = ([type, amount]: Instruction, pos: Position): Position => {
   if (type === 'F') {
     type = cardinalDegrees[pos.facing]
   }
-  if ((type === 'L' || type === 'R') && ![0, 90, 180, 270].includes(amount)) {
-    console.log(`Shit is fucked: ${type}, ${amount}`)
-  }
-
   switch (type) {
     case 'N':
     case 'S':
@@ -73,10 +61,14 @@ const getPos = (ins: Instruction[]) => {
 type ShipWithWaypoint = [Position, Position]
 
 const transformPoint = (pos: Position, degrees: number) => {
-    const radians = degrees * (Math.PI / 180)
-    const long = Math.round((pos.long * Math.cos(radians)) + (pos.lat * Math.sin(radians)))
-    const lat= Math.round((pos.lat * Math.cos(radians)) - (pos.long * Math.sin(radians)))
-    return {long, lat}
+  const radians = degrees * (Math.PI / 180)
+  const long = Math.round(
+    pos.long * Math.cos(radians) + pos.lat * Math.sin(radians)
+  )
+  const lat = Math.round(
+    pos.lat * Math.cos(radians) - pos.long * Math.sin(radians)
+  )
+  return { long, lat }
 }
 const getWaypointMovement = (
   [type, amount]: Instruction,
@@ -84,10 +76,19 @@ const getWaypointMovement = (
 ): ShipWithWaypoint => {
   switch (type) {
     case 'F':
-      return [{ lat: shipPos.lat + wayPos.lat * amount, long: shipPos.long + wayPos.long * amount }, wayPos]
+      return [
+        {
+          lat: shipPos.lat + wayPos.lat * amount,
+          long: shipPos.long + wayPos.long * amount,
+        },
+        wayPos,
+      ]
     case 'R':
-    case'L':
-        return [shipPos, {...transformPoint(wayPos,type === 'R' ? amount : 360 - amount )} ]
+    case 'L':
+      return [
+        shipPos,
+        { ...transformPoint(wayPos, type === 'R' ? amount : 360 - amount) },
+      ]
     default:
       return [shipPos, getMovement([type, amount], wayPos)]
   }
@@ -107,5 +108,5 @@ const getPosWaypoint = (ins: Instruction[]) => {
 const result = getPos(nav)
 console.log(`Part 1: ${getManhattanDistance(result)}`)
 
-const result2= getPosWaypoint(nav)
+const result2 = getPosWaypoint(nav)
 console.log(`Part2: ${getManhattanDistance(result2[0])}`)
