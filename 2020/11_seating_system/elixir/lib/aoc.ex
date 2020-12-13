@@ -6,7 +6,7 @@ defmodule AoC do
     lines =
       input
       |> String.split(~r/\r?\n/, trim: true)
-      |> Enum.map(fn x -> ("*" <> x <> "*") |> String.split("") end)
+      |> Enum.map(fn x -> "*#{x}*" |> String.split("", trim: true) end)
 
     padding = List.duplicate("*", lines |> Enum.at(0) |> Enum.count())
     [padding | lines] ++ [padding]
@@ -14,13 +14,13 @@ defmodule AoC do
 
   @adj8 for(i <- [-1, 0, 1], j <- [-1, 0, 1], do: {i, j}) |> List.delete({0, 0})
 
-  def get_next_seat(seats, {dx, dy}, {x, y}) do
+  def get_next_seat(seats, {dx, dy}, {x, y}, {origX, origY}) do
     next_x = x + dx
     next_y = y + dy
 
     if seats |> Enum.at(next_x) |> Enum.at(next_y) == ".",
-      do: get_next_seat(seats, {dx, dy}, {next_x, next_y}),
-      else: {next_x, next_y}
+      do: get_next_seat(seats, {dx, dy}, {next_x, next_y}, {origX, origY}),
+      else: {next_x - origX, next_y - origY}
   end
 
   def get_sight(seats) do
@@ -34,14 +34,13 @@ defmodule AoC do
           cond do
             seat != "*" ->
               Enum.map(@adj8, fn dir ->
-                get_next_seat(seats, dir, {i, j})
+                get_next_seat(seats, dir, {i, j}, {i, j})
               end)
 
             true ->
               nil
           end
       end)
-      |> Enum.reject(fn x -> x == nil end)
     end)
   end
 
