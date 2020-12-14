@@ -1,4 +1,4 @@
-defmodule AoC do
+defmodule Aoc do
   @spec get_grid :: [[String.t()]]
   def get_grid() do
     {:ok, input} = File.read("../input.txt")

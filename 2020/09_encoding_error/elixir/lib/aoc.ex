@@ -1,4 +1,4 @@
-defmodule AoC do
+defmodule Aoc do
   def get_input do
     {:ok, input} = File.read("../input.txt")
     input |> String.split("\n", trim: true) |> Enum.map(&String.to_integer/1)

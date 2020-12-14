@@ -1,8 +1,8 @@
-defmodule AoCTest do
+defmodule AocTest do
   use ExUnit.Case
-  doctest AoC
+  doctest Aoc
 
   test "greets the world" do
-    assert AoC.main() == {2092, 702_970_661_767_766}
+    assert Aoc.main() == {2092, 702_970_661_767_766}
   end
 end
