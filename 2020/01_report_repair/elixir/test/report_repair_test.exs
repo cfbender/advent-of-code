@@ -1,9 +1,9 @@
-defmodule AoCTest do
+defmodule AocTest do
   use ExUnit.Case
-  doctest AoC
+  doctest Aoc
 
   test "Parts" do
-    assert AoC.run1() == 935_419
-    assert AoC.run2() == 49_880_012
+    assert Aoc.run1() == 935_419
+    assert Aoc.run2() == 49_880_012
   end
 end
