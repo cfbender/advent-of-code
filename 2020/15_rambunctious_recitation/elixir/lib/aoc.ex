@@ -45,7 +45,10 @@ defmodule Aoc do
       |> Map.new()
 
     [1, 2]
-    |> Enum.map(fn x -> process_nums(x, mem, Enum.count(int_nums), List.last(int_nums)) end)
+    |> Enum.map(fn x ->
+      Task.async(fn -> process_nums(x, mem, Enum.count(int_nums), List.last(int_nums)) end)
+    end)
+    |> Task.await_many(60000)
     |> List.to_tuple()
   end
 end
