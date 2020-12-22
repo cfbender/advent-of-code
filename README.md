@@ -21,7 +21,7 @@ $ deno run --allow-read ./index.ts
 In respective day directory:
 ```bash
 $ iex -S mix 
-iex > AoC.main()
+iex > Aoc.main()
 ```
 
 ##### Rust
