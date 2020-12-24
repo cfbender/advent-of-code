@@ -81,3 +81,20 @@ defmodule Aoc do
      |> Enum.join(""), part2_result[1] * part2_result[part2_result[1]]}
   end
 end
+
+defmodule Kata do
+  def digital_root(n) do
+    result =
+      n
+      |> Integer.digits()
+      |> Enum.sum()
+
+    cond do
+      length(result |> Integer.digits()) > 1 ->
+        digital_root(result)
+
+      true ->
+        result
+    end
+  end
+end
