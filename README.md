@@ -1,7 +1,8 @@
 # Advent of Code 
 
-[AoC 2021](https://adventofcode.com/2021/about)
-[AoC 2020](https://adventofcode.com/2020/about)
+- [AoC 2021](https://adventofcode.com/2021/about)
+
+- [AoC 2020](https://adventofcode.com/2020/about)
 
 Please don't judge any Rust or Elixir code here :weary:
 
@@ -18,7 +19,7 @@ In respective day directory:
 $ deno run --allow-read ./index.ts
 ```
 
-##### Elixir
+##### Elixir (2020 only)
 In respective day directory:
 ```bash
 $ iex -S mix 
