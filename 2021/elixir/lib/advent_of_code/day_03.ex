@@ -8,6 +8,7 @@ defmodule AdventOfCode.Day03 do
         if Enum.count(list, fn x -> x == "1" end) > length(list) / 2, do: "1", else: "0"
       end)
 
+    # though bnot() would work here but I guess not
     {epsilon, _rem} =
       Enum.map(gamma_binary, fn x -> if x == "1", do: "0", else: "1" end)
       |> Enum.join()
@@ -39,14 +40,16 @@ defmodule AdventOfCode.Day03 do
   end
 
   def part2(input) do
+    bits = Enum.map(input, &String.codepoints/1)
+
     {oxygen, _rem} =
-      Enum.map(input, &String.codepoints/1)
+      bits
       |> find_rating("most", 0)
       |> Enum.join()
       |> Integer.parse(2)
 
     {co2, _rem} =
-      Enum.map(input, &String.codepoints/1)
+      bits
       |> find_rating("least", 0)
       |> Enum.join()
       |> Integer.parse(2)
