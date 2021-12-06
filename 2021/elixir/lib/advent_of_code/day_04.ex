@@ -26,7 +26,7 @@ defmodule AdventOfCode.Day04 do
     end)
   end
 
-  defp play_bingo(calls, boards, win \\ true, previous_wins \\ []) do
+  defp play_bingo(calls, boards, win, previous_wins \\ []) do
     [call | rest_calls] = calls
 
     new_boards = mark_boards(boards, call)
@@ -38,9 +38,6 @@ defmodule AdventOfCode.Day04 do
         play_bingo(rest_calls, new_boards, win, winning)
 
       length(winning) >= length(boards) ->
-        IO.inspect(length(winning))
-        IO.inspect(length(boards))
-
         {call,
          Enum.find(winning, fn board ->
            # get board that was not a previous win, mark them to check easily
@@ -62,8 +59,6 @@ defmodule AdventOfCode.Day04 do
       Enum.at(calls, 0)
       |> String.split(",", trim: true)
       |> Enum.map(&String.to_integer/1)
-
-    IO.inspect(length(calls))
 
     boards =
       Enum.map(boards, fn board ->
