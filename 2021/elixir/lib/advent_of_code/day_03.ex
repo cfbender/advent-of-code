@@ -1,4 +1,6 @@
 defmodule AdventOfCode.Day03 do
+  use Bitwise
+
   def part1(input) do
     gamma_binary =
       Enum.map(input, &String.codepoints/1)
@@ -8,13 +10,13 @@ defmodule AdventOfCode.Day03 do
         if Enum.count(list, fn x -> x == "1" end) > length(list) / 2, do: "1", else: "0"
       end)
 
-    # though bnot() would work here but I guess not
-    {epsilon, _rem} =
-      Enum.map(gamma_binary, fn x -> if x == "1", do: "0", else: "1" end)
-      |> Enum.join()
+    epsilon =
+      Enum.join(gamma_binary)
       |> Integer.parse(2)
+      |> Enum.at(0)
+      |> Bitwise.bxor(31)
 
-    {gamma, _rem} = Enum.join(gamma_binary) |> Integer.parse(2)
+    gamma = Enum.join(gamma_binary) |> Integer.parse(2) |> Enum.at(0)
 
     gamma * epsilon
   end
