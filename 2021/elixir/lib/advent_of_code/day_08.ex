@@ -1,37 +1,12 @@
 defmodule AdventOfCode.Day08 do
-  def unique_segments do
-    segments = %{
-      0 => 6,
-      1 => 2,
-      2 => 5,
-      3 => 5,
-      4 => 4,
-      5 => 5,
-      6 => 6,
-      7 => 3,
-      8 => 7,
-      9 => 6
-    }
-
-    unique_values =
-      Map.values(segments)
-      |> Enum.frequencies()
-      |> Enum.map(fn {k, v} -> if v == 1, do: k end)
-      |> Enum.reject(&is_nil/1)
-
-    Enum.filter(segments, fn {_k, v} -> Enum.member?(unique_values, v) end) |> Map.new()
-  end
-
   def part1(input) do
-    uniques = unique_segments()
-
     Enum.map(input, fn line ->
       [_pattern, output] = String.split(line, "|", trim: true)
 
       String.split(output, " ", trim: true)
       |> Enum.count(fn x ->
-        uniques
-        |> Map.values()
+        # one, four, seven and eight are only unique displays in count
+        [2, 3, 4, 7]
         |> Enum.member?(String.length(x))
       end)
     end)
