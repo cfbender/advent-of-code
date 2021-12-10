@@ -1,27 +1,11 @@
 defmodule AdventOfCode.Day10 do
-  @openers ["(", "[", "{", "<"]
-  @closers [
-    ")",
-    "]",
-    "}",
-    ">"
-  ]
+  @closers [")", "]", "}", ">"]
 
-  @pairs for x <- 0..3, into: %{}, do: {Enum.at(@openers, x), Enum.at(@closers, x)}
+  @pairs %{"(" => ")", "[" => "]", "{" => "}", "<" => ">"}
 
-  @corrupt_points %{
-    ")" => 3,
-    "]" => 57,
-    "}" => 1197,
-    ">" => 25137
-  }
+  @corrupt_points %{")" => 3, "]" => 57, "}" => 1197, ">" => 25137}
 
-  @complete_points %{
-    ")" => 1,
-    "]" => 2,
-    "}" => 3,
-    ">" => 4
-  }
+  @complete_points %{")" => 1, "]" => 2, "}" => 3, ">" => 4}
 
   def parse_line(line) do
     String.codepoints(line)
@@ -48,7 +32,7 @@ defmodule AdventOfCode.Day10 do
       if is_list(result) do
         acc
       else
-        acc + Map.get(@corrupt_points, result)
+        acc + @corrupt_points[result]
       end
     end)
   end
@@ -63,7 +47,7 @@ defmodule AdventOfCode.Day10 do
           score =
             Enum.map(result, &Map.get(@pairs, &1))
             |> Enum.reduce(0, fn curr, total ->
-              total * 5 + Map.get(@complete_points, curr)
+              total * 5 + @complete_points[curr]
             end)
 
           [score | acc]
