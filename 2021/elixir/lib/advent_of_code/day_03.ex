@@ -13,10 +13,15 @@ defmodule AdventOfCode.Day03 do
     epsilon =
       Enum.join(gamma_binary)
       |> Integer.parse(2)
+      |> Tuple.to_list()
       |> Enum.at(0)
       |> Bitwise.bxor(31)
 
-    gamma = Enum.join(gamma_binary) |> Integer.parse(2) |> Enum.at(0)
+    gamma =
+      Enum.join(gamma_binary)
+      |> Integer.parse(2)
+      |> Tuple.to_list()
+      |> Enum.at(0)
 
     gamma * epsilon
   end
