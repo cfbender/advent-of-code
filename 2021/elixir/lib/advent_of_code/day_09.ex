@@ -1,30 +1,17 @@
 defmodule AdventOfCode.Day09 do
+  alias AdventOfCode.Helpers
+
   def get_map(input) do
     input
     |> Enum.map(fn line ->
-      String.split(line, "", trim: true) |> Enum.map(&String.to_integer/1)
+      String.codepoints(line) |> Enum.map(&String.to_integer/1)
     end)
-    |> Enum.with_index()
-    |> Enum.reduce(Map.new(), fn {row, y}, acc ->
-      Enum.with_index(row)
-      |> Enum.reduce(acc, fn {val, x}, row_acc ->
-        Map.put(row_acc, {x, y}, val)
-      end)
-    end)
-  end
-
-  def get_adj(map, {x, y}) do
-    [{-1, 0}, {1, 0}, {0, -1}, {0, 1}]
-    |> Enum.reduce(Map.new(), fn {dx, dy}, acc ->
-      new_point = {x + dx, y + dy}
-
-      Map.put(acc, new_point, Map.get(map, new_point))
-    end)
+    |> Helpers.list_to_map()
   end
 
   def find_low_points(map) do
     Enum.filter(map, fn {point, val} ->
-      get_adj(map, point)
+      Helpers.get_adj(map, point, all: false)
       |> Enum.all?(fn {_point, adj_val} -> adj_val > val end)
     end)
     |> Map.new()
@@ -34,7 +21,7 @@ defmodule AdventOfCode.Day09 do
     {point, value} = low_point
 
     new_basin_points =
-      get_adj(map, point)
+      Helpers.get_adj(map, point, all: false)
       |> Enum.filter(fn {_point, adj_val} ->
         adj_val > value and adj_val != 9 and not is_nil(adj_val)
       end)
