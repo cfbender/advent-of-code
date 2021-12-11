@@ -1,34 +1,18 @@
 defmodule AdventOfCode.Day11 do
+  alias AdventOfCode.Helpers
+
   def get_map(input) do
     input
     |> Enum.map(fn line ->
       String.codepoints(line) |> Enum.map(&String.to_integer/1)
     end)
-    |> Enum.with_index()
-    |> Enum.reduce(Map.new(), fn {row, y}, acc ->
-      Enum.with_index(row)
-      |> Enum.reduce(acc, fn {val, x}, row_acc ->
-        Map.put(row_acc, {x, y}, {val, false})
-      end)
-    end)
-  end
-
-  def get_adj(map, {x, y}) do
-    for(x <- [-1, 0, 1], y <- [-1, 0, 1], do: {x, y})
-    |> Enum.reduce(Map.new(), fn {dx, dy}, acc ->
-      new_point = {x + dx, y + dy}
-      new_point_val = Map.get(map, new_point)
-
-      if new_point_val do
-        Map.put(acc, new_point, new_point_val)
-      else
-        acc
-      end
-    end)
+    |> Helpers.list_to_map()
+    |> Enum.map(fn {point, val} -> {point, {val, false}} end)
+    |> Map.new()
   end
 
   def flash(grid, point) do
-    get_adj(grid, point)
+    Helpers.get_adj(grid, point)
     |> Enum.reduce(grid, fn {point, _val}, acc ->
       Map.update(acc, point, 1, fn {val, flashed} -> {val + 1, flashed} end)
     end)
