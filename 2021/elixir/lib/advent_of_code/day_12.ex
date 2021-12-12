@@ -3,6 +3,7 @@ defmodule AdventOfCode.Day12 do
 
   def is_small_cave(cave), do: String.downcase(cave) == cave
 
+  @spec find_paths(Graph.t(), String.t(), boolean(), list(String.t())) :: list(tuple())
   def find_paths(graph, vertex, duplicates \\ false, path \\ ["start"])
 
   def find_paths(_graph, _vertex, _duplicates, ["end" | _rest] = path),
