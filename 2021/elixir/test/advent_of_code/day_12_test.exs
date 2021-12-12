@@ -5,16 +5,6 @@ defmodule AdventOfCode.Day12Test do
 
   test "part1" do
     input = [
-      "start-A",
-      "start-b",
-      "A-c",
-      "A-b",
-      "b-d",
-      "A-end",
-      "b-end"
-    ]
-
-    input = [
       "fs-end",
       "he-DX",
       "fs-he",

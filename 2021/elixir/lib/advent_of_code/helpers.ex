@@ -47,24 +47,49 @@ defmodule AdventOfCode.Helpers do
   end
 
   defmodule Graph do
+    @moduledoc """
+     A simple graph data structure with edges and vertices
+    """
+    @type t :: %__MODULE__{vertices: MapSet.t(any), edges: MapSet.t(MapSet.t(any))}
     defstruct vertices: MapSet.new(), edges: MapSet.new()
 
+    @spec new :: %Graph{}
     def new, do: %Graph{}
 
+    @doc """
+    Add vertex to graph. Is idempotent.
+
+    """
+    @spec add_vertex(%Graph{}, any) :: %Graph{}
     def add_vertex(%Graph{vertices: vertices} = graph, vertex) do
       Map.put(graph, :vertices, MapSet.put(vertices, vertex))
     end
 
+    @doc """
+    Add vertices in a lit to graph. Is idempotent for individual vertices.
+
+    """
+    @spec add_vertices(%Graph{}, list(any)) :: %Graph{}
     def add_vertices(graph, vertices) do
       Enum.reduce(vertices, graph, fn vertex, acc ->
         Map.put(acc, :vertices, MapSet.put(acc.vertices, vertex))
       end)
     end
 
+    @doc """
+    Add edge to graph. Is idempotent.
+
+    """
+    @spec add_edge(%Graph{}, any) :: %Graph{}
     def add_edge(%Graph{edges: edges} = graph, edge) do
       Map.put(graph, :edges, MapSet.put(edges, MapSet.new(edge)))
     end
 
+    @doc """
+    Get all vertices connected to a given vertex.
+
+    """
+    @spec neighbors(%Graph{}, any) :: list
     def neighbors(%Graph{edges: edges}, vertex) do
       MapSet.to_list(edges)
       |> Stream.filter(fn edge -> MapSet.member?(edge, vertex) end)
