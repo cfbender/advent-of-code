@@ -3,19 +3,67 @@ defmodule AdventOfCode.Day12Test do
 
   import AdventOfCode.Day12
 
-  @tag :skip
   test "part1" do
-    input = nil
+    input = [
+      "start-A",
+      "start-b",
+      "A-c",
+      "A-b",
+      "b-d",
+      "A-end",
+      "b-end"
+    ]
+
+    input = [
+      "fs-end",
+      "he-DX",
+      "fs-he",
+      "start-DX",
+      "pj-DX",
+      "end-zg",
+      "zg-sl",
+      "zg-pj",
+      "pj-he",
+      "RW-he",
+      "fs-DX",
+      "pj-RW",
+      "zg-RW",
+      "start-pj",
+      "he-WI",
+      "zg-he",
+      "pj-fs",
+      "start-RW"
+    ]
+
     result = part1(input)
 
-    assert result
+    assert result == 226
   end
 
-  @tag :skip
   test "part2" do
-    input = nil
+    input = [
+      "fs-end",
+      "he-DX",
+      "fs-he",
+      "start-DX",
+      "pj-DX",
+      "end-zg",
+      "zg-sl",
+      "zg-pj",
+      "pj-he",
+      "RW-he",
+      "fs-DX",
+      "pj-RW",
+      "zg-RW",
+      "start-pj",
+      "he-WI",
+      "zg-he",
+      "pj-fs",
+      "start-RW"
+    ]
+
     result = part2(input)
 
-    assert result
+    assert result == 3509
   end
 end
