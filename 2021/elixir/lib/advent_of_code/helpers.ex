@@ -45,4 +45,45 @@ defmodule AdventOfCode.Helpers do
       end
     end)
   end
+
+  defmodule Graph do
+    defstruct vertices: MapSet.new(), edges: MapSet.new()
+
+    def new, do: %Graph{}
+
+    def add_vertex(%Graph{vertices: vertices} = graph, vertex) do
+      Map.put(graph, :vertices, MapSet.put(vertices, vertex))
+    end
+
+    def add_vertices(graph, vertices) do
+      Enum.reduce(vertices, graph, fn vertex, acc ->
+        Map.put(acc, :vertices, MapSet.put(acc.vertices, vertex))
+      end)
+    end
+
+    def add_edge(%{edges: edges} = graph, edge) do
+      Map.put(graph, :edges, MapSet.put(edges, MapSet.new(edge)))
+    end
+
+    def neighbors(%{edges: edges}, vertex) do
+      MapSet.to_list(edges)
+      |> Stream.filter(fn edge -> MapSet.member?(edge, vertex) end)
+      |> Stream.flat_map(&MapSet.to_list/1)
+      |> Stream.dedup()
+      |> Enum.filter(&(&1 != vertex))
+    end
+
+    defimpl Inspect, for: Graph do
+      import Inspect.Algebra
+
+      def inspect(graph, opts) do
+        concat([
+          "%Graph{\n     vertices: ",
+          to_doc(MapSet.to_list(graph.vertices), opts),
+          ",\n     edges: ",
+          to_doc(MapSet.to_list(graph.edges) |> Enum.map(&MapSet.to_list/1), opts)
+        ])
+      end
+    end
+  end
 end
