@@ -61,11 +61,11 @@ defmodule AdventOfCode.Helpers do
       end)
     end
 
-    def add_edge(%{edges: edges} = graph, edge) do
+    def add_edge(%Graph{edges: edges} = graph, edge) do
       Map.put(graph, :edges, MapSet.put(edges, MapSet.new(edge)))
     end
 
-    def neighbors(%{edges: edges}, vertex) do
+    def neighbors(%Graph{edges: edges}, vertex) do
       MapSet.to_list(edges)
       |> Stream.filter(fn edge -> MapSet.member?(edge, vertex) end)
       |> Stream.flat_map(&MapSet.to_list/1)
