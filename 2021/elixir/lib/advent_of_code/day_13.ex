@@ -6,25 +6,16 @@ defmodule AdventOfCode.Day13 do
 
     fold_line = String.to_integer(line)
 
-    case axis do
-      "x" ->
-        Enum.map(points, fn
-          {x, y} when x > fold_line ->
-            {2 * fold_line - x, y}
+    Enum.map(points, fn
+      {x, y} when x > fold_line and axis == "x" ->
+        {2 * fold_line - x, y}
 
-          point ->
-            point
-        end)
+      {x, y} when y > fold_line and axis == "y" ->
+        {x, 2 * fold_line - y}
 
-      "y" ->
-        Enum.map(points, fn
-          {x, y} when y > fold_line ->
-            {x, 2 * fold_line - y}
-
-          point ->
-            point
-        end)
-    end
+      point ->
+        point
+    end)
     |> MapSet.new()
   end
 
