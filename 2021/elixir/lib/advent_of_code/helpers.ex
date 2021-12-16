@@ -51,7 +51,7 @@ defmodule AdventOfCode.Helpers do
      A simple graph data structure with edges and vertices
     """
     @type t :: %__MODULE__{vertices: MapSet.t(any), edges: MapSet.t(MapSet.t(any))}
-    defstruct vertices: MapSet.new(), edges: MapSet.new()
+    defstruct vertices: MapSet.new(), edges: MapSet.new(), neighbors: %{}
 
     @spec new :: %Graph{}
     def new, do: %Graph{}
@@ -83,6 +83,12 @@ defmodule AdventOfCode.Helpers do
     @spec add_edge(%Graph{}, any) :: %Graph{}
     def add_edge(%Graph{edges: edges} = graph, edge) do
       Map.put(graph, :edges, MapSet.put(edges, MapSet.new(edge)))
+      |> Map.update!(:neighbors, fn neighbors ->
+        [edge_a, edge_b] = edge
+
+        Map.update(neighbors, edge_a, MapSet.new(), &MapSet.put(&1, edge_b))
+        |> Map.update(edge_b, MapSet.new(), &MapSet.put(&1, edge_a))
+      end)
     end
 
     @doc """
@@ -90,12 +96,8 @@ defmodule AdventOfCode.Helpers do
 
     """
     @spec neighbors(%Graph{}, any) :: list
-    def neighbors(%Graph{edges: edges}, vertex) do
-      MapSet.to_list(edges)
-      |> Stream.filter(fn edge -> MapSet.member?(edge, vertex) end)
-      |> Stream.flat_map(&MapSet.to_list/1)
-      |> Stream.dedup()
-      |> Enum.filter(&(&1 != vertex))
+    def neighbors(%Graph{neighbors: neighbors}, vertex) do
+      Map.get(neighbors, vertex) |> MapSet.to_list()
     end
 
     defimpl Inspect, for: Graph do
