@@ -3,6 +3,12 @@ defmodule AdventOfCode.Day15 do
 
   @source {0, 0}
 
+  @moduledoc """
+  Note: Using just a list instead of a priority queue just to not use a library.
+  A little under-optimized, and not using the Helpers.Graph data structure
+  since it's a little slow as well
+  """
+
   def dijkstras(map, dest) do
     dijkstras([{@source, 0}], map, dest, Map.new(Enum.map(Map.keys(map), &{&1, Infinity})))
   end
