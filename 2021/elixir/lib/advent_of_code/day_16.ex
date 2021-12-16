@@ -1,4 +1,8 @@
 defmodule AdventOfCode.Day16 do
+  defmodule Packet do
+    defstruct children: [], id: 0, type: :literal, version: 0, value: nil
+  end
+
   def hex_to_binary(hex_string) do
     String.codepoints(hex_string)
     |> Enum.map(fn x ->
@@ -45,12 +49,14 @@ defmodule AdventOfCode.Day16 do
     else
       <<sub_packet_count_bin::binary-size(11)>> <> sub_packets = packet
       sub_packet_count = Integer.parse(sub_packet_count_bin, 2) |> elem(0)
+      # expects the tuple return of parse_packets, so then parse_packets can treat as child data
       parse_packets(sub_packets, [], true, sub_packet_count)
     end
   end
 
   def parse_packets(input, packet_data \\ [], limit? \\ false, count \\ 0, current \\ 0) do
     if limit? and current == count do
+      # returns tuple in case of type 1 operator packet
       {packet_data |> Enum.reverse(), input}
     else
       if Enum.all?(String.codepoints(input), &(&1 == "0")) do
@@ -62,13 +68,21 @@ defmodule AdventOfCode.Day16 do
 
         if id_decimal == 4 do
           {decimal, rest_packets} = parse_literal(rest)
-          data = %{version: version_decimal, id: id_decimal, type: :literal, children: decimal}
+
+          data = %Packet{
+            version: version_decimal,
+            id: id_decimal,
+            type: :literal,
+            children: [],
+            value: decimal
+          }
+
           parse_packets(rest_packets, [data | packet_data], limit?, count, current + 1)
         else
           <<type::binary-size(1)>> <> rest_op = rest
           {child_data, after_op} = parse_operator(rest_op, type)
 
-          data = %{
+          data = %Packet{
             version: version_decimal,
             id: id_decimal,
             type: :operator,
@@ -85,13 +99,10 @@ defmodule AdventOfCode.Day16 do
   def sum_versions([], count), do: count
 
   def sum_versions(packets, count) do
-    top_level_sum = Enum.map(packets, fn packet -> packet[:version] end) |> Enum.sum()
+    top_level_sum = Enum.map(packets, fn packet -> packet.version end) |> Enum.sum()
 
     all_children =
-      Enum.flat_map(packets, fn packet ->
-        children = packet[:children]
-        if is_list(children), do: children, else: []
-      end)
+      Enum.flat_map(packets, fn packet -> packet.children end)
       |> Enum.filter(&(not is_nil(&1)))
 
     sum_versions(all_children, top_level_sum + count)
@@ -104,6 +115,44 @@ defmodule AdventOfCode.Day16 do
     |> sum_versions()
   end
 
-  def part2(_args) do
+  def flatten_packet_values(packet) when is_integer(packet.value), do: packet.value
+  def flatten_packet_values(packet), do: calculate_packets(packet)
+
+  def calculate_packets(%Packet{children: children, id: id}) do
+    all_children = Enum.map(children, &flatten_packet_values/1)
+
+    case id do
+      0 ->
+        Enum.sum(all_children)
+
+      1 ->
+        Enum.product(all_children)
+
+      2 ->
+        Enum.min(all_children)
+
+      3 ->
+        Enum.max(all_children)
+
+      5 ->
+        [a, b] = all_children
+        if a > b, do: 1, else: 0
+
+      6 ->
+        [a, b] = all_children
+        if a < b, do: 1, else: 0
+
+      7 ->
+        [a, b] = all_children
+        if a == b, do: 1, else: 0
+    end
+  end
+
+  def part2(input) do
+    input
+    |> hex_to_binary()
+    |> parse_packets()
+    |> List.first()
+    |> calculate_packets
   end
 end
