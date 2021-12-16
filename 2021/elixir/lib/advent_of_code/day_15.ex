@@ -1,32 +1,33 @@
 defmodule AdventOfCode.Day15 do
   import AdventOfCode.Helpers
 
-  alias AdventOfCode.Helpers.Graph
-
   @source {0, 0}
 
-  def dijkstras(graph, edge_weights, dest) do
-    # queue with {point, cost}
-    dijkstras([{@source, 0}], graph, edge_weights, dest, MapSet.new([@source]))
+  def dijkstras(map, dest) do
+    dijkstras([{@source, 0}], map, dest, Map.new(Enum.map(Map.keys(map), &{&1, Infinity})))
   end
 
-  def dijkstras(queue, graph, edge_weights, dest, visited) do
+  def dijkstras(queue, map, dest, costs) do
     [{node, cost} | rest_queue] = queue
 
     if node == dest do
       cost
     else
-      neighbors =
-        Graph.neighbors(graph, node)
-        |> Enum.filter(fn point -> not MapSet.member?(visited, point) end)
-
-      new_visited = Enum.concat(MapSet.to_list(visited), neighbors) |> MapSet.new()
+      neighbors = get_adj(map, node, all: false) |> Map.keys()
 
       # add neighbor with added weight to queue
-      Enum.map(neighbors, fn point -> {point, cost + Map.get(edge_weights, point)} end)
-      |> Enum.concat(rest_queue)
-      |> Enum.sort_by(fn {_point, cost} -> cost end, :asc)
-      |> dijkstras(graph, edge_weights, dest, new_visited)
+      {new_queue, new_costs} =
+        Enum.reduce(neighbors, {rest_queue, costs}, fn point, {q_acc, c_acc} = acc ->
+          new_cost = cost + Map.get(map, point)
+
+          if new_cost < Map.get(costs, point) do
+            {[{point, new_cost} | q_acc], Map.put(c_acc, point, new_cost)}
+          else
+            acc
+          end
+        end)
+
+      dijkstras(Enum.sort(new_queue), map, dest, new_costs)
     end
   end
 
@@ -34,25 +35,15 @@ defmodule AdventOfCode.Day15 do
     do: Enum.map(input, fn line -> String.codepoints(line) |> Enum.map(&String.to_integer/1) end)
 
   def part1(input) do
-    edge_weights =
+    map =
       input
       |> list_to_map()
 
-    points = Map.keys(edge_weights)
+    points = Map.keys(map)
 
     destination = Enum.max(points)
 
-    Graph.new()
-    |> Graph.add_vertices(points)
-    |> then(fn start ->
-      Enum.reduce(points, start, fn point, graph ->
-        get_adj(edge_weights, point, all: false)
-        |> Enum.reduce(graph, fn {adj, _val}, new_graph ->
-          Graph.add_edge(new_graph, [point, adj])
-        end)
-      end)
-    end)
-    |> dijkstras(edge_weights, destination)
+    dijkstras(map, destination)
   end
 
   def transform_input(input, level) do
