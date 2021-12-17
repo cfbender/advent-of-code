@@ -44,7 +44,6 @@ defmodule AdventOfCode.Day17 do
     |> Enum.take_while(fn {x, dx, y, _dy} ->
       # probe has cleared target area by passing or falling past
       (x <= max_x and max_x >= 0 and dx > 0) or
-        (x >= min_x and min_x <= 0 and dx < 0) or
         y >= min_y
     end)
     |> Enum.filter(fn {x, _, y, _} -> x in min_x..max_x and y in min_y..max_y end)
