@@ -3,19 +3,17 @@ defmodule AdventOfCode.Day17Test do
 
   import AdventOfCode.Day17
 
-  @tag :skip
   test "part1" do
-    input = nil
+    input = "target area: x=20..30, y=-10..-5"
     result = part1(input)
 
-    assert result
+    assert result == 45
   end
 
-  @tag :skip
   test "part2" do
-    input = nil
+    input = "target area: x=20..30, y=-10..-5"
     result = part2(input)
 
-    assert result
+    assert result == 112
   end
 end
