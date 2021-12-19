@@ -1,4 +1,16 @@
 defmodule AdventOfCode.Day18 do
+  def eval_list(input) do
+    all_vals = 0..9 |> Enum.map(&Integer.to_string/1) |> Enum.concat(["[", ",", "]"])
+    safe = String.codepoints(input) |> Enum.all?(&(&1 in all_vals))
+
+    if safe do
+      {list, _} = Code.eval_string(input)
+      list
+    else
+      raise "you stinker"
+    end
+  end
+
   def split(num) when is_integer(num) and num >= 10,
     do: {:split, [Integer.floor_div(num, 2), ceil(num / 2)]}
 
@@ -72,13 +84,13 @@ defmodule AdventOfCode.Day18 do
 
   def part1(input) do
     input
-    |> Enum.map(fn line -> Code.eval_string(line) |> elem(0) end)
+    |> Enum.map(&eval_list/1)
     |> Enum.reduce(&add(&2, &1))
     |> magnitude()
   end
 
   def part2(input) do
-    nums = input |> Enum.map(fn line -> Code.eval_string(line) |> elem(0) end)
+    nums = input |> Enum.map(&eval_list/1)
 
     for(x <- nums, y <- nums, x != y, do: {x, y})
     |> Stream.map(fn {a, b} ->
