@@ -18,7 +18,7 @@ defmodule AdventOfCode.Day20 do
   end
 
   # pad two on all sides to check max distance from 3x3 window
-  def pad(map, value \\ :dark, padding \\ 2) do
+  def pad(map, value \\ :dark, padding \\ 1) do
     points = Map.keys(map)
     {min_x, max_x} = Stream.map(points, &elem(&1, 0)) |> Enum.min_max()
     {min_y, max_y} = Stream.map(points, &elem(&1, 1)) |> Enum.min_max()
