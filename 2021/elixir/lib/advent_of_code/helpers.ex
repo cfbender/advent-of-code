@@ -21,6 +21,8 @@ defmodule AdventOfCode.Helpers do
   Gets all adjacent points on a map of XY coordinates to a point
 
   Pass `all: false` to not include diagonally adjacent points
+  Pass `default: <value>` to retrieve some other value than nil by default
+  Pass `three_d: true` to use a three dimensional map
 
   ## Examples
       iex> Helpers.get_adj(%{{0, 0} => 1, {0, 1} => 4, {1, 0} => 2, {1, 1} => 5, {2, 0} => 3, {2, 1} => 6}, {1,1})
@@ -29,11 +31,19 @@ defmodule AdventOfCode.Helpers do
   def get_adj(map, {x, y}, opts \\ []) do
     default = Keyword.get(opts, :default, nil)
     all = Keyword.get(opts, :all, true)
+    three_d = Keyword.get(opts, :three_d, false)
 
     deltas =
-      if all,
-        do: for(x <- [-1, 0, 1], y <- [-1, 0, 1], do: {x, y}),
-        else: [{-1, 0}, {1, 0}, {0, -1}, {0, 1}]
+      cond do
+        all ->
+          for(x <- [-1, 0, 1], y <- [-1, 0, 1], do: {x, y})
+
+        three_d ->
+          for(x <- [-1, 0, 1], y <- [-1, 0, 1], z <- [-1, 0, 1], do: {x, y, z})
+
+        true ->
+          [{-1, 0}, {1, 0}, {0, -1}, {0, 1}]
+      end
 
     deltas
     |> Enum.reduce(Map.new(), fn {dx, dy}, acc ->
