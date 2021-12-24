@@ -3,19 +3,32 @@ defmodule AdventOfCode.Day23Test do
 
   import AdventOfCode.Day23
 
-  @tag :skip
   test "part1" do
-    input = nil
+    input = [
+      "#############",
+      "#...........#",
+      "###B#C#B#D###",
+      "#A#D#C#A#",
+      "#########"
+    ]
+
     result = part1(input)
 
-    assert result
+    assert result == 12521
   end
 
-  @tag :skip
+  @tag timeout: :infinity
   test "part2" do
-    input = nil
+    input = [
+      "#############",
+      "#...........#",
+      "###B#C#B#D###",
+      "#A#D#C#A#",
+      "#########"
+    ]
+
     result = part2(input)
 
-    assert result
+    assert result == 44169
   end
 end
