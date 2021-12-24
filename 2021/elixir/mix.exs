@@ -22,7 +22,8 @@ defmodule AdventOfCode.MixProject do
   defp deps do
     [
       {:benchee, "~> 1.0"},
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:libgraph, "~> 0.13"}
     ]
   end
 end
