@@ -16,10 +16,10 @@ defmodule AdventOfCode.Day24 do
   def monad({a, b, _c}, z, w) when rem(z, 26) + b == w, do: Integer.floor_div(z, a)
   def monad({a, _b, c}, z, w), do: Integer.floor_div(z, a) * 26 + w + c
 
-  def find_highest(params_list, zs \\ %{0 => {0, 0}})
-  def find_highest([], zs), do: zs
+  def monad_min_max(params_list, zs \\ %{0 => {0, 0}})
+  def monad_min_max([], zs), do: zs
 
-  def find_highest([params = {a, _, _} | rest_params], zs) do
+  def monad_min_max([params = {a, _, _} | rest_params], zs) do
     new_zs =
       Enum.reduce(zs, Map.new(), fn {z, {min, max}}, z_acc ->
         Enum.reduce(1..9, z_acc, fn digit, new_z_acc ->
@@ -39,19 +39,19 @@ defmodule AdventOfCode.Day24 do
         end)
       end)
 
-    find_highest(rest_params, new_zs)
+    monad_min_max(rest_params, new_zs)
   end
 
   def part1(input) do
     parse_function_parameters(input)
-    |> find_highest()
+    |> monad_min_max()
     |> Map.get(0)
     |> elem(1)
   end
 
   def part2(input) do
     parse_function_parameters(input)
-    |> find_highest()
+    |> monad_min_max()
     |> Map.get(0)
     |> elem(0)
   end
