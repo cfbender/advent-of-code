@@ -49,7 +49,7 @@ defmodule AdventOfCode.Day03 do
           String.to_charlist(sack)
           |> MapSet.new()
         end)
-        |> Enum.reduce(fn curr, acc -> MapSet.intersection(curr, acc) end)
+        |> Enum.reduce(&MapSet.intersection/2)
         |> MapSet.to_list()
 
       @values[badge]
