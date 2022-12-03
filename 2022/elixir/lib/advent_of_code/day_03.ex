@@ -45,10 +45,7 @@ defmodule AdventOfCode.Day03 do
     |> Stream.chunk_every(3)
     |> Stream.map(fn group ->
       [badge] =
-        Stream.map(group, fn sack ->
-          String.to_charlist(sack)
-          |> MapSet.new()
-        end)
+        Stream.map(group, &charlist_set/1)
         |> Enum.reduce(&MapSet.intersection/2)
         |> MapSet.to_list()
 
