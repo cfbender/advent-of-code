@@ -5,7 +5,11 @@ defmodule AdventOfCode.Day16Test do
 
   @tag :skip
   test "part1" do
-    input = nil
+    input =
+      """
+      """
+      |> parse_input()
+
     result = part1(input)
 
     assert result
@@ -13,7 +17,11 @@ defmodule AdventOfCode.Day16Test do
 
   @tag :skip
   test "part2" do
-    input = nil
+    input =
+      """
+      """
+      |> parse_input()
+
     result = part2(input)
 
     assert result
