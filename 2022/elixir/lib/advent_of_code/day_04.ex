@@ -1,5 +1,7 @@
 defmodule AdventOfCode.Day04 do
   @moduledoc """
+  This was probably the closest I'll ever get to the global leaderboard 😂, got both in 10 minutes.
+  Spent a little bit deciding if I should keep it a range, but MapSet it is again! 
   """
   def parse_input(input) do
     input
