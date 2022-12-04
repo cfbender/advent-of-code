@@ -29,8 +29,7 @@ defmodule AdventOfCode.Day04 do
   def part2(input) do
     input
     |> Stream.filter(fn [set1, set2] ->
-      MapSet.intersection(set1, set2)
-      |> MapSet.size() > 0
+      not MapSet.disjoint?(set1, set2)
     end)
     |> Enum.count()
   end
