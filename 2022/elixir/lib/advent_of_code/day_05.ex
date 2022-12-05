@@ -17,36 +17,27 @@ defmodule AdventOfCode.Day05 do
         [count, source, target] |> Enum.map(&String.to_integer/1) |> List.to_tuple()
       end)
 
-    crates = String.split(crates, "\n", trim: true)
-
-    # looks like %{1 => [], 2 => [], 3 => []}
-    stacks =
-      crates
-      |> List.last()
-      |> String.graphemes()
-      |> Stream.filter(&(&1 != " "))
-      |> Stream.map(&String.to_integer/1)
-      |> Stream.map(fn stack -> {stack, []} end)
-      |> Enum.into(%{})
-
-    {crates
-     |> Stream.drop(-1)
-     |> Stream.map(&String.graphemes/1)
-     |> Stream.map(&Enum.chunk_every(&1, 4))
-     |> Enum.reduce(stacks, fn level, acc ->
-       Enum.with_index(level)
-       |> Enum.reduce(acc, fn {curr, idx}, inner_acc ->
-         if Enum.any?(curr, &(&1 != " ")) do
-           crate = Enum.find(curr, &(&1 not in ["[", " ", "]"]))
-           Map.update(inner_acc, idx + 1, [], &[crate | &1])
-         else
-           inner_acc
-         end
-       end)
-     end)
-     # crates are reversed to make removal/addition easier in linked lists
-     |> Stream.map(fn {k, v} -> {k, Enum.reverse(v)} end)
-     |> Enum.into(%{}), instructions}
+    {
+      String.split(crates, "\n", trim: true)
+      |> Stream.drop(-1)
+      |> Stream.map(&String.graphemes/1)
+      |> Stream.map(&Enum.chunk_every(&1, 4))
+      |> Enum.reduce(%{}, fn level, acc ->
+        Enum.with_index(level)
+        |> Enum.reduce(acc, fn {curr, idx}, inner_acc ->
+          if Enum.any?(curr, &(&1 != " ")) do
+            crate = Enum.filter(curr, &(&1 not in ["[", " ", "]"]))
+            Map.update(inner_acc, idx + 1, [crate], &[crate | &1])
+          else
+            inner_acc
+          end
+        end)
+      end)
+      # crates are reversed to make removal/addition easier in linked lists
+      |> Stream.map(fn {k, v} -> {k, Enum.reverse(v)} end)
+      |> Enum.into(%{}),
+      instructions
+    }
   end
 
   def part1(input) do
