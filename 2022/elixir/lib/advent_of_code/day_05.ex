@@ -26,7 +26,7 @@ defmodule AdventOfCode.Day05 do
         Enum.with_index(level)
         |> Enum.reduce(acc, fn {curr, idx}, inner_acc ->
           if Enum.any?(curr, &(&1 != " ")) do
-            crate = Enum.filter(curr, &(&1 not in ["[", " ", "]"]))
+            crate = Enum.find(curr, &(&1 not in ["[", " ", "]"]))
             Map.update(inner_acc, idx + 1, [crate], &[crate | &1])
           else
             inner_acc
@@ -65,6 +65,7 @@ defmodule AdventOfCode.Day05 do
       Map.put(acc, source, left)
       |> Map.update!(target, &(to_move ++ &1))
     end)
+    |> dbg()
     |> Enum.map(fn {_k, [top | _]} -> top end)
     |> Enum.join()
   end
