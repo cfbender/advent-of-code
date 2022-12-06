@@ -65,7 +65,6 @@ defmodule AdventOfCode.Day05 do
       Map.put(acc, source, left)
       |> Map.update!(target, &(to_move ++ &1))
     end)
-    |> dbg()
     |> Enum.map(fn {_k, [top | _]} -> top end)
     |> Enum.join()
   end
