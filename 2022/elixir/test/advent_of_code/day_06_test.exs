@@ -3,27 +3,35 @@ defmodule AdventOfCode.Day06Test do
 
   import AdventOfCode.Day06
 
-  @tag :skip
   test "part1" do
     input =
-      """
-      """
-      |> parse_input()
+      [
+        "mjqjpqmgbljsphdztnvjfqwrcgsmlb",
+        "bvwbjplbgvbhsrlpgdmjqwftvncz",
+        "nppdvjthqldpwncqszvftbrmjlhg",
+        "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg",
+        "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"
+      ]
+      |> Enum.map(&parse_input/1)
 
-    result = part1(input)
+    result = Enum.map(input, &part1/1)
 
-    assert result
+    assert result == [7, 5, 6, 10, 11]
   end
 
-  @tag :skip
   test "part2" do
     input =
-      """
-      """
-      |> parse_input()
+      [
+        "mjqjpqmgbljsphdztnvjfqwrcgsmlb",
+        "bvwbjplbgvbhsrlpgdmjqwftvncz",
+        "nppdvjthqldpwncqszvftbrmjlhg",
+        "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg",
+        "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"
+      ]
+      |> Enum.map(&parse_input/1)
 
-    result = part2(input)
+    result = Enum.map(input, &part2/1)
 
-    assert result
+    assert result == [19, 23, 23, 29, 26]
   end
 end
