@@ -4,8 +4,8 @@ defmodule AdventOfCode.Day07 do
   I eventually got that in add/3, but then got _really_ stuck on some stupid bugs with my cd/2 implementation
   as well as not understanding the problem well enough (getting individual dir sizes)
 
-  In hindsight this is incredibly overcomplicated. If I kept too complicated of a data structure, and made it 
-  hard to get the data back out. Lesson learned to fully think about the problem before starting an implementation
+  In hindsight this is incredibly overcomplicated. All I needed to do was build a map of paths and their sizes.
+  Lesson learned to fully think about the problem before starting an implementation
 
   There's also like zero tail call recursion in this, but at this point I don't want to mess with it anymore lol
   """
