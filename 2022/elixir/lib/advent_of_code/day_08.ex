@@ -1,5 +1,13 @@
 defmodule AdventOfCode.Day08 do
   @moduledoc """
+  Fun one! I think my thinking through the problem for part 1 paid off. Got part 2 quickly after 
+  having all of the helpers and data structure I needed. 
+
+  Got hung up on figuring out all of the deltas for neighbors, and how they differed in each direction.
+  A quick refactor to clean up some of the mess I made and it's all good!
+
+  Interestingly, I tried to use Task.await_many/2 here in order to parallelize all_views/3,
+  but it seems to run significantly slower. Maybe an M1 thing?
   """
   def parse_input(input) do
     lines =
@@ -24,47 +32,26 @@ defmodule AdventOfCode.Day08 do
     {max_x, max_y, Enum.into(trees, %{})}
   end
 
-  def left(map, {x, y}) do
-    -x..0
+  def view(map, range, key_map) do
+    range
     |> Enum.filter(&(&1 != 0))
     |> Enum.reduce([], fn curr, acc ->
-      key = {x + curr, y}
+      key = key_map.(curr)
       neighbor = Map.get(map, key)
       [neighbor | acc]
     end)
   end
 
-  def right(map, {x, y}, max_x) do
-    0..(max_x - x)
-    |> Enum.filter(&(&1 != 0))
-    |> Enum.reduce([], fn curr, acc ->
-      key = {x + curr, y}
-      neighbor = Map.get(map, key)
-      [neighbor | acc]
-    end)
-    |> Enum.reverse()
-  end
+  # left and top don't need to be reversed because they start with the furthest away delta
+  def left(map, {x, y}), do: view(map, -x..0, fn delta -> {x + delta, y} end)
 
-  def top(map, {x, y}) do
-    -y..0
-    |> Enum.filter(&(&1 != 0))
-    |> Enum.reduce([], fn curr, acc ->
-      key = {x, curr + y}
-      neighbor = Map.get(map, key)
-      [neighbor | acc]
-    end)
-  end
+  def right(map, {x, y}, max_x),
+    do: view(map, 0..(max_x - x), fn delta -> {x + delta, y} end) |> Enum.reverse()
 
-  def bottom(map, {x, y}, max_y) do
-    0..(max_y - y)
-    |> Enum.filter(&(&1 != 0))
-    |> Enum.reduce([], fn curr, acc ->
-      key = {x, curr + y}
-      neighbor = Map.get(map, key)
-      [neighbor | acc]
-    end)
-    |> Enum.reverse()
-  end
+  def top(map, {x, y}), do: view(map, -y..0, fn delta -> {x, y + delta} end)
+
+  def bottom(map, {x, y}, max_y),
+    do: view(map, 0..(max_y - y), fn delta -> {x, y + delta} end) |> Enum.reverse()
 
   def visible?(height, list) do
     Enum.all?(list, fn other_height -> height > other_height end)
@@ -93,6 +80,7 @@ defmodule AdventOfCode.Day08 do
     {max_x, max_y, trees} = input
 
     Enum.count(trees, fn {coords, height} ->
+      # individual expressions for lazy evaluation
       visible?(height, top(trees, coords)) ||
         visible?(height, bottom(trees, coords, max_y)) ||
         visible?(height, left(trees, coords)) ||
