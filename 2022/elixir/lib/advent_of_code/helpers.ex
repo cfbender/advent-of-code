@@ -18,6 +18,22 @@ defmodule AdventOfCode.Helpers do
   end
 
   @doc """
+  Gets the Euclidean distance between two points
+
+  ## Examples
+
+      iex> Helpers.euclidean_distance({-2, 4}, {3, 3})
+      5.0990195135927845
+  """
+
+  @spec euclidean_distance({number, number}, {number, number}) :: float
+  def euclidean_distance({x1, y1}, {x2, y2}) do
+    Integer.pow(abs(x2 - x1), 2)
+    |> Kernel.+(Integer.pow(abs(y2 - y1), 2))
+    |> :math.sqrt()
+  end
+
+  @doc """
   Gets all adjacent points on a map of XY coordinates to a point
 
   Pass `all: false` to not include diagonally adjacent points
