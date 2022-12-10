@@ -17,6 +17,18 @@ defmodule AdventOfCode.Helpers do
     end)
   end
 
+  def enqueue(queue, []), do: queue
+
+  def enqueue(queue, [i | tail]) do
+    :queue.in(i, queue)
+    |> enqueue(tail)
+  end
+
+  def enqueue(queue, val), do: enqueue(queue, [val])
+
+  def dequeue(queue), do: :queue.out(queue)
+
+
   @doc """
   Gets the Euclidean distance between two points
 
