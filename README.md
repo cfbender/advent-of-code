@@ -12,6 +12,7 @@ Please don't judge any random language code here :weary:
     - Deno
     - Rust (Rustup/Cargo)
     - Elixir (Mix/IEX)
+    - Haskell (GHCUp)
     
 ### Running
 
@@ -26,6 +27,11 @@ In respective day directory:
 ```bash
 $ iex -S mix 
 iex > Aoc.main()
+```
+
+##### Haskell
+```bash
+$ runhaskell <day file name>
 ```
 
 ##### Rust
