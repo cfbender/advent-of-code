@@ -7,6 +7,7 @@ defmodule AdventOfCode.Helpers do
       iex> Helpers.list_to_map([[1,2,3], [4,5,6]])
       %{{0, 0} => 1, {0, 1} => 4, {1, 0} => 2, {1, 1} => 5, {2, 0} => 3, {2, 1} => 6}
   """
+  @spec list_to_map([[any()]]) :: map()
   def list_to_map(list) do
     Enum.with_index(list)
     |> Enum.reduce(Map.new(), fn {row, y}, acc ->
@@ -27,7 +28,6 @@ defmodule AdventOfCode.Helpers do
   def enqueue(queue, val), do: enqueue(queue, [val])
 
   def dequeue(queue), do: :queue.out(queue)
-
 
   @doc """
   Gets the Euclidean distance between two points
@@ -85,6 +85,55 @@ defmodule AdventOfCode.Helpers do
         acc
       end
     end)
+  end
+
+  @doc """
+  Gets shortest path to a destination.
+
+  """
+  @spec dijkstras(
+          map(),
+          {number(), number()},
+          {number(), number()},
+          (number(), any(), any() -> number() | :infinity)
+        ) :: number()
+  def dijkstras(map, start, dest, get_cost) do
+    dijkstras(
+      [{start, 0}],
+      map,
+      dest,
+      Map.new(Enum.map(Map.keys(map), &{&1, :infinity})),
+      get_cost
+    )
+  end
+
+  def dijkstras([], _map, _dest, _costs, _get_cost), do: :infinity
+
+  def dijkstras(queue, map, dest, costs, get_cost) do
+    [{node, cost} | rest_queue] = queue
+
+    if node == dest do
+      cost
+    else
+      neighbors = get_adj(map, node, all: false) |> Map.keys()
+
+      # add neighbor with added weight to queue
+      {new_queue, new_costs} =
+        Enum.reduce(neighbors, {rest_queue, costs}, fn neighbor, {q_acc, c_acc} = acc ->
+          current_cost = Map.get(costs, neighbor)
+          start = Map.get(map, node)
+          next = Map.get(map, neighbor)
+          new_cost = get_cost.(cost, start, next)
+
+          if new_cost < current_cost do
+            {[{neighbor, new_cost} | q_acc], Map.put(c_acc, neighbor, new_cost)}
+          else
+            acc
+          end
+        end)
+
+      dijkstras(Enum.sort(new_queue), map, dest, new_costs, get_cost)
+    end
   end
 
   defmodule Graph do
