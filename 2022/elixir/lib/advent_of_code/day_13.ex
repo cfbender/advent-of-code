@@ -44,23 +44,17 @@ defmodule AdventOfCode.Day13 do
   def ordered?(left, right) when is_list(right) and is_integer(left), do: ordered?([left], right)
 
   # If both values are lists, compare the first value of each list, then the second value, and so on.
-  def ordered?(left, right, return \\ {:cont, true}) when is_list(left) and is_list(right) do
-    case return do
-      {:cont, true} ->
-        Enum.reduce_while(0..(longest_length(left, right) - 1), true, fn idx, _acc ->
-          left = Enum.at(left, idx)
-          right = Enum.at(right, idx)
-          return = ordered?(left, right)
+  def ordered?(left, right) when is_list(left) and is_list(right) do
+    Enum.reduce_while(0..(longest_length(left, right) - 1), true, fn idx, _acc ->
+      left = Enum.at(left, idx)
+      right = Enum.at(right, idx)
 
-          case return do
-            {:halt, val} -> {:halt, {:halt, val}}
-            _ -> {:cont, {:cont, true}}
-          end
-        end)
-
-      {:halt, val} ->
-        {:halt, val}
-    end
+      case ordered?(left, right) do
+        # wrap in extra reduce_while signal to pop back up the stack until it is all the way halted
+        {:halt, val} -> {:halt, {:halt, val}}
+        _ -> {:cont, {:cont, true}}
+      end
+    end)
   end
 
   def part1(input) do
