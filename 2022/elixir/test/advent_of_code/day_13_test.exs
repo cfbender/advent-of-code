@@ -3,16 +3,38 @@ defmodule AdventOfCode.Day13Test do
 
   import AdventOfCode.Day13
 
-  @tag :skip
   test "part1" do
     input =
       """
+      [1,1,3,1,1]
+      [1,1,5,1,1]
+
+      [[1],[2,3,4]]
+      [[1],4]
+
+      [9]
+      [[8,7,6]]
+
+      [[4,4],4,4]
+      [[4,4],4,4,4]
+
+      [7,7,7,7]
+      [7,7,7]
+
+      []
+      [3]
+
+      [[[]]]
+      [[]]
+
+      [1,[2,[3,[4,[5,6,7]]]],8,9]
+      [1,[2,[3,[4,[5,6,0]]]],8,9]
       """
       |> parse_input()
 
     result = part1(input)
 
-    assert result
+    assert result == 13
   end
 
   @tag :skip
