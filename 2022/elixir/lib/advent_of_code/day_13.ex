@@ -18,73 +18,54 @@ defmodule AdventOfCode.Day13 do
     end)
   end
 
-  def longest_length(left, right) when length(left) > length(right), do: length(left)
-  def longest_length(_left, right), do: length(right)
+  # If both values are equal, continue.
+  def ordered?(left, right) when is_integer(left) and is_integer(right) and left == right,
+    do: :no_decision
 
   # If both values are integers, the lower integer should come first.
-  def ordered?(left, right) when is_integer(left) and is_integer(right) and left != right,
-    do: {:halt, left < right}
+  def ordered?(left, right) when is_integer(left) and is_integer(right), do: left < right
 
-  # Otherwise, the inputs are the same integer; continue checking the next part of the input.
-  def ordered?(left, right) when is_integer(left) and is_integer(right),
-    do: {:cont, true}
+  def ordered?([lh | lt], [rh | rt]) do
+    is_ordered = ordered?(lh, rh)
 
-  # Two empty lists are equivalent
-  def ordered?([], []), do: {:cont, true}
+    # If the lists are the same length and no comparison makes a decision about the order, continue checking the next part of the input.
+    if is_ordered == :no_decision do
+      ordered?(lt, rt)
+    else
+      is_ordered
+    end
+  end
 
-  # If the lists are the same length and no comparison makes a decision about the order, continue checking the next part of the input.
-  def ordered?(nil, nil), do: {:cont, true}
+  # Lists were same length and no decision was made.
+  def ordered?([], []), do: :no_decision
   # If the right list runs out of items first, the inputs are not in the right order.
-  def ordered?(_left, nil), do: {:halt, false}
+  def ordered?([_ | _], []), do: false
   # If the left list runs out of items first, the inputs are in the right order.
-  def ordered?(nil, _right), do: {:halt, true}
+  def ordered?([], [_ | _]), do: true
 
   # If exactly one value is an integer, convert the integer to a list which contains that integer as its only value, then retry the comparison.
   def ordered?(left, right) when is_list(left) and is_integer(right), do: ordered?(left, [right])
   def ordered?(left, right) when is_list(right) and is_integer(left), do: ordered?([left], right)
-
-  # If both values are lists, compare the first value of each list, then the second value, and so on.
-  def ordered?(left, right) when is_list(left) and is_list(right) do
-    Enum.reduce_while(0..(longest_length(left, right) - 1), true, fn idx, _acc ->
-      left = Enum.at(left, idx)
-      right = Enum.at(right, idx)
-
-      case ordered?(left, right) do
-        # wrap in extra reduce_while signal to pop back up the stack until it is all the way halted
-        {:halt, val} -> {:halt, {:halt, val}}
-        _ -> {:cont, {:cont, true}}
-      end
-    end)
-  end
 
   def part1(input) do
     input
     |> Enum.with_index()
     |> Enum.map(fn {pair, i} -> {pair, i + 1} end)
     |> Enum.filter(fn {[left, right], _i} ->
-      {:halt, val} = ordered?(left, right)
-      val
+      ordered?(left, right)
     end)
     |> Enum.map(&elem(&1, 1))
     |> Enum.sum()
   end
 
-  def sort(list) when is_list(list) do
-    pass = sort_pass(list)
-    if pass == list, do: pass, else: sort(pass)
-  end
+  def sort_order(left, right) do
+    order = ordered?(left, right)
 
-  def sort_pass([x, y | t]) do
-    {:halt, ordered} = ordered?(x, y)
-
-    if ordered do
-      [x | sort_pass([y | t])]
-    else
-      [y | sort_pass([x | t])]
+    case order do
+      :no_decision -> true
+      _ -> order
     end
   end
-
-  def sort_pass(list), do: list
 
   def part2(input) do
     two_packet = [[2]]
@@ -97,7 +78,8 @@ defmodule AdventOfCode.Day13 do
       ] ++
         Enum.reduce(input, [], fn [left, right], acc -> [left, right | acc] end)
 
-    sorted = sort(input)
+    sorted = Enum.sort(input, &sort_order/2)
+
     two_idx = Enum.find_index(sorted, fn item -> item == two_packet end) + 1
     six_idx = Enum.find_index(sorted, fn item -> item == six_packet end) + 1
 
