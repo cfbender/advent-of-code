@@ -18,7 +18,43 @@ defmodule AdventOfCode.Helpers do
     end)
   end
 
-  def print_map(map, inverted \\ false, display \\ fn x -> if x, do: "#", else: "." end) do
+  @doc """
+  Prints out a visualization of a provided map of {x,y} points.
+  Defaults to y=0 on the top, can be switched with the `inverted` option as `true.`
+  Also accepts a display function that will pass the value of the key at that point to format the value.
+  ## Examples
+
+      iex> Helpers.list_to_map([[true,false,true], [false,true,false]]) |> Helpers.print_map()
+
+      #.#
+      .#.
+      %{
+      {0, 0} => true,
+      {0, 1} => false,
+      {1, 0} => false,
+      {1, 1} => true,
+      {2, 0} => true,
+      {2, 1} => false
+      }
+
+      iex> Helpers.list_to_map([[true,false,true], [false,true,false]]) |> Helpers.print_map([inverted: true, display: fn x -> if x, do: "😂", else: "⬛" end])
+
+      ⬛😂⬛
+      😂⬛😂
+      %{
+        {0, 0} => true,
+        {0, 1} => false,
+        {1, 0} => false,
+        {1, 1} => true,
+        {2, 0} => true,
+        {2, 1} => false
+      } 
+  """
+  @spec print_map(map()) :: map()
+  def print_map(map, opts \\ []) do
+    inverted = opts[:inverted] || false
+    display = opts[:display] || fn x -> if x, do: "#", else: "." end
+
     {{{x_min, _}, _}, {{x_max, _}, _}} = Enum.min_max_by(map, fn {{x, _}, _} -> x end)
     {{{_, y_min}, _}, {{_, y_max}, _}} = Enum.min_max_by(map, fn {{_, y}, _} -> y end)
     y_range = if inverted, do: y_max..y_min, else: y_min..y_max
