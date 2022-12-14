@@ -56,21 +56,10 @@ defmodule AdventOfCode.Day14 do
       not down_right_free?(map, sand)
   end
 
-  def in_bounds?(map, {x, y}) do
-    rocks = Enum.filter(map, fn {_, v} -> v == :rock end)
-    {{{x_min, _}, _}, {{x_max, _}, _}} = Enum.min_max_by(rocks, fn {{x, _}, _} -> x end)
-    {{_, y_max}, _} = Enum.max_by(rocks, fn {{_, y}, _} -> y end)
-
-    x in x_min..x_max and y < y_max
-  end
-
   def add_sand(map), do: Map.put(map, @sand_start, :sand)
 
-  def move_sand(map, {_, y} = sand, floor) do
-    # sets the floor for part 2
-    valid = if floor, do: y < floor, else: in_bounds?(map, sand)
-
-    if resting?(map, sand) or not valid do
+  def move_sand(map, sand, in_bounds, part) do
+    if resting?(map, sand) or not in_bounds.(sand) do
       map
     else
       new =
@@ -81,28 +70,34 @@ defmodule AdventOfCode.Day14 do
         end
 
       # has a valid move out of bounds, delete it and return
-      if is_nil(floor) and not in_bounds?(map, new) do
+      if part == 1 and not in_bounds.(new) do
         Map.delete(map, sand)
       else
         # move sand to new position and recurse
-        Map.put(map, new, :sand) |> Map.delete(sand) |> move_sand(new, floor)
+        Map.put(map, new, :sand) |> Map.delete(sand) |> move_sand(new, in_bounds, part)
       end
     end
   end
 
-  def new_sand(map, floor) do
+  def new_sand(map, in_bounds, part) do
     map = add_sand(map)
-    move_sand(map, @sand_start, floor)
+    move_sand(map, @sand_start, in_bounds, part)
   end
 
-  def pour(input, floor \\ nil) do
-    added = new_sand(input, floor)
+  def pour(input, in_bounds, part \\ 1) do
+    added = new_sand(input, in_bounds, part)
 
-    if added == input, do: input, else: pour(added, floor)
+    if added == input, do: input, else: pour(added, in_bounds, part)
   end
 
   def part1(input) do
-    pour(input)
+    rocks = Enum.filter(input, fn {_, v} -> v == :rock end)
+    {{{x_min, _}, _}, {{x_max, _}, _}} = Enum.min_max_by(rocks, fn {{x, _}, _} -> x end)
+    {{_, y_max}, _} = Enum.max_by(rocks, fn {{_, y}, _} -> y end)
+
+    in_bounds = fn {x, y} -> x in x_min..x_max and y < y_max end
+
+    pour(input, in_bounds)
     |> Enum.count(fn {_k, v} -> v == :sand end)
   end
 
@@ -113,7 +108,9 @@ defmodule AdventOfCode.Day14 do
        end)
        |> Enum.max()) + 1
 
-    pour(input, floor)
+    in_bounds = fn {_x, y} -> y < floor end
+
+    pour(input, in_bounds, 2)
     |> Enum.count(fn {_k, v} -> v == :sand end)
   end
 end
