@@ -18,6 +18,26 @@ defmodule AdventOfCode.Helpers do
     end)
   end
 
+  def print_map(map, inverted \\ false, display \\ fn x -> if x, do: "#", else: "." end) do
+    {{{x_min, _}, _}, {{x_max, _}, _}} = Enum.min_max_by(map, fn {{x, _}, _} -> x end)
+    {{{_, y_min}, _}, {{_, y_max}, _}} = Enum.min_max_by(map, fn {{_, y}, _} -> y end)
+    y_range = if inverted, do: y_max..y_min, else: y_min..y_max
+
+    IO.write("\n")
+
+    Enum.each(y_range, fn y ->
+      Enum.each(x_min..x_max, fn x ->
+        Map.get(map, {x, y})
+        |> display.()
+        |> IO.write()
+      end)
+
+      IO.write("\n")
+    end)
+
+    map
+  end
+
   def enqueue(queue, []), do: queue
 
   def enqueue(queue, [i | tail]) do
@@ -28,6 +48,11 @@ defmodule AdventOfCode.Helpers do
   def enqueue(queue, val), do: enqueue(queue, [val])
 
   def dequeue(queue), do: :queue.out(queue)
+
+  def lines(string), do: String.split(string, "\n", trim: true)
+
+  def divided_lines(string),
+    do: String.split(string, "\n\n", trim: true) |> Enum.map(&String.split(&1, "\n", trim: true))
 
   @doc """
   Gets the Euclidean distance between two points
