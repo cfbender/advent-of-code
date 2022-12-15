@@ -4,6 +4,8 @@ defmodule AdventOfCode.Day15 do
 
   Not bad, but I couldn't figure it out and had to look up a hint to set me on the perimeter path.
   This is sloooow (~2 min on my laptop), but it works! Could definitely optimize the data structures I think.
+
+  Edit: I came back and parallelized this and got it under 30 seconds. good enough!
   """
   import AdventOfCode.Helpers
 
@@ -39,29 +41,34 @@ defmodule AdventOfCode.Day15 do
   end
 
   def perimeter({{sx, sy}, distance}) do
-    x_range = (sx - distance - 1)..(sx + distance + 1)
+    x_range = (sx - distance - 1)..sx
 
-    Enum.reduce_while(x_range, {[], 0}, fn x, {list, slope} ->
-      new_list = [{x, sy + slope}, {x, sy - slope} | list]
-
-      if sy + slope == sy + distance + 1 do
-        {:halt, {new_list, slope}}
-      else
-        {:cont, {new_list, slope + 1}}
-      end
+    Enum.with_index(x_range)
+    |> Enum.chunk_every(100)
+    |> Enum.map(fn xs ->
+      Task.async(fn ->
+        Enum.reduce(xs, [], fn {x, slope}, list ->
+          [
+            {x, sy + slope},
+            {x, sy - slope},
+            reflect_x({x, sy + slope}, {sx, sy}),
+            reflect_x({x, sy + slope}, {sx, sy}) |> reflect_y({sx, sy})
+            | list
+          ]
+        end)
+      end)
     end)
-    |> elem(0)
-    |> Enum.reduce(MapSet.new(), fn point, set ->
-      MapSet.put(set, point)
-      |> MapSet.put(reflect_x(point, {sx, sy}))
-    end)
+    |> Task.await_many()
+    |> List.flatten()
+    |> List.flatten()
   end
 
   def perimeters(sensors) do
-    Enum.reduce(sensors, MapSet.new(), fn curr, set ->
-      perimeter(curr)
-      |> MapSet.union(set)
+    Enum.map(sensors, fn sensor ->
+      Task.async(fn -> perimeter(sensor) end)
     end)
+    |> Task.await_many(10_000)
+    |> List.flatten()
   end
 
   def part2(input, bound) do
@@ -70,13 +77,20 @@ defmodule AdventOfCode.Day15 do
 
     {x, y} =
       perimeters(sensors)
-      |> MapSet.reject(fn {x, y} -> x not in range or y not in range end)
-      |> MapSet.to_list()
-      |> Enum.find(fn point ->
-        Enum.all?(sensors, fn {sensor, distance} ->
-          manhattan_distance(sensor, point) > distance
+      |> Enum.chunk_every(100)
+      |> Enum.map(fn points ->
+        Task.async(fn ->
+          Enum.find(points, fn {x, y} = point ->
+            x in range and
+              y in range &&
+              Enum.all?(sensors, fn {sensor, distance} ->
+                manhattan_distance(sensor, point) > distance
+              end)
+          end)
         end)
       end)
+      |> Task.await_many()
+      |> Enum.find(fn x -> not is_nil(x) end)
 
     x * 4_000_000 + y
   end
