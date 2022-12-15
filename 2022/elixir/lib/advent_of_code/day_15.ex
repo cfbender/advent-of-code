@@ -1,5 +1,9 @@
 defmodule AdventOfCode.Day15 do
   @moduledoc """
+  Part 1 easy enough, but another where you have to think of a clever way to solve part 2.
+
+  Not bad, but I couldn't figure it out and had to look up a hint to set me on the perimeter path.
+  This is sloooow (~2 min on my laptop), but it works! Could definitely optimize the data structures I think.
   """
   import AdventOfCode.Helpers
 
@@ -34,19 +38,29 @@ defmodule AdventOfCode.Day15 do
     end)
   end
 
-  def map_scanned(sensors) do
-    Enum.reduce(sensors, MapSet.new(), fn {{sx, sy} = sensor, distance}, set ->
-      x_range = (sx - distance)..(sx + distance)
-      y_range = (sy - distance)..(sy + distance)
+  def perimeter({{sx, sy}, distance}) do
+    x_range = (sx - distance - 1)..(sx + distance + 1)
 
-      Enum.reduce(y_range, set, fn y, y_acc ->
-        Enum.reduce(x_range, y_acc, fn x, x_acc ->
-          if manhattan_distance({x, y}, sensor) <= distance,
-            do: MapSet.put(x_acc, {x, y}),
-            else: x_acc
-        end)
-        |> MapSet.union(y_acc)
-      end)
+    Enum.reduce_while(x_range, {[], 0}, fn x, {list, slope} ->
+      new_list = [{x, sy + slope}, {x, sy - slope} | list]
+
+      if sy + slope == sy + distance + 1 do
+        {:halt, {new_list, slope}}
+      else
+        {:cont, {new_list, slope + 1}}
+      end
+    end)
+    |> elem(0)
+    |> Enum.reduce(MapSet.new(), fn point, set ->
+      MapSet.put(set, point)
+      |> MapSet.put(reflect_x(point, {sx, sy}))
+    end)
+  end
+
+  def perimeters(sensors) do
+    Enum.reduce(sensors, MapSet.new(), fn curr, set ->
+      perimeter(curr)
+      |> MapSet.union(set)
     end)
   end
 
@@ -54,17 +68,14 @@ defmodule AdventOfCode.Day15 do
     {sensors, _beacons} = input
     range = 0..bound
 
-    scanned = map_scanned(sensors)
-    dbg("done mapping")
-
     {x, y} =
-      Enum.find_value(range, fn y ->
-        val =
-          Enum.find(range, fn x ->
-            not MapSet.member?(scanned, {x, y})
-          end)
-
-        if val, do: {val, y}, else: nil
+      perimeters(sensors)
+      |> MapSet.reject(fn {x, y} -> x not in range or y not in range end)
+      |> MapSet.to_list()
+      |> Enum.find(fn point ->
+        Enum.all?(sensors, fn {sensor, distance} ->
+          manhattan_distance(sensor, point) > distance
+        end)
       end)
 
     x * 4_000_000 + y

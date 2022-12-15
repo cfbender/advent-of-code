@@ -114,10 +114,45 @@ defmodule AdventOfCode.Helpers do
       iex> Helpers.manhattan_distance({-2, 4}, {3, 3})
       6
   """
-
   @spec manhattan_distance({number, number}, {number, number}) :: number()
   def manhattan_distance({x1, y1}, {x2, y2}) do
     abs(x1 - x2) + abs(y1 - y2)
+  end
+
+  @doc """
+  Reflects a point across the y-axis for a given origin
+
+  ## Examples
+      iex> Helpers.reflect_x({0, 0}, {-2, 3})
+      {2, 3}
+
+      iex> Helpers.reflect_x({-2, 4}, {3, 3})
+      {-7, 3}
+  """
+  @spec reflect_x({number, number}, {number, number}) :: {number(), number()}
+  def reflect_x(point, origin) do
+    {ox, _oy} = origin
+    {px, py} = point
+    distance = ox - px
+    {ox + distance, py}
+  end
+
+  @doc """
+  Reflects a point across the x-axis for a given origin
+
+  ## Examples
+      iex> Helpers.reflect_y({0, 0}, {-2, 3})
+      {-2, -3}
+
+      iex> Helpers.reflect_y({-2, 4}, {3, 3})
+      {3, 5}
+  """
+  @spec reflect_y({number, number}, {number, number}) :: {number(), number()}
+  def reflect_y(point, origin) do
+    {_ox, oy} = origin
+    {px, py} = point
+    distance = oy - py
+    {px, oy + distance}
   end
 
   @doc """
