@@ -10,10 +10,10 @@ defmodule Mix.Tasks.D15.P2 do
       |> parse_input()
 
     if Enum.member?(args, "-b"),
-      do: Benchee.run(%{part_2: fn -> input |> part2() end}),
+      do: Benchee.run(%{part_2: fn -> input |> part2(4_000_000) end}),
       else:
         input
-        |> part2()
+        |> part2(4_000_000)
         |> IO.inspect(label: "Part 2 Results")
   end
 end
