@@ -107,6 +107,20 @@ defmodule AdventOfCode.Helpers do
   end
 
   @doc """
+  Gets the Manhattan distance between two points
+
+  ## Examples
+
+      iex> Helpers.manhattan_distance({-2, 4}, {3, 3})
+      6
+  """
+
+  @spec manhattan_distance({number, number}, {number, number}) :: number()
+  def manhattan_distance({x1, y1}, {x2, y2}) do
+    abs(x1 - x2) + abs(y1 - y2)
+  end
+
+  @doc """
   Gets all adjacent points on a map of XY coordinates to a point
 
   Pass `all: false` to not include diagonally adjacent points
