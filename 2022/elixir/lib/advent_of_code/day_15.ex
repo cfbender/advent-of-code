@@ -39,24 +39,12 @@ defmodule AdventOfCode.Day15 do
       x_range = (sx - distance)..(sx + distance)
       y_range = (sy - distance)..(sy + distance)
 
-      dbg(x_range)
-      dbg(y_range)
-
       Enum.reduce(y_range, set, fn y, y_acc ->
-        Enum.reduce(x_range, [], fn x, x_acc ->
-          [
-            Task.async(fn ->
-              if manhattan_distance({x, y}, sensor) <= distance,
-                do: {x, y},
-                else: nil
-            end)
-            | x_acc
-          ]
+        Enum.reduce(x_range, y_acc, fn x, x_acc ->
+          if manhattan_distance({x, y}, sensor) <= distance,
+            do: MapSet.put(x_acc, {x, y}),
+            else: x_acc
         end)
-        |> Task.await_many()
-        |> Enum.reject(&is_nil/1)
-        |> dbg()
-        |> MapSet.new()
         |> MapSet.union(y_acc)
       end)
     end)
