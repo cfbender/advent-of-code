@@ -254,7 +254,18 @@ defmodule AdventOfCode.Helpers do
     defstruct vertices: MapSet.new(), edges: MapSet.new(), neighbors: %{}
 
     @spec new :: %Graph{}
+
+    @doc """
+    Create new graph with a list of vertices and a list of edges
+
+    """
     def new, do: %Graph{}
+
+    @spec new([any()], [any()]) :: %Graph{}
+    def new(vertices, edges) do
+      add_vertices(new(), vertices)
+      |> add_edges(edges)
+    end
 
     @doc """
     Add vertex to graph. Is idempotent.
@@ -280,7 +291,7 @@ defmodule AdventOfCode.Helpers do
     Add edge to graph. Is idempotent.
 
     """
-    @spec add_edge(%Graph{}, any) :: %Graph{}
+    @spec add_edge(%Graph{}, [any]) :: %Graph{}
     def add_edge(%Graph{edges: edges} = graph, edge) do
       Map.put(graph, :edges, MapSet.put(edges, MapSet.new(edge)))
       |> Map.update!(:neighbors, fn neighbors ->
@@ -289,6 +300,15 @@ defmodule AdventOfCode.Helpers do
         Map.update(neighbors, edge_a, MapSet.new(), &MapSet.put(&1, edge_b))
         |> Map.update(edge_b, MapSet.new(), &MapSet.put(&1, edge_a))
       end)
+    end
+
+    @doc """
+    Add list of edges to graph. Is idempotent.
+
+    """
+    @spec add_edges(%Graph{}, [[any]]) :: %Graph{}
+    def add_edges(%Graph{edges: _edges} = graph, new_edges) do
+      Enum.reduce(new_edges, graph, &add_edge(&2, &1))
     end
 
     @doc """
@@ -308,7 +328,8 @@ defmodule AdventOfCode.Helpers do
           "%Graph{\n     vertices: ",
           to_doc(MapSet.to_list(graph.vertices), opts),
           ",\n     edges: ",
-          to_doc(MapSet.to_list(graph.edges) |> Enum.map(&MapSet.to_list/1), opts)
+          to_doc(MapSet.to_list(graph.edges) |> Enum.map(&MapSet.to_list/1), opts),
+          "\n}"
         ])
       end
     end
