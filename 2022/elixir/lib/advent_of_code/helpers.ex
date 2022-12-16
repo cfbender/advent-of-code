@@ -333,5 +333,65 @@ defmodule AdventOfCode.Helpers do
         ])
       end
     end
+
+    @doc """
+    Calculates shortest paths between all pairs of vertices
+    https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm
+    """
+    def floyd_warshall(graph, backtracking \\ true, max \\ :infinity) do
+      cap_add = fn a, b ->
+        if is_atom(max) do
+          if a == max or b == max do
+            max
+          else
+            a + b
+          end
+        else
+          a + b
+        end
+      end
+
+      initial =
+        for i <- graph.vertices,
+            j <- graph.vertices,
+            into: %{},
+            do: {{i, j}, if(i == j, do: 0, else: max)}
+
+      Enum.reduce(graph.edges, initial, fn edge, acc ->
+        [a, b] = MapSet.to_list(edge)
+
+        map = Map.put(acc, {a, b}, 1)
+
+        if backtracking do
+          Map.put(map, {b, a}, 1)
+        else
+          map
+        end
+      end)
+      |> then(fn dist ->
+        for(k <- graph.vertices, i <- graph.vertices, j <- graph.vertices, do: {k, i, j})
+        |> Enum.reduce(dist, fn {k, i, j}, dst ->
+          if dst[{i, j}] > cap_add.(dst[{i, k}], dst[{k, j}]) do
+            Map.put(dst, {i, j}, cap_add.(dst[{i, k}], dst[{k, j}]))
+          else
+            dst
+          end
+        end)
+
+        # Enum.reduce(graph.vertices, dist, fn k, k_acc ->
+        #   Enum.reduce(graph.vertices, k_acc, fn i, i_acc ->
+        #     Enum.reduce(graph.vertices, i_acc, fn j, j_acc ->
+        #       new_weight = cap_add.(j_acc[i][k], j_acc[k][j])
+        #
+        #       if j_acc[i][j] > new_weight do
+        #         Map.update!(j_acc, i, fn map -> Map.put(map, j, new_weight) end)
+        #       else
+        #         j_acc
+        #       end
+        #     end)
+        #   end)
+        # end)
+      end)
+    end
   end
 end
