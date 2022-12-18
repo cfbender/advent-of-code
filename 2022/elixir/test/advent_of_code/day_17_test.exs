@@ -15,8 +15,6 @@ defmodule AdventOfCode.Day17Test do
     assert result == 3068
   end
 
-  @tag timeout: :infinity
-  @tag :skip
   test "part2" do
     input =
       """
