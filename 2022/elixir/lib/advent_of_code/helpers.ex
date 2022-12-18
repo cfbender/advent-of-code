@@ -166,7 +166,7 @@ defmodule AdventOfCode.Helpers do
       iex> Helpers.get_adj(%{{0, 0} => 1, {0, 1} => 4, {1, 0} => 2, {1, 1} => 5, {2, 0} => 3, {2, 1} => 6}, {1,1})
       %{{0, 0} => 1, {0, 1} => 4, {1, 0} => 2, {1, 1} => 5, {2, 0} => 3, {2, 1} => 6}
   """
-  def get_adj(map, {x, y}, opts \\ []) do
+  def get_adj(map, point, opts \\ []) do
     default = Keyword.get(opts, :default, nil)
     all = Keyword.get(opts, :all, true)
     three_d = Keyword.get(opts, :three_d, false)
@@ -176,16 +176,32 @@ defmodule AdventOfCode.Helpers do
         all ->
           for(x <- [-1, 0, 1], y <- [-1, 0, 1], do: {x, y})
 
-        three_d ->
+        three_d and all ->
           for(x <- [-1, 0, 1], y <- [-1, 0, 1], z <- [-1, 0, 1], do: {x, y, z})
+
+        three_d ->
+          [{-1, 0, 0}, {0, -1, 0}, {0, 0, -1}, {1, 0, 0}, {0, 1, 0}, {0, 0, 1}]
 
         true ->
           [{-1, 0}, {1, 0}, {0, -1}, {0, 1}]
       end
 
-    deltas
-    |> Enum.reduce(Map.new(), fn {dx, dy}, acc ->
-      new_point = {x + dx, y + dy}
+    {x, y, z} =
+      case point do
+        {x, y} -> {x, y, nil}
+        {x, y, z} -> {x, y, z}
+      end
+
+    Enum.reject(deltas, fn d -> Tuple.to_list(d) |> Enum.all?(&(&1 == 0)) end)
+    |> Enum.reduce(Map.new(), fn delta, acc ->
+      new_point =
+        case delta do
+          {dx, dy} ->
+            {x + dx, y + dy}
+
+          {dx, dy, dz} ->
+            {x + dx, y + dy, z + dz}
+        end
 
       new_point_val = Map.get(map, new_point, default)
 
