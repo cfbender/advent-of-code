@@ -1,5 +1,9 @@
 defmodule AdventOfCode.Day19 do
   @moduledoc """
+  Just day 16, but with harder heuristics to figure out. There's a decent chance this wouldn't work for any input.
+  It is very slow though, and under-optimized (around a minute on my mac)
+
+  Just wanted to get it over with, so here's this mess.
   """
   import AdventOfCode.Helpers
   alias Prioqueue
@@ -112,12 +116,8 @@ defmodule AdventOfCode.Day19 do
       can_build?(blueprint, state, :geode_robot) ->
         [build(blueprint, :geode_robot)]
 
-      can_build?(blueprint, state, :obsidian_robot) and
-          state.obsidian_robot < limits.obsidian_robot ->
-        [build(blueprint, :obsidian_robot) | start]
-
       true ->
-        Enum.reduce([:clay_robot, :ore_robot], start, fn type, builds ->
+        Enum.reduce([:obsidian_robot, :clay_robot, :ore_robot], start, fn type, builds ->
           if can_build?(blueprint, state, type) and state[type] < limits[type] do
             [build(blueprint, type) | builds]
           else
@@ -150,24 +150,37 @@ defmodule AdventOfCode.Day19 do
     }
   end
 
-  def find_best(blueprint, queue, time_limit, limits, best \\ 0, best_for_time \\ %{}) do
+  def find_best(
+        blueprint,
+        queue,
+        time_limit,
+        limits,
+        best \\ 0,
+        best_robot_for_time \\ %{},
+        seen \\ MapSet.new()
+      ) do
     case Prioqueue.extract_min(queue) do
       {:error, :empty} ->
         best
 
       {:ok, {%{time: time} = curr_state, rest_queue}} ->
         new_best = max(curr_state.geode, best)
-        curr_best_for_time = Map.get(best_for_time, time, 0)
+        new_seen = MapSet.put(seen, curr_state)
 
-        new_best_for_time =
-          Map.put(best_for_time, time, max(curr_best_for_time, curr_state.geode))
+        new_best_robot_for_time =
+          Map.put(best_robot_for_time, curr_state.time, curr_state.geode_robot)
 
-        # Drop a path if it's less than 50% the current best for that time
-        g_heuristic = 2 * curr_state.geode
-        # Only do this for the last 5 minutes
-        t_heuristic = time_limit - 5
+        time_left = time_limit - curr_state.time
+        # all possible geodes if you built a robot every minute regardless of resources
+        max_geodes = Enum.sum(1..time_left)
+        # all possible geode upper bound
+        g_heuristic = curr_state.geode + curr_state.geode_robot * time_left + max_geodes
+        # drop if you are two robots behind the best for the time
+        should_drop =
+          Map.get(best_robot_for_time, curr_state.time, 0) >= curr_state.geode_robot + 2
 
-        if time < time_limit and (time < t_heuristic or g_heuristic >= curr_best_for_time) do
+        if time < time_limit and g_heuristic > best and not MapSet.member?(seen, curr_state) and
+             not should_drop do
           # try builds with the starting state inventory of mats
           builds = try_builds(curr_state, blueprint, limits)
 
@@ -180,9 +193,25 @@ defmodule AdventOfCode.Day19 do
               Prioqueue.insert(q, new_state |> build.())
             end)
 
-          find_best(blueprint, new_queue, time_limit, limits, new_best, new_best_for_time)
+          find_best(
+            blueprint,
+            new_queue,
+            time_limit,
+            limits,
+            new_best,
+            new_best_robot_for_time,
+            new_seen
+          )
         else
-          find_best(blueprint, rest_queue, time_limit, limits, new_best, new_best_for_time)
+          find_best(
+            blueprint,
+            rest_queue,
+            time_limit,
+            limits,
+            new_best,
+            new_best_robot_for_time,
+            new_seen
+          )
         end
     end
   end
@@ -197,7 +226,7 @@ defmodule AdventOfCode.Day19 do
         geode: {g_ore, g_obs}
       }) do
     %{
-      ore_robot: Enum.sum([ore, c_ore, o_ore, g_ore]),
+      ore_robot: Enum.max([ore, c_ore, o_ore, g_ore]),
       clay_robot: o_clay,
       obsidian_robot: g_obs
     }
@@ -230,7 +259,6 @@ defmodule AdventOfCode.Day19 do
       end)
     end)
     |> Task.await_many(:infinity)
-    |> IO.inspect(charlists: :as_lists)
     |> Enum.product()
   end
 end
