@@ -17,7 +17,7 @@ defmodule AdventOfCode.Day20 do
   end
 
   @decryption_key 811_589_153
-  def move(list, length, {num, _} = full, idx) do
+  def move(list, length, {num, _}, idx) do
     new_idx = rem(idx + num, length - 1)
 
     cond do
@@ -28,12 +28,10 @@ defmodule AdventOfCode.Day20 do
     end
     |> case do
       nil ->
-        List.delete_at(list, idx)
-        |> List.insert_at(length, full)
+        Enum.slide(list, idx, length)
 
       wrapped_idx ->
-        List.delete_at(list, idx)
-        |> List.insert_at(wrapped_idx, full)
+        Enum.slide(list, idx, wrapped_idx)
     end
   end
 
