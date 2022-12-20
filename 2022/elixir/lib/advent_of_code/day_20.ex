@@ -1,5 +1,12 @@
 defmodule AdventOfCode.Day20 do
   @moduledoc """
+  Getting tired of problems where the puzzle is finding the edge cases the problem doesn't tell you about.
+  I am surprised he didn't give a "and here's a larger example" for this one, which would've helped immensely.
+
+  Thanks to @JasonNoonan for helping me figure out a nice way to effectively unique the numbers by pairing them with
+  their original index, I got this one very quickly after that. The cycling was very un-intuitive, so the code gets a bit fiddly.
+
+  Also elixir's lists aren't super performant here since they are linked, but it's only a 5000 length list so who cares.
   """
   import AdventOfCode.Helpers
 
@@ -9,9 +16,9 @@ defmodule AdventOfCode.Day20 do
     |> Enum.map(&String.to_integer/1)
   end
 
-  def move(list, length, num, idx) do
-    move = if num > length, do: num - length, else: num
-    new_idx = rem(idx + move, length - 1)
+  @decryption_key 811_589_153
+  def move(list, length, {num, _} = full, idx) do
+    new_idx = rem(idx + num, length - 1)
 
     cond do
       # subtract an extra one because lists aren't zero indexed from the end
@@ -22,50 +29,49 @@ defmodule AdventOfCode.Day20 do
     |> case do
       nil ->
         List.delete_at(list, idx)
-        |> List.insert_at(length, num)
+        |> List.insert_at(length, full)
 
       wrapped_idx ->
         List.delete_at(list, idx)
-        |> List.insert_at(wrapped_idx, num)
+        |> List.insert_at(wrapped_idx, full)
     end
   end
 
-  def find_indexes(list, num) do
-    Enum.with_index(list)
-    |> Enum.group_by(fn {x, _i} -> x end, fn {_x, i} -> i end)
-    |> Map.get(num)
-
-    # |> tap(fn _ -> dbg(length(list)) end)
-  end
-
-  def mix(list, length) do
-    Enum.reduce(list, list, fn num, acc ->
-      dbg(num)
-      dbg(Enum.find_index(acc, &(&1 == num)))
-      dbg(Enum.find_index(acc, &(&1 == 4363)))
-      indexes = find_indexes(acc, num)
-
-      Enum.reduce(indexes, acc, fn i, i_acc ->
-        move(i_acc, length, num, i)
-      end)
+  def mix(list, mixed, length) do
+    Enum.reduce(list, mixed, fn num, acc ->
+      idx = Enum.find_index(acc, &(&1 == num))
+      move(acc, length, num, idx)
     end)
   end
 
-  def part1(input) do
-    # 20016 too high
-    length = length(input) |> dbg()
-
-    dbg(Enum.find_index(input, &(&1 == 4363)))
-    result = mix(input, length)
-    dbg(length(result))
-    zero = Enum.find_index(result, &(&1 == 0))
+  def get_answer(result, length) do
+    zero = Enum.find_index(result, fn {x, _} -> x == 0 end)
 
     Enum.map([1000, 2000, 3000], fn x ->
       Enum.at(result, rem(zero + x, length))
+      |> elem(0)
     end)
     |> Enum.sum()
   end
 
-  def part2(_args) do
+  def part1(input) do
+    length = length(input)
+
+    Enum.with_index(input)
+    |> then(fn input -> mix(input, input, length) end)
+    |> get_answer(length)
+  end
+
+  def part2(input) do
+    length = length(input)
+
+    input =
+      Enum.map(input, &(&1 * @decryption_key))
+      |> Enum.with_index()
+
+    Enum.reduce(0..9, input, fn _, acc ->
+      mix(input, acc, length)
+    end)
+    |> get_answer(length)
   end
 end

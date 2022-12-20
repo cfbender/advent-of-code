@@ -3,17 +3,18 @@ defmodule AdventOfCode.Day20Test do
 
   import AdventOfCode.Day20
 
+  @test_input """
+  1
+  2
+  -3
+  3
+  -2
+  0
+  4
+  """
   test "part1" do
     input =
-      """
-      1
-      2
-      -3
-      3
-      -2
-      0
-      4
-      """
+      @test_input
       |> parse_input()
 
     result = part1(input)
@@ -21,15 +22,13 @@ defmodule AdventOfCode.Day20Test do
     assert result == 3
   end
 
-  @tag :skip
   test "part2" do
     input =
-      """
-      """
+      @test_input
       |> parse_input()
 
     result = part2(input)
 
-    assert result
+    assert result == 1_623_178_306
   end
 end
