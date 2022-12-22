@@ -3,16 +3,27 @@ defmodule AdventOfCode.Day22Test do
 
   import AdventOfCode.Day22
 
-  @tag :skip
   test "part1" do
     input =
-      """
-      """
+      "        ...#
+        .#..
+        #...
+        ....
+...#.......#
+........#...
+..#....#....
+..........#.
+        ...#....
+        .....#..
+        .#......
+        ......#.
+
+10R5L5R10L4R5L5"
       |> parse_input()
 
     result = part1(input)
 
-    assert result
+    assert result == 6032
   end
 
   @tag :skip
