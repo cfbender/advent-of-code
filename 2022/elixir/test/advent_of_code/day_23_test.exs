@@ -3,27 +3,39 @@ defmodule AdventOfCode.Day23Test do
 
   import AdventOfCode.Day23
 
-  @tag :skip
   test "part1" do
     input =
       """
+      ....#..
+      ..###.#
+      #...#.#
+      .#...##
+      #.###..
+      ##.#.##
+      .#..#..
       """
       |> parse_input()
 
     result = part1(input)
 
-    assert result
+    assert result == 110
   end
 
-  @tag :skip
   test "part2" do
     input =
       """
+      ....#..
+      ..###.#
+      #...#.#
+      .#...##
+      #.###..
+      ##.#.##
+      .#..#..
       """
       |> parse_input()
 
     result = part2(input)
 
-    assert result
+    assert result == 20
   end
 end
