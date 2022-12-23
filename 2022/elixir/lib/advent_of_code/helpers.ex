@@ -74,6 +74,67 @@ defmodule AdventOfCode.Helpers do
     map
   end
 
+  @doc """
+  Extracts just the x value from a coordinate
+
+  ## Examples
+
+      iex> Helpers.get_x({{2, 3}, :pizza})
+      2
+  """
+  @spec get_x({{number(), number()}, any()}) :: number()
+  def get_x({{x, _}, _}), do: x
+
+  @doc """
+  Extracts just the y value from a coordinate
+
+  ## Examples
+
+      iex> Helpers.get_y({{2, 3}, :pizza})
+      3
+  """
+  @spec get_y({{number(), number()}, any()}) :: number()
+  def get_y({{_, y}, _}), do: y
+
+  @doc """
+  Slices a 2D map and finds the x bounds for each y, and the y bounds for each x
+
+  The bounds are a tuple of maps, where each contains the bounds for the given type.
+  The map expects the opposite type of coordinate as a lookup value.
+
+  Eg. a grid with shape:
+      1 2 3
+      4 5
+
+    will have x bounds of 0..2 for y=0 and 0..1 for y=1. 
+    For x=0 and x=1, the y bounds will be 0..1, but x=2 will be 0..0
+  ## Examples
+
+      iex> Helpers.list_to_map([[1,2,3], [4,5]]) |> Helpers.bounds()
+      {%{0 => {0, 2}, 1 => {0, 1}}, %{0 => {0, 1}, 1 => {0, 1}, 2 => {0, 0}}}
+  """
+
+  @spec bounds(map()) :: {map(), map()}
+  def bounds(map) do
+    x_bounds =
+      Enum.group_by(map, &get_y/1)
+      |> Enum.map(fn {y, vals} ->
+        {{{x_min, _}, _}, {{x_max, _}, _}} = Enum.min_max_by(vals, &get_x/1)
+        {y, {x_min, x_max}}
+      end)
+      |> Enum.into(%{})
+
+    y_bounds =
+      Enum.group_by(map, &get_x/1)
+      |> Enum.map(fn {x, vals} ->
+        {{{_, y_min}, _}, {{_, y_max}, _}} = Enum.min_max_by(vals, &get_y/1)
+        {x, {y_min, y_max}}
+      end)
+      |> Enum.into(%{})
+
+    {x_bounds, y_bounds}
+  end
+
   def enqueue(queue, []), do: queue
 
   def enqueue(queue, [i | tail]) do
