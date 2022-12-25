@@ -247,7 +247,6 @@ defmodule AdventOfCode.Day19 do
   end
 
   def part2(input) do
-    # 11760 too low
     queue = Prioqueue.new([initial_state()], cmp_fun: &compare_states/2)
 
     Enum.take(input, 3)
