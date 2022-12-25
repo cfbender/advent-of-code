@@ -1,5 +1,11 @@
 defmodule AdventOfCode.Day24 do
   @moduledoc """
+  Man, another pathfinding day??? Did an A* this time, took me way longer than it should've.
+  Eventually I realized you can only wait in the current position if it is still empty next round.
+
+  At least day 25 isn't another path-find, thank goodness.
+
+  Here we go!
   """
   alias Prioqueue
   import AdventOfCode.Helpers
@@ -89,29 +95,12 @@ defmodule AdventOfCode.Day24 do
     end)
   end
 
-  # def compare_states({p_a, t_a}, {p_b, t_b}) do
-  #   cond do
-  #     p_a < p_b -> :gt
-  #     p_a > p_b -> :lt
-  #     t_a < t_b -> :lt
-  #     t_a > t_b -> :gt
-  #     t_a == t_b -> :eq
-  #   end
-  # end
-
-  def moves(map, pos, time, seen) do
+  def moves(map, pos) do
     get_adj(map, pos, all: false)
     # check all empty moves
-    |> Stream.filter(fn {p, t} -> t == :empty end)
-    |> Enum.map(fn {p, _} -> {p, time + 1} end)
-    |> IO.inspect()
-    |> then(fn moves ->
-      if length(moves) == 0 do
-        [{pos, time + 1}]
-      else
-        moves
-      end
-    end)
+    |> Stream.filter(fn {_p, t} -> t == :empty end)
+    |> Enum.map(fn {p, _} -> p end)
+    |> Enum.concat(if map[pos] == :empty, do: [pos], else: [])
   end
 
   def find_route(
@@ -119,91 +108,98 @@ defmodule AdventOfCode.Day24 do
         queue,
         goal,
         test \\ false,
-        best \\ :infinity,
         seen \\ MapSet.new([{@start, 0}])
       ) do
     case Prioqueue.extract_min(queue) do
-      {:error, :empty} ->
-        best
-
-      {:ok, {{pos, time}, rest_queue}} ->
-        cycle = if test, do: @test_lcm, else: @lcm
-        curr_map = blizzards[rem(time + 1, cycle)]
-        moves = moves(curr_map, pos, time, seen)
-
-        if goal in Enum.map(moves, &elem(&1, 0)) do
-          new_best = min(time + 1, best)
-
-          find_route(
-            blizzards,
-            rest_queue,
-            goal,
-            test,
-            new_best,
-            seen
-          )
+      {:ok, {{_f_cost, _h_cost, time, pos}, rest_queue}} ->
+        if pos == goal do
+          time
         else
-          new_seen = MapSet.put(seen, {pos, time})
+          cycle = if test, do: @test_lcm, else: @lcm
+          next_time = time + 1
+          curr_map = blizzards[rem(next_time, cycle)]
 
-          new_queue = Enum.reduce(moves, rest_queue, &Prioqueue.insert(&2, &1))
+          moves =
+            moves(curr_map, pos)
+            |> Enum.map(&{&1, next_time})
+            |> Enum.reject(fn move -> MapSet.member?(seen, move) end)
+
+          new_seen = Enum.reduce(moves, seen, &MapSet.put(&2, &1))
+
+          new_queue =
+            Enum.reduce(moves, rest_queue, fn {p, g_cost}, acc ->
+              h_cost = manhattan_distance(p, goal)
+              f_cost = h_cost + g_cost
+              Prioqueue.insert(acc, {f_cost, h_cost, g_cost, p})
+            end)
 
           find_route(
             blizzards,
             new_queue,
             goal,
             test,
-            best,
             new_seen
           )
         end
     end
   end
 
-  def print(map) do
-    print_map(map,
-      display: fn
-        x ->
-          case x do
-            :empty ->
-              "."
-
-            :wall ->
-              "#"
-
-            list ->
-              if length(list) == 1 do
-                case Enum.at(list, 0) do
-                  :right -> ">"
-                  :left -> "<"
-                  :up -> "^"
-                  :down -> "v"
-                end
-              else
-                "#{length(list)}"
-              end
-          end
-      end
-    )
-
-    map
-  end
-
   def part1(input, test \\ false) do
-    # 218 too low
     {goal, _} = Enum.max_by(input, fn {{x, y}, t} -> if(t == :wall, do: 0, else: {y, x}) end)
 
-    # state is tuple of position and number of minutes
-    queue = Prioqueue.new([{@start, 0}])
+    # state is tuple of f_cost (manhattan distance + time), h_cost (manhattan distance to goal), g_cost (time), and position
+    queue =
+      Prioqueue.new([
+        {manhattan_distance(@start, goal), manhattan_distance(@start, goal), 0, @start}
+      ])
+
     {x_bounds, y_bounds} = bounds(input)
     x_max = x_bounds[1] |> elem(1) |> Kernel.-(1)
     y_max = y_bounds[1] |> elem(1) |> Kernel.-(1)
 
     blizzards_by_minute(input, {x_max, y_max}, test)
     |> find_route(queue, goal, test)
-
-    # |> Kernel.+(1)
   end
 
-  def part2(_args) do
+  def part2(input, test \\ false) do
+    {goal, _} = Enum.max_by(input, fn {{x, y}, t} -> if(t == :wall, do: 0, else: {y, x}) end)
+
+    start_queue = fn x ->
+      Prioqueue.new([
+        {manhattan_distance(@start, goal) + x, manhattan_distance(@start, goal), x, @start}
+      ])
+    end
+
+    end_queue = fn x ->
+      Prioqueue.new([
+        {manhattan_distance(goal, @start) + x, manhattan_distance(goal, @start), x, goal}
+      ])
+    end
+
+    {x_bounds, y_bounds} = bounds(input)
+    x_max = x_bounds[1] |> elem(1) |> Kernel.-(1)
+    y_max = y_bounds[1] |> elem(1) |> Kernel.-(1)
+
+    blizzards = blizzards_by_minute(input, {x_max, y_max}, test)
+
+    cycle = if test, do: @test_lcm, else: @lcm
+    first = find_route(blizzards, start_queue.(0), goal, test)
+
+    second =
+      find_route(
+        blizzards,
+        end_queue.(first),
+        @start,
+        test,
+        MapSet.new([{goal, rem(first, cycle)}])
+      )
+
+    find_route(
+      blizzards,
+      start_queue.(second),
+      goal,
+      test,
+      MapSet.new([{goal, rem(second, cycle)}])
+    )
   end
 end
