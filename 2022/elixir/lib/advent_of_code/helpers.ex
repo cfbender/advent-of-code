@@ -454,20 +454,6 @@ defmodule AdventOfCode.Helpers do
             dst
           end
         end)
-
-        # Enum.reduce(graph.vertices, dist, fn k, k_acc ->
-        #   Enum.reduce(graph.vertices, k_acc, fn i, i_acc ->
-        #     Enum.reduce(graph.vertices, i_acc, fn j, j_acc ->
-        #       new_weight = cap_add.(j_acc[i][k], j_acc[k][j])
-        #
-        #       if j_acc[i][j] > new_weight do
-        #         Map.update!(j_acc, i, fn map -> Map.put(map, j, new_weight) end)
-        #       else
-        #         j_acc
-        #       end
-        #     end)
-        #   end)
-        # end)
       end)
     end
   end
