@@ -39,22 +39,23 @@ partA :: Input -> OutputA
 partA = sum . map ((read :: String -> Int) . ends . filter isDigit)
 
 ------------ PART B ------------
-convert :: String -> String
-convert input = foldl (\acc (s, r) -> unpack . replace s r . pack $ acc) input digits
-  where
-    digits :: [(Text, Text)]
-    digits =
-      [ ("one", "1"),
-        ("two", "2"),
-        ("three", "3"),
-        ("four", "4"),
-        ("five", "5"),
-        ("six", "6"),
-        ("seven", "7"),
-        ("eight", "8"),
-        ("nine", "9"),
-        ("zero", "0")
-      ]
+undigits :: [Int] -> Int
+undigits digits = read $ concatMap show digits
+
+parseDigit :: String -> Maybe Int
+parseDigit [] = Nothing
+parseDigit input@(char : _)
+  | isDigit char = Just $ digitToInt char
+  | "one" `isPrefixOf` input = Just 1
+  | "two" `isPrefixOf` input = Just 2
+  | "three" `isPrefixOf` input = Just 3
+  | "four" `isPrefixOf` input = Just 4
+  | "five" `isPrefixOf` input = Just 5
+  | "six" `isPrefixOf` input = Just 6
+  | "seven" `isPrefixOf` input = Just 7
+  | "eight" `isPrefixOf` input = Just 8
+  | "nine" `isPrefixOf` input = Just 9
+  | otherwise = Nothing
 
 partB :: Input -> OutputB
-partB = sum . map ((read :: String -> Int) . ends . filter isDigit . convert)
+partB = sum . map (undigits . ends . mapMaybe parseDigit . tails)
