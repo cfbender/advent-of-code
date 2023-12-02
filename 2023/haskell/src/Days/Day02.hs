@@ -1,19 +1,14 @@
 module Days.Day02 (runDay) where
 
 {- ORMOLU_DISABLE -}
+import Data.Text (Text)
 import Data.List
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import Data.Maybe
-import Data.Set (Set)
-import qualified Data.Set as Set
-import Data.Vector (Vector)
-import qualified Data.Vector as Vec
-import qualified Util.Util as U
 
 import qualified Program.RunDay as R (runDay, Day)
-import Data.Attoparsec.Text
-import Data.Void
+import Data.Attoparsec.Text 
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
@@ -21,19 +16,51 @@ runDay = R.runDay inputParser partA partB
 
 ------------ PARSER ------------
 inputParser :: Parser Input
-inputParser = error "Not implemented yet!"
+inputParser = game `sepBy` endOfLine
+  where
+    color = choice [string "red", string "blue", string "green"]
+    colorCount = do
+      x <- decimal
+      space
+      color <- color
+      return (color, x)
+    result =
+      Map.fromList <$> colorCount `sepBy` string ", "
+    cubeSet = do
+      space
+      result `sepBy` string "; "
+    game = do
+      string "Game"
+      space
+      id <- decimal
+      string ":"
+      sets <- cubeSet
+      return (id, sets)
 
 ------------ TYPES ------------
-type Input = Void
+type Input = [(Int, [Map Text Int])]
 
-type OutputA = Void
+type OutputA = Int
 
-type OutputB = Void
+type OutputB = Int
 
 ------------ PART A ------------
+possible :: Map Text Int -> Bool
+possible map =
+  (Map.lookup "red" map <= Just 12)
+    && (Map.lookup "green" map <= Just 13)
+    && (Map.lookup "blue" map <= Just 14)
+
 partA :: Input -> OutputA
-partA = error "Not implemented yet!"
+partA = sum . map fst . filter (all possible . snd)
 
 ------------ PART B ------------
+minimumColors :: [Map Text Int] -> [Int]
+minimumColors sets =
+  let red = maximum . mapMaybe (Map.lookup "red") $ sets
+      green = maximum . mapMaybe (Map.lookup "green") $ sets
+      blue = maximum . mapMaybe (Map.lookup "blue") $ sets
+   in [red, green, blue]
+
 partB :: Input -> OutputB
-partB = error "Not implemented yet!"
+partB = sum . map (product . minimumColors . snd)

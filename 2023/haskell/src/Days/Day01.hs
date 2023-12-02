@@ -4,14 +4,7 @@ module Days.Day01 (runDay) where
 import Data.Text (replace, unpack, pack,  Text)
 import Data.Char
 import Data.List
-import Data.Map.Strict (Map)
-import qualified Data.Map.Strict as Map
 import Data.Maybe
-import Data.Set (Set)
-import qualified Data.Set as Set
-import Data.Vector (Vector)
-import qualified Data.Vector as Vec
-import qualified Util.Util as U
 
 import qualified Program.RunDay as R (runDay, Day)
 import Data.Attoparsec.Text 
