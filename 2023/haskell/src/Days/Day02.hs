@@ -1,5 +1,10 @@
 module Days.Day02 (runDay) where
 
+--  Day 2! Okay, this was much better than yesterday.
+--  Getting this parser written felt amazing, and I feel like I
+--  actually learned how it's working a bit more. Still a long way to go
+--  but I really needed this after yesterday
+
 {- ORMOLU_DISABLE -}
 import Data.Text (Text)
 import Data.List
