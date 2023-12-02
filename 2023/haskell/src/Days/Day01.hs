@@ -1,5 +1,12 @@
 module Days.Day01 (runDay) where
 
+--  Day 1!
+--  Writing this the next day since I forgot to collect my thoughts
+--  but this day was a serious shock to the system. This language is
+--  tough, and I am underprepared. I spent like 2 hours getting the parser
+--  to run, and it's not even a very helpful parser. In the end I got it,
+--  and hopefully the parsing isn't that hard later on but I'm sure it will be.
+
 {- ORMOLU_DISABLE -}
 import Data.Text (replace, unpack, pack,  Text)
 import Data.Char
