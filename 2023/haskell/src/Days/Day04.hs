@@ -47,11 +47,13 @@ type OutputB = Int
 
 ------------ PART A ------------
 partA :: Input -> OutputA
+
+score [] = 0
+score l = (2 ^) . subtract 1 $ length l
+
 partA =
   sum
-    . map ((2 ^) . subtract 1 . length)
-    . filter (not . null)
-    . map (\(_, win, own) -> own `intersect` win)
+    . map (\(_, win, own) -> score (own `intersect` win))
 
 ------------ PART B ------------
 partB :: Input -> OutputB
