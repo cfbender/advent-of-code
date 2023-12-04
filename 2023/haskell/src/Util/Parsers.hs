@@ -2,7 +2,7 @@ module Util.Parsers where
 
 import Data.Attoparsec.Text
 import Data.Map (Map)
-import qualified Data.Map as Map
+import Data.Map qualified as Map
 
 {-
 This module contains a list of parsers and combinators which are likely to be useful for Advent of Code problems.
