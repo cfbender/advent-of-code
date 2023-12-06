@@ -1,15 +1,14 @@
 module Days.Day06 (runDay) where
 
+-- AWWWWW YEAH BABY AND JUST LIKE THAT THEY REEL ME BACK IN
+-- this is what I needed, just a nice simple one
+-- that lets me write some very terse and pretty code
+--
+-- hell yea.
+
 {- ORMOLU_DISABLE -}
+import Data.Bifunctor (bimap)
 import Data.List
-import Data.Map.Strict (Map)
-import qualified Data.Map.Strict as Map
-import Data.Maybe
-import Data.Set (Set)
-import qualified Data.Set as Set
-import Data.Vector (Vector)
-import qualified Data.Vector as Vec
-import qualified Util.Util as U
 
 import qualified Program.RunDay as R (runDay, Day)
 import Data.Attoparsec.Text
@@ -21,19 +20,35 @@ runDay = R.runDay inputParser partA partB
 
 ------------ PARSER ------------
 inputParser :: Parser Input
-inputParser = error "Not implemented yet!"
+inputParser = do
+  string "Time:"
+  many1 space
+  times <- decimal `sepBy` many1 space
+  endOfLine
+  string "Distance:"
+  many1 space
+  distances <- decimal `sepBy` many1 space
+  return (zip times distances)
 
 ------------ TYPES ------------
-type Input = Void
+type Input = [(Int, Int)]
 
-type OutputA = Void
+type OutputA = Int
 
-type OutputB = Void
+type OutputB = Int
 
 ------------ PART A ------------
+traveled total spent = (total - spent) * spent
+
 partA :: Input -> OutputA
-partA = error "Not implemented yet!"
+partA = product . map (\(x, dist) -> length . filter (> dist) $ map (traveled x) [1 .. x - 1])
 
 ------------ PART B ------------
+undigits :: [Int] -> Int
+undigits = read . concatMap show
+
 partB :: Input -> OutputB
-partB = error "Not implemented yet!"
+partB i =
+  let (time, dist) = bimap undigits undigits $ unzip i
+      Just inflection = find (\x -> traveled time x > dist) [1 .. time - 1]
+   in time - (inflection * 2) + 1
