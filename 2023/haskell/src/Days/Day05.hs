@@ -83,13 +83,13 @@ concatRanges (inputStart, inputEnd) ((srcStart, srcEnd), dest@(destStart, destEn
         then split shift dest (inputStart, srcStart, inputEnd, srcEnd)
         else Nothing
   where
-    split shift (destStart, destEnd) (is, ss, ie, se)
+    split shift (ds, de) (is, ss, ie, se)
       -- input hangs left of source
-      | is < ss && ie <= se = Just [(is, ss - 1), (destStart, destStart + (ie - is))]
+      | is < ss && ie <= se = Just [(is, ss - 1), (ds, ds + (ie - is))]
       -- input totally in source
       | is >= ss && ie <= se = Just [(is + shift, ie + shift)]
       -- input hangs right of source
-      | is >= ss && ie > se = Just [(is + shift, destEnd), (se + 1, ie)]
+      | is >= ss && ie > se = Just [(is + shift, de), (se + 1, ie)]
 
 mapRange :: [(Range Int, Range Int)] -> Range Int -> [Range Int]
 mapRange mappings input =
