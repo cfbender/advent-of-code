@@ -1,24 +1,35 @@
 module Days.Day05 (runDay) where
 
+-- holy fuckin shit man
+-- this was a nightmare for me for some reason
+-- of course fell into the noob trap of keeping giant ass lists
+-- so I let that run overnight after already staying up too late
+--
+-- it was wrong.
+--
+-- so, back to the drawing board. couldn't think through the ranges
+-- on my own well enough in haskell so I found some Kotlin solution on
+-- reddit that I thought looked nice and tried to implement it here.
+--
+-- took a bit and learned a lot, but then the answer was wrong. for only
+-- my input, even though it got 3 of my coworker's inputs correct.
+-- so I guess that guy in Kotlin made some assumption that wasn't true
+-- for my input.
+--
+-- so I ported it to elixir and rewrote the `concatRanges` function there
+-- to the ugly guard clause that lives here now.
+--
+-- and it works. so fuck it. like 15 hours yikes why do people pay me
+-- to write software.
+
 {- ORMOLU_DISABLE -}
-import Debug.Trace
-import Data.Bifunctor
-import Control.Monad
-import Data.List
 import Data.List.Split (chunksOf)
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import Data.Maybe
-import Data.Set (Set)
-import qualified Data.Set as Set
-import Data.Vector (Vector)
-import qualified Data.Vector as Vec
-import Util.Parsers
-import qualified Util.Util as U
 
 import qualified Program.RunDay as R (runDay, Day)
 import Data.Attoparsec.Text
-import Data.Void
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
@@ -64,31 +75,26 @@ type OutputA = Int
 type OutputB = Int
 
 ------------ PART A ------------
-defaultEmpty :: [a] -> [a] -> [a]
-defaultEmpty d [] = d
-defaultEmpty _d l = l
-
-concatRanges :: Range Int -> (Range Int, Range Int) -> Maybe (Range Int)
-concatRanges input (src, dest) =
-  let shift = fst dest - fst src
-      start = max (fst src) (fst input)
-      end = min (snd src) (snd input)
-   in if end < start then Nothing else Just (start + shift, end + shift)
-
--- find values in the input that weren't covered by the mappings
-passUnmapped :: Range Int -> [(Range Int, Range Int)] -> [Range Int]
-passUnmapped (start, end) mappings =
-  let theirMin = minimum $ map (fst . fst) mappings
-      theirMax = maximum $ map (snd . fst) mappings
-      newMins = ([(start, theirMin - 1) | start < theirMin])
-      newMaxs = ([(theirMax + 1, end) | end > theirMax])
-   in newMins ++ newMaxs
+concatRanges :: Range Int -> (Range Int, Range Int) -> Maybe [Range Int]
+concatRanges (inputStart, inputEnd) ((srcStart, srcEnd), dest@(destStart, destEnd)) =
+  let inRange = inputEnd <= srcEnd && inputEnd >= srcStart
+      shift = destStart - srcStart
+   in if inRange
+        then split shift dest (inputStart, srcStart, inputEnd, srcEnd)
+        else Nothing
+  where
+    split shift (destStart, destEnd) (is, ss, ie, se)
+      -- input hangs left of source
+      | is < ss && ie <= se = Just [(is, ss - 1), (destStart, destStart + (ie - is))]
+      -- input totally in source
+      | is >= ss && ie <= se = Just [(is + shift, ie + shift)]
+      -- input hangs right of source
+      | is >= ss && ie > se = Just [(is + shift, destEnd), (se + 1, ie)]
 
 mapRange :: [(Range Int, Range Int)] -> Range Int -> [Range Int]
 mapRange mappings input =
-  let outputs = mapMaybe (concatRanges input) mappings
-      rest = if null outputs then [input] else passUnmapped input mappings
-   in outputs ++ rest
+  let output = concat $ mapMaybe (concatRanges input) mappings
+   in if null output then [input] else output
 
 iterateSeeds :: [Range Int] -> Almanac -> Int
 iterateSeeds seeds maps =
