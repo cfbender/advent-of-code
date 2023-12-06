@@ -78,12 +78,12 @@ type OutputB = Int
 concatRanges :: Range Int -> (Range Int, Range Int) -> Maybe [Range Int]
 concatRanges input@(inputStart, inputEnd) (src@(srcStart, srcEnd), dest@(destStart, destEnd)) =
   let inRange = inputEnd <= srcEnd && inputEnd >= srcStart
-      shift = destStart - srcStart
    in if inRange
-        then split shift src dest input
+        then split src dest input
         else Nothing
   where
-    split shift (ss, se) (ds, de) (is, ie)
+    shift = destStart - srcStart
+    split (ss, se) (ds, de) (is, ie)
       -- input hangs left of source
       | is < ss && ie <= se = Just [(is, ss - 1), (ds, ds + (ie - is))]
       -- input totally in source
