@@ -6,7 +6,6 @@ module Days.Day07 (runDay) where
 -- a lot, which is exactly what I do AoC for. so perfect!
 
 {- ORMOLU_DISABLE -}
-import Data.Bifunctor (first)
 import Data.List
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
@@ -136,8 +135,7 @@ tryJokers' hand =
     . maximumBy (\(hA, rA) (hB, rB) -> compareHands (hA, 0, rA) (hB, 0, rB))
     $ replaced
   where
-    scoreWithHand origHand newHand = (origHand, scoreHand newHand)
-    replaced = [scoreWithHand hand $ map (replaceJoker c) hand | c <- [Two .. Ace]]
+    replaced = [(hand, scoreHand $ map (replaceJoker c) hand) | c <- [Two .. Ace]]
 
 partB :: Input -> OutputB
 partB input =
