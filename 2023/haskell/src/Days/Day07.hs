@@ -112,8 +112,7 @@ partA input =
     . zipWith (*) scores
     . map U.tsnd
     . sortBy compareHands
-    . map (\(hand, bid) -> (hand, bid, scoreHand hand))
-    $ input
+    $ [(hand, bid, scoreHand hand) | (hand, bid) <- input]
   where
     scores = [1 .. length input]
 
@@ -125,7 +124,10 @@ replaceJoker a Joker = a
 replaceJoker _ a = a
 
 -- don't check if no jokers
-tryJokers hand = if Joker `elem` hand then tryJokers' hand else scoreHand hand
+tryJokers hand =
+  if Joker `elem` hand
+    then tryJokers' hand
+    else scoreHand hand
 
 -- find max of Joker being replaced by every card Two .. Ace
 tryJokers' :: [Card] -> Hand
@@ -135,12 +137,7 @@ tryJokers' hand =
     $ replaced
   where
     scoreWithHand origHand newHand = (origHand, scoreHand newHand)
-    replaced =
-      map
-        ( scoreWithHand hand
-            . (\c -> map (replaceJoker c) hand)
-        )
-        [Two .. Ace]
+    replaced = [scoreWithHand hand $ map (replaceJoker c) hand | c <- [Two .. Ace]]
 
 partB :: Input -> OutputB
 partB input =
@@ -148,13 +145,11 @@ partB input =
     . zipWith (*) scores
     . map U.tsnd
     . sortBy compareHands
-    . map
-      ( \(hand, bid) ->
-          ( map replaceJack hand,
-            bid,
-            tryJokers . map replaceJack $ hand
-          )
-      )
-    $ input
+    $ [ ( map replaceJack hand,
+          bid,
+          tryJokers . map replaceJack $ hand
+        )
+        | (hand, bid) <- input
+      ]
   where
     scores = [1 .. length input]
