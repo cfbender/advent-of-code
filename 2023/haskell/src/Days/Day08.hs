@@ -1,14 +1,15 @@
 module Days.Day08 (runDay) where
 
+-- how do you, as a grown adult, re-learn math?
+-- I mean seriously. how do I learn to think math-first?
+-- it would've taken me a while to think of the LCM and idk why.
+-- but thank goodness for hints.
+--
+-- anyway this was fun, more gold plating with the Graph, and I learned a lot
+-- in the intermediate solutions so that's cool
+
 {- ORMOLU_DISABLE -}
-import Data.Map.Strict (Map)
 import Data.Graph
-import qualified Data.Map.Strict as Map
-import Data.Maybe
-import Data.Set (Set)
-import qualified Data.Set as Set
-import Data.Vector (Vector)
-import qualified Data.Vector as Vec
 import qualified Util.Util as U
 
 import qualified Program.RunDay as R (runDay, Day)
