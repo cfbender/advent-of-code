@@ -30,18 +30,11 @@ type OutputA = Int
 type OutputB = Int
 
 ------------ PART A ------------
-partA :: Input -> OutputA
-
-difference (x : [y]) = x - y
-
-reduceLevel :: [Int] -> [Int]
-reduceLevel = map difference . windows 2
-
 findNext :: Int -> [Int] -> Int
-findNext n l
-  | all (== 0) l = n
-  | otherwise = findNext (n + head l) (reduceLevel l)
+findNext n (0 : [0]) = n
+findNext n l = findNext (n + head l) [x - y | [x, y] <- windows 2 l]
 
+partA :: Input -> OutputA
 partA = sum . map (findNext 0)
 
 ------------ PART B ------------
