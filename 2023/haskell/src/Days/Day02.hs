@@ -1,4 +1,4 @@
-module Days.Day02 (runDay) where
+module Days.Day02 where
 
 --  Day 2! Okay, this was much better than yesterday.
 --  Getting this parser written felt amazing, and I feel like I

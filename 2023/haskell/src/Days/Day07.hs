@@ -1,4 +1,4 @@
-module Days.Day07 (runDay) where
+module Days.Day07 where
 
 -- okay this one was super fun. again hoping for more difficulty like this.
 -- got to implement my first data type and parse into it, so learned a lot!

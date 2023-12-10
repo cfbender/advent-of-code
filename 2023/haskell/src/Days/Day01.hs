@@ -1,4 +1,4 @@
-module Days.Day01 (runDay) where
+module Days.Day01 where
 
 --  Day 1!
 --  Writing this the next day since I forgot to collect my thoughts
