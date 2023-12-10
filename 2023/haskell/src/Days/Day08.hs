@@ -1,4 +1,4 @@
-module Days.Day08 (runDay) where
+module Days.Day08 where
 
 -- how do you, as a grown adult, re-learn math?
 -- I mean seriously. how do I learn to think math-first?

@@ -1,4 +1,4 @@
-module Days.Day03 (runDay) where
+module Days.Day03 where
 
 -- Day 3 in the books, and the syntax is starting to feel more comfy.
 -- I maybe could've done more with parsing here but I think just getting

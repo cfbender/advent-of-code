@@ -1,4 +1,4 @@
-module Days.Day04 (runDay) where
+module Days.Day04 where
 
 -- I liked this day! Though I feel like the explanations could've been a bit clearer.
 -- Maybe it's just hard to walk that line, because if he had said it was

@@ -1,4 +1,4 @@
-module Days.Day06 (runDay) where
+module Days.Day06 where
 
 -- AWWWWW YEAH BABY AND JUST LIKE THAT THEY REEL ME BACK IN
 -- this is what I needed, just a nice simple one

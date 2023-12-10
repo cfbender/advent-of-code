@@ -1,4 +1,4 @@
-module Days.Day09 (runDay) where
+module Days.Day09 where
 
 -- a fun one! spent a lot of time fighting the compiler and types as usual
 -- and tried to be cheeky with only taking the last two before I realized

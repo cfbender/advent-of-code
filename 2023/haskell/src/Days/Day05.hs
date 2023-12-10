@@ -1,4 +1,4 @@
-module Days.Day05 (runDay) where
+module Days.Day05 where
 
 -- holy fuckin shit man
 -- this was a nightmare for me for some reason
