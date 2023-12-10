@@ -27,7 +27,7 @@ import Days.Day23 qualified as Day23
 import Days.Day24 qualified as Day24
 import Days.Day25 qualified as Day25
 import Program.Color (withColor)
-import Program.RunDay (Day, Verbosity (Quiet))
+import Program.RunDay (Day, Verbosity (None))
 import System.Console.ANSI (Color (..))
 import Text.Printf (printf)
 
@@ -61,42 +61,38 @@ days =
     ]
 
 days :: Map Int (Day, String)
-
+runDay :: Int -> IO (Maybe Double, Maybe Double)
 runDay i = case days Map.!? i of
-  Nothing -> putStrLn "Invalid day provided. There are 25 days in Advent."
-  Just (dayFunc, inputFile) -> do
-    withColor Magenta $ putStrLn $ printf "\n***Day %02d***" i
-    dayFunc Quiet inputFile
-    withColor Magenta $ putStrLn "************"
+  Just (dayFunc, inputFile) -> dayFunc None inputFile
 
 main =
   defaultMain
     [ bgroup
         "day"
-        [ bench "1" $ whnf runDay 1,
-          bench "2" $ whnf runDay 2,
-          bench "3" $ whnf runDay 3,
-          bench "4" $ whnf runDay 4,
-          bench "5" $ whnf runDay 5,
-          bench "6" $ whnf runDay 6,
-          bench "7" $ whnf runDay 7,
-          bench "8" $ whnf runDay 8,
-          bench "9" $ whnf runDay 9,
-          bench "10" $ whnf runDay 10,
-          bench "11" $ whnf runDay 11,
-          bench "12" $ whnf runDay 12,
-          bench "13" $ whnf runDay 13,
-          bench "14" $ whnf runDay 14,
-          bench "15" $ whnf runDay 15,
-          bench "16" $ whnf runDay 16,
-          bench "17" $ whnf runDay 17,
-          bench "18" $ whnf runDay 18,
-          bench "19" $ whnf runDay 19,
-          bench "20" $ whnf runDay 20,
-          bench "21" $ whnf runDay 21,
-          bench "22" $ whnf runDay 22,
-          bench "23" $ whnf runDay 23,
-          bench "24" $ whnf runDay 24,
-          bench "25" $ whnf runDay 25
+        [ bench "1." $ nfIO (runDay 1),
+          bench "2." $ nfIO (runDay 2),
+          bench "3." $ nfIO (runDay 3),
+          bench "4." $ nfIO (runDay 4),
+          bench "5." $ nfIO (runDay 5),
+          bench "6." $ nfIO (runDay 6),
+          bench "7." $ nfIO (runDay 7),
+          bench "8." $ nfIO (runDay 8),
+          bench "9." $ nfIO (runDay 9),
+          bench "10." $ nfIO (runDay 10),
+          bench "11." $ nfIO (runDay 11),
+          bench "12." $ nfIO (runDay 12),
+          bench "13." $ nfIO (runDay 13),
+          bench "14." $ nfIO (runDay 14),
+          bench "15." $ nfIO (runDay 15),
+          bench "16." $ nfIO (runDay 16),
+          bench "17." $ nfIO (runDay 17),
+          bench "18." $ nfIO (runDay 18),
+          bench "19." $ nfIO (runDay 19),
+          bench "20." $ nfIO (runDay 20),
+          bench "21." $ nfIO (runDay 21),
+          bench "22." $ nfIO (runDay 22),
+          bench "23." $ nfIO (runDay 23),
+          bench "24." $ nfIO (runDay 24),
+          bench "25." $ nfIO (runDay 25)
         ]
     ]

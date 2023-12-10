@@ -115,3 +115,37 @@ executable aoc-exe
     , time
     , vector
   default-language: Haskell2010
+
+benchmark bench
+  type: exitcode-stdio-1.0
+  main-is: Benchmark.hs
+  other-modules:
+      Paths_aoc
+  hs-source-dirs:
+      bench
+  default-extensions:
+      LambdaCase
+      MultiWayIf
+      RecordWildCards
+      OverloadedRecordDot
+      OverloadedStrings
+      GADTs
+      GHC2021
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N4 -with-rtsopts=-qa -with-rtsopts=-C0 -funfolding-use-threshold=16 -fexcess-precision -optc-O3 -optc-ffast-math -O2
+  build-depends:
+      ansi-terminal
+    , aoc
+    , attoparsec
+    , base >=4.7 && <5
+    , containers
+    , criterion
+    , directory
+    , mtl
+    , optparse-applicative
+    , parser-combinators
+    , range
+    , split
+    , text
+    , time
+    , vector
+  default-language: Haskell2010
