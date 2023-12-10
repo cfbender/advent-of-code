@@ -30,6 +30,24 @@ mapFromNestedLists = Map.fromList . attachCoords 0 0
     attachCoords x _ ([] : ls) = attachCoords (x + 1) 0 ls
     attachCoords x y ((l : ls) : lss) = ((x, y), l) : attachCoords x (y + 1) (ls : lss)
 
+-- gets all neighbors around a coordinate
+neighbors :: (Int, Int) -> [(Int, Int)]
+neighbors (x, y) =
+  [ (a, b)
+    | a <- [x - 1 .. x + 1],
+      b <- [y - 1 .. y + 1],
+      a /= x || b /= y
+  ]
+
+-- gets all neighbors around a coordinate
+neighborsNoCorners :: (Int, Int) -> [(Int, Int)]
+neighborsNoCorners (x, y) =
+  [ (x - 1, y),
+    (x + 1, y),
+    (x, y - 1),
+    (x, y + 1)
+  ]
+
 -- Splits a list into chunks of the specified size.
 -- The final chunk may be smaller than the chunk size.
 -- Chunk size must be positive.

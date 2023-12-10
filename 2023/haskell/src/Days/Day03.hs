@@ -17,6 +17,7 @@ import Util.Parsers
 
 import qualified Program.RunDay as R (runDay, Day)
 import Data.Attoparsec.Text
+import Util.Util (neighbors)
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
@@ -41,14 +42,6 @@ checkPart x
 
 isPart :: Input -> [(Int, Int)] -> Bool
 isPart m = any (any (\s -> checkPart $ Map.findWithDefault '.' s m) . neighbors)
-
-neighbors :: (Int, Int) -> [(Int, Int)]
-neighbors (x, y) =
-  [ (a, b)
-    | a <- [x - 1 .. x + 1],
-      b <- [y - 1 .. y + 1],
-      a /= x || b /= y
-  ]
 
 readPartNumber :: Input -> [(Int, Int)] -> Int
 readPartNumber m l = read $ map (\s -> Map.findWithDefault '0' s m) $ reverse l
