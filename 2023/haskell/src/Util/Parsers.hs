@@ -3,6 +3,8 @@ module Util.Parsers where
 import Data.Attoparsec.Text
 import Data.Map (Map)
 import Data.Map qualified as Map
+import Data.Vector (Vector)
+import Data.Vector qualified as Vector
 
 {-
 This module contains a list of parsers and combinators which are likely to be useful for Advent of Code problems.

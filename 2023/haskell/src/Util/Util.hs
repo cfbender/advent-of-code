@@ -25,10 +25,11 @@ freq = Map.fromListWith (+) . fmap (,1)
 --     Output: Map.fromList [((0,0),a), ((0,1),b), ((0,2),c), ((1,0),d), ((1,1),e)]
 mapFromNestedLists :: (Ord a) => [[a]] -> Map (Int, Int) a
 mapFromNestedLists = Map.fromList . attachCoords 0 0
-  where
-    attachCoords _ _ [] = []
-    attachCoords x _ ([] : ls) = attachCoords (x + 1) 0 ls
-    attachCoords x y ((l : ls) : lss) = ((x, y), l) : attachCoords x (y + 1) (ls : lss)
+
+attachCoords :: Int -> Int -> [[a]] -> [((Int, Int), a)]
+attachCoords _ _ [] = []
+attachCoords x _ ([] : ls) = attachCoords (x + 1) 0 ls
+attachCoords x y ((l : ls) : lss) = ((x, y), l) : attachCoords x (y + 1) (ls : lss)
 
 -- gets all neighbors around a coordinate
 neighbors :: (Int, Int) -> [(Int, Int)]
