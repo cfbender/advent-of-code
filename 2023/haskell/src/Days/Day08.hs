@@ -53,8 +53,7 @@ type OutputB = Int
 
 ------------ PART A ------------
 getNeighbors :: Tree -> String -> (String, String)
-getNeighbors m k = case Map.lookup k m of
-  Just (left, right) -> (left, right)
+getNeighbors m k = m Map.! k
 
 getNext 'L' (l, _r) = l
 getNext 'R' (_l, r) = r
@@ -73,9 +72,6 @@ navigate' m l (node@(_ : _ : ['Z']), steps) = (node, steps)
 navigate' m (i : tail) (currNode, steps) =
   let next = getNext i $ getNeighbors m currNode
    in navigate' m tail (next, steps + 1)
-
-takeWhileOneMore :: (a -> Bool) -> [a] -> [a]
-takeWhileOneMore p = foldr (\x ys -> if p x then x : ys else [x]) []
 
 partB :: Input -> OutputB
 partB (i, m) =

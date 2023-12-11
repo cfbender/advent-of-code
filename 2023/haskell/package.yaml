@@ -96,3 +96,24 @@ benchmarks:
     - GHC2021
     dependencies:
     - aoc
+
+tests:
+  spec:
+    cpp-options: -DTEST
+    main: Spec.hs
+    source-dirs:
+      - test
+      - src
+    default-extensions:
+    - LambdaCase
+    - MultiWayIf
+    - RecordWildCards
+    - OverloadedRecordDot
+    - OverloadedStrings
+    - GADTs
+    - GHC2021
+    dependencies:
+      - hspec == 2.*
+      - QuickCheck
+      - HUnit >= 1.6.0.0
+    build-tools: hspec-discover

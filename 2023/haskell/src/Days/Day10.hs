@@ -56,9 +56,9 @@ type Location = (Coordinate, Pipe)
 
 type Input = Map Coordinate Pipe
 
-type OutputA = String
+type OutputA = Int
 
-type OutputB = String
+type OutputB = Int
 
 ------------ PART A ------------
 -- returns the start from the map  with it's pipe type
@@ -109,7 +109,7 @@ crawl pipes dist costs p = crawl pipes d' (foldr insert' costs next') next
     compare (Just m) v = m > v
 
 partA :: Input -> OutputA
-partA m = show . maximum . map snd . Map.toList $ crawl m' 0 (Map.fromList [(startPoint, 0)]) [startPoint]
+partA m = maximum . map snd . Map.toList $ crawl m' 0 (Map.fromList [(startPoint, 0)]) [startPoint]
   where
     startPoint = start m
     m' = uncurry insert startPoint m
@@ -146,7 +146,7 @@ inside pipes costs xBound p@(x, y) =
        in if abs diff' == 1 then diff' else 0
 
 partB :: Input -> OutputB
-partB m = show $ length . filter (inside m' loop xBound) $ Map.keys m'
+partB m = length . filter (inside m' loop xBound) $ Map.keys m'
   where
     loop = crawl m' 0 costs [startPoint]
     costs = Map.fromList [(startPoint, 0)]
