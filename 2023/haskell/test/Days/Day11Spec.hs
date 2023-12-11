@@ -14,6 +14,6 @@ spec = do
       partA testInput `shouldBe` 374
 
     it "returns the correct answer for the test input for part B" $ do
-      let testText = ""
+      let testText = "...#......\n.......#..\n#.........\n..........\n......#...\n.#........\n.........#\n..........\n.......#..\n#...#....."
       let Just testInput = parseTest inputParser testText
-      partB testInput `shouldBe` undefined
+      partB testInput `shouldBe` 82000210

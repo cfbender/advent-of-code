@@ -1,15 +1,17 @@
 module Days.Day11 where
 
+-- this was a fun one! the first one where I stopped early at night
+-- and took some time to think before coming back to it. so I came up
+-- with the math-only solution here and I'm pretty happy with it.
+--
+-- messed around with vectors for a bit and didn't need em, but good to learn them
+
 {- ORMOLU_DISABLE -}
 import qualified Program.RunDay as R (runDay, Day)
-import Data.Attoparsec.Text (Parser, sepBy, endOfLine)
-import Data.Void
+import Data.Attoparsec.Text (Parser)
 import Data.List
 import Util.Parsers (coordinateParser)
-import Data.Map (Map)
 import qualified Data.Map as Map
-import Data.Vector (Vector)
-import qualified Data.Vector as Vector
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
@@ -17,13 +19,7 @@ runDay = R.runDay inputParser partA partB
 
 ------------ PARSER ------------
 inputParser :: Parser Input
-inputParser =
-  Vector.fromList
-    . map (Vector.fromList . map snd)
-    . transpose
-    . groupBy (\((xA, _), _) ((xB, _), _) -> xA == xB)
-    . Map.toList
-    <$> coordinateParser space 0
+inputParser = Map.toList <$> coordinateParser space 0
   where
     space '#' = Just Galaxy
     space '.' = Just Empty
@@ -33,21 +29,33 @@ data Space = Empty | Galaxy deriving (Show, Eq)
 
 type Coordinate = (Int, Int)
 
-type Input = Vector (Vector Space)
+type Input = [(Coordinate, Space)]
 
-type OutputA = String
+type OutputA = Int
 
-type OutputB = Void
+type OutputB = Int
 
 ------------ PART A ------------
--- TODO: splitAt each empty, insert new empty row/col, then calculate manhattan distance on new grid
-partA :: Input -> OutputA
-partA i = show emptyCols
+manhattan :: Coordinate -> Coordinate -> Int
+manhattan (x, y) (x', y') = abs (x - x') + abs (y - y')
+
+path :: Int -> ([Int], [Int]) -> Coordinate -> Coordinate -> Int
+path d (ec, er) a@(x, y) b@(x', y') = manhattan a b + dx + dy
   where
-    transposed = Vector.fromList . map Vector.fromList . transpose . map Vector.toList $ Vector.toList i
-    emptyRows = Vector.filter (all (== Empty) . snd) $ Vector.indexed i
-    emptyCols = Vector.filter (all (== Empty) . snd) $ Vector.indexed transposed
+    dx = d * length (filter (\c -> c > min x x' && c < max x x') ec)
+    dy = d * length (filter (\r -> r > min y y' && r < max y y') er)
+
+calculate d i = sum $ map (uncurry (path d (emptyCols, emptyRows))) pairs
+  where
+    galaxies = [c | (c, g) <- i, g == Galaxy]
+    pairs = [(g, g') | (g : xs) <- tails galaxies, g' <- xs]
+    transposed = groupBy (\((xA, _), _) ((xB, _), _) -> xA == xB) i
+    emptyRows = map fst . filter (all ((== Empty) . snd) . snd) . zip [0 ..] $ transpose transposed
+    emptyCols = map fst . filter (all ((== Empty) . snd) . snd) . zip [0 ..] $ transposed
+
+partA :: Input -> OutputA
+partA = calculate 1
 
 ------------ PART B ------------
 partB :: Input -> OutputB
-partB = error "Not implemented yet!"
+partB = calculate 999999
