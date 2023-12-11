@@ -3,6 +3,7 @@ module Program.RunDay (runDay, Day, Verbosity (None, Quiet, Timings, Verbose)) w
 import Control.Exception (SomeException, catch, evaluate)
 import Control.Monad.Except
 import Data.Attoparsec.Text
+import Data.Maybe
 import Data.Text (pack)
 import Data.Time (diffUTCTime, getCurrentTime)
 import Program.Color
@@ -47,7 +48,7 @@ runDay inputParser partA partB verbosity inputFile = do
           when (verbosity == Verbose) $ print m
           return (False, Nothing)
       time2 <- getCurrentTime
-      when (successA && verbosity > None) $ print resultA
+      when (successA && verbosity > None) $ print (fromJust resultA)
 
       let timeA = realToFrac $ diffUTCTime time2 time1
       when (verbosity >= Timings && successA) $ putStrLn $ printf "(%.2fs)" timeA
@@ -59,7 +60,7 @@ runDay inputParser partA partB verbosity inputFile = do
           when (verbosity == Verbose) $ print m
           return (False, Nothing)
       time3 <- getCurrentTime
-      when (successB && verbosity > None) $ print resultB
+      when (successB && verbosity > None) $ print (fromJust resultB)
 
       let timeB = realToFrac $ diffUTCTime time3 time2
       when (verbosity >= Timings && successB) $ putStrLn $ printf "(%.2fs)" timeB
