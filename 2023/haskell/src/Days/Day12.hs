@@ -31,7 +31,7 @@ import qualified Data.Array as Array
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
-runDay = R.runDay inputParser partA partB
+runDay = R.runDay inputParser part1 part2
 
 ------------ PARSER ------------
 inputParser :: Parser Input
@@ -91,8 +91,8 @@ ways springs groups =
     present = length $ filter (== '#') springs
     missing = sum groups - present
 
-partA :: Input -> OutputA
-partA = sum . map (uncurry ways)
+part1 :: Input -> OutputA
+part1 = sum . map (uncurry ways)
 
 ------------ PART B ------------
 unfold :: (String, [Int]) -> (String, [Int])
@@ -132,5 +132,5 @@ ways2 s g = waysM s g
         else 0
     ways' ('?' : ss) gs = waysM ss gs + ways' ('#' : ss) gs
 
-partB :: Input -> OutputB
-partB = sum . map (uncurry ways2 . unfold)
+part2 :: Input -> OutputB
+part2 = sum . map (uncurry ways2 . unfold)

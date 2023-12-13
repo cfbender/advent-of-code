@@ -16,7 +16,7 @@ import Data.Attoparsec.Text
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
-runDay = R.runDay inputParser partA partB
+runDay = R.runDay inputParser part1 part2
 
 ------------ PARSER ------------
 mapCards :: Char -> Card
@@ -105,8 +105,8 @@ tiebreak (a : restA) (b : restB)
   | otherwise = tiebreak restA restB
 tiebreak [] [] = EQ
 
-partA :: Input -> OutputA
-partA input =
+part1 :: Input -> OutputA
+part1 input =
   sum
     . zipWith (*) scores
     . map U.tsnd
@@ -137,8 +137,8 @@ tryJokers' hand =
   where
     replaced = [(hand, scoreHand $ map (replaceJoker c) hand) | c <- [Two .. Ace]]
 
-partB :: Input -> OutputB
-partB input =
+part2 :: Input -> OutputB
+part2 input =
   sum
     . zipWith (*) scores
     . map U.tsnd

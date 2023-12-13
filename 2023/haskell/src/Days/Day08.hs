@@ -22,7 +22,7 @@ import Data.Void
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
-runDay = R.runDay inputParser partA partB
+runDay = R.runDay inputParser part1 part2
 
 ------------ PARSER ------------
 
@@ -64,8 +64,8 @@ navigate m (i : tail) (currNode, steps) =
   let next = getNext i $ getNeighbors m currNode
    in navigate m tail (next, steps + 1)
 
-partA :: Input -> OutputA
-partA (i, m) = snd $ navigate m (cycle i) ("AAA", 0)
+part1 :: Input -> OutputA
+part1 (i, m) = snd $ navigate m (cycle i) ("AAA", 0)
 
 ------------ PART B ------------
 navigate' m l (node@(_ : _ : ['Z']), steps) = (node, steps)
@@ -73,7 +73,7 @@ navigate' m (i : tail) (currNode, steps) =
   let next = getNext i $ getNeighbors m currNode
    in navigate' m tail (next, steps + 1)
 
-partB :: Input -> OutputB
-partB (i, m) =
+part2 :: Input -> OutputB
+part2 (i, m) =
   let startNodes = filter (\x -> (x !! 2) == 'A') $ Map.keys m
    in foldr (lcm . (\node -> snd $ navigate' m (cycle i) (node, 0))) 1 startNodes

@@ -11,9 +11,9 @@ spec = do
     it "returns the correct answer for the test input for part A" $ do
       let testText = "...#......\n.......#..\n#.........\n..........\n......#...\n.#........\n.........#\n..........\n.......#..\n#...#....."
       let Just testInput = parseTest inputParser testText
-      partA testInput `shouldBe` 374
+      part1 testInput `shouldBe` 374
 
     it "returns the correct answer for the test input for part B" $ do
       let testText = "...#......\n.......#..\n#.........\n..........\n......#...\n.#........\n.........#\n..........\n.......#..\n#...#....."
       let Just testInput = parseTest inputParser testText
-      partB testInput `shouldBe` 82000210
+      part2 testInput `shouldBe` 82000210

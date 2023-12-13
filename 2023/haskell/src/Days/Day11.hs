@@ -15,7 +15,7 @@ import qualified Data.Map as Map
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
-runDay = R.runDay inputParser partA partB
+runDay = R.runDay inputParser part1 part2
 
 ------------ PARSER ------------
 inputParser :: Parser Input
@@ -53,9 +53,9 @@ calculate d i = sum $ map (uncurry (path d (emptyCols, emptyRows))) pairs
     emptyRows = map fst . filter (all ((== Empty) . snd) . snd) . zip [0 ..] $ transpose transposed
     emptyCols = map fst . filter (all ((== Empty) . snd) . snd) . zip [0 ..] $ transposed
 
-partA :: Input -> OutputA
-partA = calculate 1
+part1 :: Input -> OutputA
+part1 = calculate 1
 
 ------------ PART B ------------
-partB :: Input -> OutputB
-partB = calculate 999999
+part2 :: Input -> OutputB
+part2 = calculate 999999
