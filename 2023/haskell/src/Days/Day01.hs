@@ -19,7 +19,7 @@ import Data.Void
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
-runDay = R.runDay inputParser partA partB
+runDay = R.runDay inputParser part1 part2
 
 ------------ PARSER ------------
 inputParser :: Parser Input
@@ -35,8 +35,8 @@ type OutputB = Int
 ------------ PART A ------------
 ends list = [head list, last list]
 
-partA :: Input -> OutputA
-partA = sum . map ((read :: String -> Int) . ends . filter isDigit)
+part1 :: Input -> OutputA
+part1 = sum . map ((read :: String -> Int) . ends . filter isDigit)
 
 ------------ PART B ------------
 undigits :: [Int] -> Int
@@ -57,5 +57,5 @@ parseDigit input@(char : _)
   | "nine" `isPrefixOf` input = Just 9
   | otherwise = Nothing
 
-partB :: Input -> OutputB
-partB = sum . map (undigits . ends . mapMaybe parseDigit . tails)
+part2 :: Input -> OutputB
+part2 = sum . map (undigits . ends . mapMaybe parseDigit . tails)

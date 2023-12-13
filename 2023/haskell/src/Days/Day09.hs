@@ -16,7 +16,7 @@ import Data.Attoparsec.Text
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
-runDay = R.runDay inputParser partA partB
+runDay = R.runDay inputParser part1 part2
 
 ------------ PARSER ------------
 inputParser :: Parser Input
@@ -34,10 +34,10 @@ findNext :: Int -> [Int] -> Int
 findNext n (0 : [0]) = n
 findNext n l = findNext (n + head l) [x - y | [x, y] <- windows 2 l]
 
-partA :: Input -> OutputA
-partA = sum . map (findNext 0)
+part1 :: Input -> OutputA
+part1 = sum . map (findNext 0)
 
 ------------ PART B ------------
 
-partB :: Input -> OutputB
-partB = sum . map (findNext 0 . reverse)
+part2 :: Input -> OutputB
+part2 = sum . map (findNext 0 . reverse)

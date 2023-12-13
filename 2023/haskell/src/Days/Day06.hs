@@ -16,7 +16,7 @@ import Data.Void
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
-runDay = R.runDay inputParser partA partB
+runDay = R.runDay inputParser part1 part2
 
 ------------ PARSER ------------
 inputParser :: Parser Input
@@ -40,15 +40,15 @@ type OutputB = Int
 ------------ PART A ------------
 traveled total spent = (total - spent) * spent
 
-partA :: Input -> OutputA
-partA = product . map (\(x, dist) -> length . filter (> dist) $ map (traveled x) [1 .. x - 1])
+part1 :: Input -> OutputA
+part1 = product . map (\(x, dist) -> length . filter (> dist) $ map (traveled x) [1 .. x - 1])
 
 ------------ PART B ------------
 undigits :: [Int] -> Int
 undigits = read . concatMap show
 
-partB :: Input -> OutputB
-partB i =
+part2 :: Input -> OutputB
+part2 i =
   let (time, dist) = bimap undigits undigits $ unzip i
       Just inflection = find (\x -> traveled time x > dist) [1 .. time - 1]
    in time - (inflection * 2) + 1

@@ -33,7 +33,7 @@ import Data.Attoparsec.Text
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
-runDay = R.runDay inputParser partA partB
+runDay = R.runDay inputParser part1 part2
 
 ------------ PARSER ------------
 
@@ -103,13 +103,13 @@ iterateSeeds seeds maps =
   where
     folder rangeMappings = concatMap (mapRange rangeMappings)
 
-partA :: Input -> OutputA
-partA (seeds, maps) = iterateSeeds seedRanges maps
+part1 :: Input -> OutputA
+part1 (seeds, maps) = iterateSeeds seedRanges maps
   where
     seedRanges = map (\i -> (i, i)) seeds
 
 ------------ PART B ------------
-partB :: Input -> OutputB
-partB (seeds, maps) = iterateSeeds seedRanges maps
+part2 :: Input -> OutputB
+part2 (seeds, maps) = iterateSeeds seedRanges maps
   where
     seedRanges = map (\[i, x] -> (i, i + x - 1)) (chunksOf 2 seeds)

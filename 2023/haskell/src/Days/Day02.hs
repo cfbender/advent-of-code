@@ -17,7 +17,7 @@ import Data.Attoparsec.Text
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
-runDay = R.runDay inputParser partA partB
+runDay = R.runDay inputParser part1 part2
 
 ------------ PARSER ------------
 inputParser :: Parser Input
@@ -56,8 +56,8 @@ possible map =
     && (Map.lookup "green" map <= Just 13)
     && (Map.lookup "blue" map <= Just 14)
 
-partA :: Input -> OutputA
-partA = sum . map fst . filter (all possible . snd)
+part1 :: Input -> OutputA
+part1 = sum . map fst . filter (all possible . snd)
 
 ------------ PART B ------------
 minimumColors :: [Map Text Int] -> [Int]
@@ -67,5 +67,5 @@ minimumColors sets =
       blue = maximum . mapMaybe (Map.lookup "blue") $ sets
    in [red, green, blue]
 
-partB :: Input -> OutputB
-partB = sum . map (product . minimumColors . snd)
+part2 :: Input -> OutputB
+part2 = sum . map (product . minimumColors . snd)

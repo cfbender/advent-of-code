@@ -11,9 +11,9 @@ spec = do
     it "returns the correct answer for the test input for part A" $ do
       let testText = ""
       let Just testInput = parseTest inputParser testText
-      partA testInput `shouldBe` undefined
+      part1 testInput `shouldBe` undefined
 
     it "returns the correct answer for the test input for part B" $ do
       let testText = ""
       let Just testInput = parseTest inputParser testText
-      partB testInput `shouldBe` undefined
+      part2 testInput `shouldBe` undefined

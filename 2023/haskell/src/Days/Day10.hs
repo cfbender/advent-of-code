@@ -23,7 +23,7 @@ import Data.Maybe (mapMaybe)
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
-runDay = R.runDay inputParser partA partB
+runDay = R.runDay inputParser part1 part2
 
 ------------ PARSER ------------
 inputParser :: Parser Input
@@ -108,8 +108,8 @@ crawl pipes dist costs p = crawl pipes d' (foldr insert' costs next') next
     compare Nothing v = True
     compare (Just m) v = m > v
 
-partA :: Input -> OutputA
-partA m = maximum . map snd . Map.toList $ crawl m' 0 (Map.fromList [(startPoint, 0)]) [startPoint]
+part1 :: Input -> OutputA
+part1 m = maximum . map snd . Map.toList $ crawl m' 0 (Map.fromList [(startPoint, 0)]) [startPoint]
   where
     startPoint = start m
     m' = uncurry insert startPoint m
@@ -145,8 +145,8 @@ inside pipes costs xBound p@(x, y) =
       let diff' = diff (cost p) (below p)
        in if abs diff' == 1 then diff' else 0
 
-partB :: Input -> OutputB
-partB m = length . filter (inside m' loop xBound) $ Map.keys m'
+part2 :: Input -> OutputB
+part2 m = length . filter (inside m' loop xBound) $ Map.keys m'
   where
     loop = crawl m' 0 costs [startPoint]
     costs = Map.fromList [(startPoint, 0)]

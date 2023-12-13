@@ -7,7 +7,7 @@ import Data.Void
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
-runDay = R.runDay inputParser partA partB
+runDay = R.runDay inputParser part1 part2
 
 ------------ PARSER ------------
 inputParser :: Parser Input
@@ -21,9 +21,9 @@ type OutputA = Void
 type OutputB = Void
 
 ------------ PART A ------------
-partA :: Input -> OutputA
-partA = error "Not implemented yet!"
+part1 :: Input -> OutputA
+part1 = error "Not implemented yet!"
 
 ------------ PART B ------------
-partB :: Input -> OutputB
-partB = error "Not implemented yet!"
+part2 :: Input -> OutputB
+part2 = error "Not implemented yet!"

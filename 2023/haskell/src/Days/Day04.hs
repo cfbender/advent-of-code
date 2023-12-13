@@ -18,7 +18,7 @@ import Data.Attoparsec.Text
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
-runDay = R.runDay inputParser partA partB
+runDay = R.runDay inputParser part1 part2
 
 ------------ PARSER ------------
 inputParser :: Parser Input
@@ -46,24 +46,24 @@ type OutputA = Int
 type OutputB = Int
 
 ------------ PART A ------------
-partA :: Input -> OutputA
+part1 :: Input -> OutputA
 
 score [] = 0
 score l = (2 ^) . subtract 1 $ length l
 
-partA =
+part1 =
   sum
     . map (\(_, win, own) -> score (own `intersect` win))
 
 ------------ PART B ------------
-partB :: Input -> OutputB
+part2 :: Input -> OutputB
 addWinning :: Map Int Int -> Int -> [Int]
 addWinning m id = newCards ++ concatMap (addWinning m) newCards
   where
     -- get the count of matching numbers from the passed card
     count = Map.findWithDefault 0 id m
     newCards = [(id + 1) .. (id + count)]
-partB i = length cards + length (concatMap (addWinning cardMap . fst) cards)
+part2 i = length cards + length (concatMap (addWinning cardMap . fst) cards)
   where
     cardMap = Map.fromList cards
     cards = map (\(id, win, own) -> (id, length $ own `intersect` win)) i

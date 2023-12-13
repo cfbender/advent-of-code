@@ -21,7 +21,7 @@ import Util.Util (neighbors)
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
-runDay = R.runDay inputParser partA partB
+runDay = R.runDay inputParser part1 part2
 
 ------------ PARSER ------------
 inputParser :: Parser Input
@@ -57,12 +57,12 @@ groupDigits = concatMap groupRow . groupByY . Map.toList
         . map (map fst . filter (isDigit . snd))
         $ groupBy ((&&) `on` isDigit . snd) row
 
-partA :: Input -> OutputA
-partA m = sum . map (readPartNumber m) . filter (isPart m) $ groupDigits m
+part1 :: Input -> OutputA
+part1 m = sum . map (readPartNumber m) . filter (isPart m) $ groupDigits m
 
 ------------ PART B ------------
-partB :: Input -> OutputB
-partB m =
+part2 :: Input -> OutputB
+part2 m =
   sum
     . map (product . map snd)
     . filter (\l -> length l == 2)
