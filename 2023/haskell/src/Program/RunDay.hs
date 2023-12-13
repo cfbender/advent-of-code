@@ -45,11 +45,11 @@ runDay inputParser part1 part2 verbosity inputFile runType = do
       (successA, time1) <-
         if runType `elem` [Part1, Both]
           then do
-            when (verbosity >= Quiet) $ withColor Blue $ putStrLn "Part A:"
+            when (verbosity >= Quiet) $ withColor Blue $ putStrLn "Part 1:"
             time1 <- getCurrentTime
             (successA, resultA) <- catch (return (True, Just (part1 i))) $
               \(m :: SomeException) -> withColor Red $ do
-                putStrLn "Couldn't run Part A!"
+                putStrLn "Couldn't run Part 1!"
                 when (verbosity == Verbose) $ print m
                 return (False, Nothing)
             time2 <- getCurrentTime
@@ -65,11 +65,11 @@ runDay inputParser part1 part2 verbosity inputFile runType = do
       (successB, time2) <-
         if runType `elem` [Part2, Both]
           then do
-            when (verbosity >= Quiet) $ withColor Blue $ putStrLn "Part B:"
+            when (verbosity >= Quiet) $ withColor Blue $ putStrLn "Part 2:"
             time2 <- getCurrentTime
             (successB, resultB) <- catch (return (True, Just (part2 i))) $
               \(m :: SomeException) -> withColor Red $ do
-                putStrLn "Couldn't run Part B!"
+                putStrLn "Couldn't run Part 2!"
                 when (verbosity == Verbose) $ print m
                 return (False, Nothing)
             time3 <- getCurrentTime
