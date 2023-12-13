@@ -34,7 +34,7 @@ import qualified Data.Map as Map
 import Data.Maybe (fromMaybe)
 import Options.Applicative
 import qualified Control.Applicative.Combinators as C (option)
-import Program.RunDay (Day, Verbosity (Quiet, Timings, Verbose))
+import Program.RunDay (Day, Verbosity (Quiet, Timings, Verbose), RunType (Both))
 import Data.List (intercalate)
 import Control.Monad (unless, forM_)
 
@@ -147,7 +147,7 @@ performDay (Options d v) = case d of
     results <-
       let eachDay d (dayFunc, inputFile) = do
             withColor Magenta $ putStrLn $ printf "\n***Day %02d***" d
-            dayFunc v inputFile
+            dayFunc v inputFile Both
        in sequence $ Map.mapWithKey eachDay days
 
     printSummary results
@@ -156,7 +156,7 @@ performDay (Options d v) = case d of
     Just (dayFunc, inputFile) -> do
       let i' = fromMaybe inputFile input
       withColor Magenta $ putStrLn $ printf "\n***Day %02d***" day
-      dayFunc v i'
+      dayFunc v i' Both
       withColor Magenta $ putStrLn "************"
 
 printSummary :: Map Int (Maybe Double, Maybe Double) -> IO ()

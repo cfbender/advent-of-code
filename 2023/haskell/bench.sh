@@ -1,3 +1,3 @@
 #! /bin/bash
 
-stack bench --benchmark-arguments "day/$1."
+stack bench --benchmark-arguments "day/$1"

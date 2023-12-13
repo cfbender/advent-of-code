@@ -27,7 +27,7 @@ import Days.Day23 qualified as Day23
 import Days.Day24 qualified as Day24
 import Days.Day25 qualified as Day25
 import Program.Color (withColor)
-import Program.RunDay (Day, Verbosity (None))
+import Program.RunDay (Day, RunType (Both, Part1, Part2), Verbosity (None))
 import System.Console.ANSI (Color (..))
 import Text.Printf (printf)
 
@@ -61,38 +61,141 @@ days =
     ]
 
 days :: Map Int (Day, String)
-runDay :: Int -> IO (Maybe Double, Maybe Double)
-runDay i = case days Map.!? i of
-  Just (dayFunc, inputFile) -> dayFunc None inputFile
+runDay :: Int -> RunType -> IO (Maybe Double, Maybe Double)
+runDay i r = case days Map.!? i of
+  Just (dayFunc, inputFile) -> dayFunc None inputFile r
 
 main =
   defaultMain
     [ bgroup
         "day"
-        [ bench "1." $ nfIO (runDay 1),
-          bench "2." $ nfIO (runDay 2),
-          bench "3." $ nfIO (runDay 3),
-          bench "4." $ nfIO (runDay 4),
-          bench "5." $ nfIO (runDay 5),
-          bench "6." $ nfIO (runDay 6),
-          bench "7." $ nfIO (runDay 7),
-          bench "8." $ nfIO (runDay 8),
-          bench "9." $ nfIO (runDay 9),
-          bench "10." $ nfIO (runDay 10),
-          bench "11." $ nfIO (runDay 11),
-          bench "12." $ nfIO (runDay 12),
-          bench "13." $ nfIO (runDay 13),
-          bench "14." $ nfIO (runDay 14),
-          bench "15." $ nfIO (runDay 15),
-          bench "16." $ nfIO (runDay 16),
-          bench "17." $ nfIO (runDay 17),
-          bench "18." $ nfIO (runDay 18),
-          bench "19." $ nfIO (runDay 19),
-          bench "20." $ nfIO (runDay 20),
-          bench "21." $ nfIO (runDay 21),
-          bench "22." $ nfIO (runDay 22),
-          bench "23." $ nfIO (runDay 23),
-          bench "24." $ nfIO (runDay 24),
-          bench "25." $ nfIO (runDay 25)
+        [ bgroup
+            "1"
+            [ bench "1" $ nfIO (runDay 1 Part1),
+              bench "2" $ nfIO (runDay 1 Part2)
+            ],
+          bgroup
+            "2"
+            [ bench "1" $ nfIO (runDay 2 Part1),
+              bench "2" $ nfIO (runDay 2 Part2)
+            ],
+          bgroup
+            "2"
+            [ bench "1" $ nfIO (runDay 2 Part1),
+              bench "2" $ nfIO (runDay 2 Part2)
+            ],
+          bgroup
+            "3"
+            [ bench "1" $ nfIO (runDay 3 Part1),
+              bench "2" $ nfIO (runDay 3 Part2)
+            ],
+          bgroup
+            "4"
+            [ bench "1" $ nfIO (runDay 4 Part1),
+              bench "2" $ nfIO (runDay 4 Part2)
+            ],
+          bgroup
+            "5"
+            [ bench "1" $ nfIO (runDay 5 Part1),
+              bench "2" $ nfIO (runDay 5 Part2)
+            ],
+          bgroup
+            "6"
+            [ bench "1" $ nfIO (runDay 6 Part1),
+              bench "2" $ nfIO (runDay 6 Part2)
+            ],
+          bgroup
+            "7"
+            [ bench "1" $ nfIO (runDay 7 Part1),
+              bench "2" $ nfIO (runDay 7 Part2)
+            ],
+          bgroup
+            "8"
+            [ bench "1" $ nfIO (runDay 8 Part1),
+              bench "2" $ nfIO (runDay 8 Part2)
+            ],
+          bgroup
+            "9"
+            [ bench "1" $ nfIO (runDay 9 Part1),
+              bench "2" $ nfIO (runDay 9 Part2)
+            ],
+          bgroup
+            "10"
+            [ bench "1" $ nfIO (runDay 10 Part1),
+              bench "2" $ nfIO (runDay 10 Part2)
+            ],
+          bgroup
+            "11"
+            [ bench "1" $ nfIO (runDay 11 Part1),
+              bench "2" $ nfIO (runDay 11 Part2)
+            ],
+          bgroup
+            "12"
+            [ bench "1" $ nfIO (runDay 12 Part1),
+              bench "2" $ nfIO (runDay 12 Part2)
+            ],
+          bgroup
+            "13"
+            [ bench "1" $ nfIO (runDay 13 Part1),
+              bench "2" $ nfIO (runDay 13 Part2)
+            ],
+          bgroup
+            "14"
+            [ bench "1" $ nfIO (runDay 14 Part1),
+              bench "2" $ nfIO (runDay 14 Part2)
+            ],
+          bgroup
+            "15"
+            [ bench "1" $ nfIO (runDay 15 Part1),
+              bench "2" $ nfIO (runDay 15 Part2)
+            ],
+          bgroup
+            "16"
+            [ bench "1" $ nfIO (runDay 16 Part1),
+              bench "2" $ nfIO (runDay 16 Part2)
+            ],
+          bgroup
+            "17"
+            [ bench "1" $ nfIO (runDay 17 Part1),
+              bench "2" $ nfIO (runDay 17 Part2)
+            ],
+          bgroup
+            "18"
+            [ bench "1" $ nfIO (runDay 18 Part1),
+              bench "2" $ nfIO (runDay 18 Part2)
+            ],
+          bgroup
+            "19"
+            [ bench "1" $ nfIO (runDay 19 Part1),
+              bench "2" $ nfIO (runDay 19 Part2)
+            ],
+          bgroup
+            "20"
+            [ bench "1" $ nfIO (runDay 20 Part1),
+              bench "2" $ nfIO (runDay 20 Part2)
+            ],
+          bgroup
+            "21"
+            [ bench "1" $ nfIO (runDay 21 Part1),
+              bench "2" $ nfIO (runDay 21 Part2)
+            ],
+          bgroup
+            "22"
+            [ bench "1" $ nfIO (runDay 22 Part1),
+              bench "2" $ nfIO (runDay 22 Part2)
+            ],
+          bgroup
+            "23"
+            [ bench "1" $ nfIO (runDay 23 Part1),
+              bench "2" $ nfIO (runDay 23 Part2)
+            ],
+          bgroup
+            "24"
+            [ bench "1" $ nfIO (runDay 24 Part1),
+              bench "2" $ nfIO (runDay 24 Part2)
+            ],
+          bgroup
+            "25"
+            [bench "1" $ nfIO (runDay 25 Part1), bench "2" $ nfIO (runDay 25 Part2)]
         ]
     ]
