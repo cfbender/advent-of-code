@@ -33,6 +33,7 @@ dependencies:
 - split
 - range
 - criterion
+- array
 
 library:
   source-dirs: src
