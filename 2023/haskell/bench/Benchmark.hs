@@ -71,131 +71,131 @@ main =
         "day"
         [ bgroup
             "1"
-            [ bench "1" $ nfIO (runDay 1 Part1),
-              bench "2" $ nfIO (runDay 1 Part2)
+            [ bench "1" $ whnfIO (runDay 1 Part1),
+              bench "2" $ whnfIO (runDay 1 Part2)
             ],
           bgroup
             "2"
-            [ bench "1" $ nfIO (runDay 2 Part1),
-              bench "2" $ nfIO (runDay 2 Part2)
+            [ bench "1" $ whnfIO (runDay 2 Part1),
+              bench "2" $ whnfIO (runDay 2 Part2)
             ],
           bgroup
             "2"
-            [ bench "1" $ nfIO (runDay 2 Part1),
-              bench "2" $ nfIO (runDay 2 Part2)
+            [ bench "1" $ whnfIO (runDay 2 Part1),
+              bench "2" $ whnfIO (runDay 2 Part2)
             ],
           bgroup
             "3"
-            [ bench "1" $ nfIO (runDay 3 Part1),
-              bench "2" $ nfIO (runDay 3 Part2)
+            [ bench "1" $ whnfIO (runDay 3 Part1),
+              bench "2" $ whnfIO (runDay 3 Part2)
             ],
           bgroup
             "4"
-            [ bench "1" $ nfIO (runDay 4 Part1),
-              bench "2" $ nfIO (runDay 4 Part2)
+            [ bench "1" $ whnfIO (runDay 4 Part1),
+              bench "2" $ whnfIO (runDay 4 Part2)
             ],
           bgroup
             "5"
-            [ bench "1" $ nfIO (runDay 5 Part1),
-              bench "2" $ nfIO (runDay 5 Part2)
+            [ bench "1" $ whnfIO (runDay 5 Part1),
+              bench "2" $ whnfIO (runDay 5 Part2)
             ],
           bgroup
             "6"
-            [ bench "1" $ nfIO (runDay 6 Part1),
-              bench "2" $ nfIO (runDay 6 Part2)
+            [ bench "1" $ whnfIO (runDay 6 Part1),
+              bench "2" $ whnfIO (runDay 6 Part2)
             ],
           bgroup
             "7"
-            [ bench "1" $ nfIO (runDay 7 Part1),
-              bench "2" $ nfIO (runDay 7 Part2)
+            [ bench "1" $ whnfIO (runDay 7 Part1),
+              bench "2" $ whnfIO (runDay 7 Part2)
             ],
           bgroup
             "8"
-            [ bench "1" $ nfIO (runDay 8 Part1),
-              bench "2" $ nfIO (runDay 8 Part2)
+            [ bench "1" $ whnfIO (runDay 8 Part1),
+              bench "2" $ whnfIO (runDay 8 Part2)
             ],
           bgroup
             "9"
-            [ bench "1" $ nfIO (runDay 9 Part1),
-              bench "2" $ nfIO (runDay 9 Part2)
+            [ bench "1" $ whnfIO (runDay 9 Part1),
+              bench "2" $ whnfIO (runDay 9 Part2)
             ],
           bgroup
             "10"
-            [ bench "1" $ nfIO (runDay 10 Part1),
-              bench "2" $ nfIO (runDay 10 Part2)
+            [ bench "1" $ whnfIO (runDay 10 Part1),
+              bench "2" $ whnfIO (runDay 10 Part2)
             ],
           bgroup
             "11"
-            [ bench "1" $ nfIO (runDay 11 Part1),
-              bench "2" $ nfIO (runDay 11 Part2)
+            [ bench "1" $ whnfIO (runDay 11 Part1),
+              bench "2" $ whnfIO (runDay 11 Part2)
             ],
           bgroup
             "12"
-            [ bench "1" $ nfIO (runDay 12 Part1),
-              bench "2" $ nfIO (runDay 12 Part2)
+            [ bench "1" $ whnfIO (runDay 12 Part1),
+              bench "2" $ whnfIO (runDay 12 Part2)
             ],
           bgroup
             "13"
-            [ bench "1" $ nfIO (runDay 13 Part1),
-              bench "2" $ nfIO (runDay 13 Part2)
+            [ bench "1" $ whnfIO (runDay 13 Part1),
+              bench "2" $ whnfIO (runDay 13 Part2)
             ],
           bgroup
             "14"
-            [ bench "1" $ nfIO (runDay 14 Part1),
-              bench "2" $ nfIO (runDay 14 Part2)
+            [ bench "1" $ whnfIO (runDay 14 Part1),
+              bench "2" $ whnfIO (runDay 14 Part2)
             ],
           bgroup
             "15"
-            [ bench "1" $ nfIO (runDay 15 Part1),
-              bench "2" $ nfIO (runDay 15 Part2)
+            [ bench "1" $ whnfIO (runDay 15 Part1),
+              bench "2" $ whnfIO (runDay 15 Part2)
             ],
           bgroup
             "16"
-            [ bench "1" $ nfIO (runDay 16 Part1),
-              bench "2" $ nfIO (runDay 16 Part2)
+            [ bench "1" $ whnfIO (runDay 16 Part1),
+              bench "2" $ whnfIO (runDay 16 Part2)
             ],
           bgroup
             "17"
-            [ bench "1" $ nfIO (runDay 17 Part1),
-              bench "2" $ nfIO (runDay 17 Part2)
+            [ bench "1" $ whnfIO (runDay 17 Part1),
+              bench "2" $ whnfIO (runDay 17 Part2)
             ],
           bgroup
             "18"
-            [ bench "1" $ nfIO (runDay 18 Part1),
-              bench "2" $ nfIO (runDay 18 Part2)
+            [ bench "1" $ whnfIO (runDay 18 Part1),
+              bench "2" $ whnfIO (runDay 18 Part2)
             ],
           bgroup
             "19"
-            [ bench "1" $ nfIO (runDay 19 Part1),
-              bench "2" $ nfIO (runDay 19 Part2)
+            [ bench "1" $ whnfIO (runDay 19 Part1),
+              bench "2" $ whnfIO (runDay 19 Part2)
             ],
           bgroup
             "20"
-            [ bench "1" $ nfIO (runDay 20 Part1),
-              bench "2" $ nfIO (runDay 20 Part2)
+            [ bench "1" $ whnfIO (runDay 20 Part1),
+              bench "2" $ whnfIO (runDay 20 Part2)
             ],
           bgroup
             "21"
-            [ bench "1" $ nfIO (runDay 21 Part1),
-              bench "2" $ nfIO (runDay 21 Part2)
+            [ bench "1" $ whnfIO (runDay 21 Part1),
+              bench "2" $ whnfIO (runDay 21 Part2)
             ],
           bgroup
             "22"
-            [ bench "1" $ nfIO (runDay 22 Part1),
-              bench "2" $ nfIO (runDay 22 Part2)
+            [ bench "1" $ whnfIO (runDay 22 Part1),
+              bench "2" $ whnfIO (runDay 22 Part2)
             ],
           bgroup
             "23"
-            [ bench "1" $ nfIO (runDay 23 Part1),
-              bench "2" $ nfIO (runDay 23 Part2)
+            [ bench "1" $ whnfIO (runDay 23 Part1),
+              bench "2" $ whnfIO (runDay 23 Part2)
             ],
           bgroup
             "24"
-            [ bench "1" $ nfIO (runDay 24 Part1),
-              bench "2" $ nfIO (runDay 24 Part2)
+            [ bench "1" $ whnfIO (runDay 24 Part1),
+              bench "2" $ whnfIO (runDay 24 Part2)
             ],
           bgroup
             "25"
-            [bench "1" $ nfIO (runDay 25 Part1), bench "2" $ nfIO (runDay 25 Part2)]
+            [bench "1" $ whnfIO (runDay 25 Part1), bench "2" $ whnfIO (runDay 25 Part2)]
         ]
     ]
