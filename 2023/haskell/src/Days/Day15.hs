@@ -62,19 +62,22 @@ part1 = sum . map (hash . test)
 
 ------------ PART B ------------
 step :: Map Int (Seq (String, Int)) -> Instruction -> Map Int (Seq (String, Int))
+-- replace or add lens
 step m (l, '=', Just f) = if hasLens then go replace else go add
   where
-    go v = M.insert num v m
+    go = flip (M.insert num) m
     num = hash l
-    box = m M.! num
+    box = M.findWithDefault Seq.empty num m
     currLens = Seq.findIndexL ((== l) . fst) box
     hasLens = isJust currLens
     newLens = (l, f)
     replace = Seq.update (fromJust currLens) newLens box
     add = box Seq.|> newLens
+-- remove lens
 step m (l, '-', _) = M.alter remove (hash l) m
   where
     remove (Just s) = Just (Seq.filter ((/= l) . fst) s)
+    remove Nothing = Nothing
 
 power :: (Int, Seq (String, Int)) -> Int
 power (box, ls) = sum $ focus ls
@@ -84,4 +87,4 @@ power (box, ls) = sum $ focus ls
 part2 :: Input -> OutputB
 part2 = sum . map power . M.toList . foldl step init
   where
-    init = M.fromList $ map (,Seq.empty) [0 .. 255]
+    init = M.fromList [(0, Seq.empty)]
