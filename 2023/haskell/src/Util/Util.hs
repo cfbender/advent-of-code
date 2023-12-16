@@ -95,7 +95,9 @@ list !!? index =
     | otherwise -> Just $ list !! index
 
 -- Given a map where the keys are co-ordinates, returns the minimum x, maximum x, minimum y, and maximum y; in that order.
-mapBoundingBox :: Map (Int, Int) a -> (Int, Int, Int, Int)
+type Bounds = (Int, Int, Int, Int)
+
+mapBoundingBox :: Map (Int, Int) a -> Bounds
 mapBoundingBox m =
   (,,,)
     (minimum . fmap fst . Map.keys $ m)
