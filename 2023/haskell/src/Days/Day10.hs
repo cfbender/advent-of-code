@@ -12,7 +12,7 @@ module Days.Day10 where
 --
 -- tough, kinda annoying, decent learning. 7/10
 
-{- ORMOLU_DISABLE -}
+
 import Data.List (find)
 import Data.Map (Map, insert, member)
 import qualified Data.Map as Map
@@ -20,7 +20,7 @@ import qualified Program.RunDay as R (runDay, Day)
 import Data.Attoparsec.Text (Parser)
 import Util.Parsers (coordinateParser)
 import Data.Maybe (mapMaybe)
-{- ORMOLU_ENABLE -}
+
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2

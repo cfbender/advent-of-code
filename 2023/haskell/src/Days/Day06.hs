@@ -6,14 +6,14 @@ module Days.Day06 where
 --
 -- hell yea.
 
-{- ORMOLU_DISABLE -}
+
 import Data.Bifunctor (bimap)
 import Data.List
 
 import qualified Program.RunDay as R (runDay, Day)
 import Data.Attoparsec.Text
 import Data.Void
-{- ORMOLU_ENABLE -}
+
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2

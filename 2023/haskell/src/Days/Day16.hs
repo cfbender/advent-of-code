@@ -10,7 +10,7 @@ module Days.Day16 where
 --
 -- this solution is pretty slow but don't really feel like optimizing
 
-{- ORMOLU_DISABLE -}
+
 import qualified Program.RunDay as R (runDay, Day)
 import Data.Attoparsec.Text (Parser, sepBy, endOfLine)
 import Control.Monad.List (foldM)
@@ -20,7 +20,7 @@ import qualified Data.Set as S
 import Data.Set (Set)
 import Util.Parsers (coordinateParser, Coordinate)
 import qualified Util.Util as U
-{- ORMOLU_ENABLE -}
+
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2

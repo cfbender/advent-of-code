@@ -1,17 +1,15 @@
 module Days.Day17 where
 
-{- ORMOLU_DISABLE -}
-import qualified Program.RunDay as R (runDay, Day)
-import Data.Attoparsec.Text (Parser, sepBy, endOfLine, many1, digit)
-import Data.Void
-import Util.Parsers (Coordinate, coordinateParser)
-import Data.Map (Map)
-import qualified Data.Map as Map
-import Data.Set (Set)
-import qualified Data.Set as Set
+import Data.Attoparsec.Text (Parser, digit, endOfLine, many1, sepBy)
 import Data.Char (digitToInt)
-import Util.Util ( mapBoundingBox, traceShowIdWithContext)
-{- ORMOLU_ENABLE -}
+import Data.Map (Map)
+import Data.Map qualified as Map
+import Data.Set (Set)
+import Data.Set qualified as Set
+import Data.Void
+import Program.RunDay qualified as R (Day, runDay)
+import Util.Parsers (Coordinate, coordinateParser)
+import Util.Util (mapBoundingBox, traceShowIdWithContext)
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2

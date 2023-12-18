@@ -8,14 +8,14 @@ module Days.Day04 where
 -- and the second part, but this was a fun one! Honestly wish every day this month
 -- was like the last two - but I know the storm is coming.
 
-{- ORMOLU_DISABLE -}
+
 import Data.List
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 
 import qualified Program.RunDay as R (runDay, Day)
 import Data.Attoparsec.Text
-{- ORMOLU_ENABLE -}
+
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2

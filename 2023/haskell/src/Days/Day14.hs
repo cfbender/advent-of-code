@@ -9,14 +9,14 @@ module Days.Day14 where
 -- just the old usual fighting the compiler like crazy and not being able to think in terms
 -- of one big function composition just yet. getting there.
 
-{- ORMOLU_DISABLE -}
+
 import qualified Program.RunDay as R (runDay, Day)
 import Data.Attoparsec.Text (Parser, sepBy, endOfLine)
 import Data.Map (Map, keys)
 import qualified Data.Map as M
 import Util.Parsers (coordinateParser)
 import Data.Maybe (isJust)
-{- ORMOLU_ENABLE -}
+
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2

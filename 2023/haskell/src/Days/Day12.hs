@@ -21,14 +21,14 @@ module Days.Day12 where
 --
 -- onto day 13!
 
-{- ORMOLU_DISABLE -}
+
 import Control.Monad
 import Data.List
 import qualified Data.List  as List
 import qualified Program.RunDay as R (runDay, Day)
 import Data.Attoparsec.Text (Parser, sepBy, endOfLine, char, many1, choice, space, decimal)
 import qualified Data.Array as Array
-{- ORMOLU_ENABLE -}
+
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2

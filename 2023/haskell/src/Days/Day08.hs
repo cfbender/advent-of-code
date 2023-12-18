@@ -11,7 +11,7 @@ module Days.Day08 where
 -- okay edit: I refactored to remove the Graph. fun to learn, just made this
 -- more confusing to read back later
 
-{- ORMOLU_DISABLE -}
+
 import Data.Map ( Map)
 import qualified Data.Map as Map
 import qualified Util.Util as U
@@ -19,7 +19,7 @@ import qualified Util.Util as U
 import qualified Program.RunDay as R (runDay, Day)
 import Data.Attoparsec.Text
 import Data.Void
-{- ORMOLU_ENABLE -}
+
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2

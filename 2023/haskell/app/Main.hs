@@ -1,6 +1,6 @@
 module Main where
 
-{- ORMOLU_DISABLE -}
+
 --- Day imports
 import qualified Days.Day01 as Day01
 import qualified Days.Day02 as Day02
@@ -42,7 +42,7 @@ import Control.Monad (unless, forM_)
 import Text.Printf (printf)
 import Program.Color ( withColor )
 import System.Console.ANSI (Color(..))
-{- ORMOLU_ENABLE -}
+
 
 data Days
   = AllDays

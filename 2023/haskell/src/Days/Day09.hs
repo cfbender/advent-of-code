@@ -8,12 +8,12 @@ module Days.Day09 where
 --
 -- really happy with how clean this solution came out though
 
-{- ORMOLU_DISABLE -}
+
 import Util.Util
 
 import qualified Program.RunDay as R (runDay, Day)
 import Data.Attoparsec.Text 
-{- ORMOLU_ENABLE -}
+
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2

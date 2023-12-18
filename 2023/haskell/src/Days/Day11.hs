@@ -6,13 +6,13 @@ module Days.Day11 where
 --
 -- messed around with vectors for a bit and didn't need em, but good to learn them
 
-{- ORMOLU_DISABLE -}
+
 import qualified Program.RunDay as R (runDay, Day)
 import Data.Attoparsec.Text (Parser)
 import Data.List
 import Util.Parsers (coordinateParser)
 import qualified Data.Map as Map
-{- ORMOLU_ENABLE -}
+
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2
