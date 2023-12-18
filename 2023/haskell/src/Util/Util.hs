@@ -107,6 +107,14 @@ mapBoundingBox m =
     (minimum . fmap snd . Map.keys $ m)
     (maximum . fmap snd . Map.keys $ m)
 
+setBoundingBox :: Set Coordinate -> Bounds
+setBoundingBox m =
+  (,,,)
+    (minimum . fmap fst . Set.toList $ m)
+    (maximum . fmap fst . Set.toList $ m)
+    (minimum . fmap snd . Set.toList $ m)
+    (maximum . fmap snd . Set.toList $ m)
+
 tsnd (_, x, _) = x
 
 dijkstras :: Coordinate -> Coordinate -> (Int -> a -> a -> Int) -> Map Coordinate a -> Int
@@ -126,3 +134,12 @@ dijkstras start end mapper i = dijkstras' (Set.singleton (0, start)) Map.empty
        in if curr == end
             then cost
             else dijkstras' newCandidates newCosts
+
+printMap :: Map Coordinate a -> (Maybe a -> String) -> IO (Map Coordinate a)
+printMap m display = do
+  mapM_ putStrLn lines
+  return m
+  where
+    lines = map (concatMap display . line) [minY .. maxY]
+    (minX, maxX, minY, maxY) = mapBoundingBox m
+    line y = [m Map.!? (x, y) | x <- [minX .. maxX]]
