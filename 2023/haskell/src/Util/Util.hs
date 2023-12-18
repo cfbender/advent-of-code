@@ -7,6 +7,10 @@ import Data.Traversable (sequenceA)
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import Debug.Trace (trace)
+import Util.Parsers (Coordinate)
+import Data.Maybe (fromMaybe)
+import qualified Data.Set as Set
+import Data.Set (Set)
 {- ORMOLU_ENABLE -}
 
 {-
@@ -106,3 +110,21 @@ mapBoundingBox m =
     (maximum . fmap snd . Map.keys $ m)
 
 tsnd (_, x, _) = x
+
+dijkstras :: Coordinate -> Coordinate -> (Int -> a -> a -> Int) -> Map Coordinate a -> Int
+dijkstras start end mapper i = dijkstras' (Set.singleton (0, start)) Map.empty
+  where
+    isCheaper m (cost, p) = not (Map.member p m) || (cost < m Map.! p)
+    dijkstras' candidates costs =
+      let (c@(cost, curr), rest) = Set.deleteFindMin candidates
+          candidates' =
+            filter (isCheaper costs)
+              . map (\loc -> (mapper cost (i Map.! curr) (i Map.! loc), loc))
+              . filter (`Map.member` i)
+              $ neighborsNoCorners curr
+          newCandidates = Set.union (Set.fromList candidates') rest
+          candidateCosts = map (\(cost, coord) -> (coord, cost)) candidates'
+          newCosts = foldr (uncurry Map.insert) costs candidateCosts
+       in if curr == end
+            then cost
+            else dijkstras' newCandidates newCosts
