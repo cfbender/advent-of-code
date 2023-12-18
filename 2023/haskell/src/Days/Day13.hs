@@ -7,7 +7,7 @@ module Days.Day13 where
 -- think I got a pretty cute solution but it could probably be way cleaner
 -- ah well I'll get better at this language later
 
-{- ORMOLU_DISABLE -}
+
 import Data.List (transpose, find)
 import Data.Maybe (fromJust, isJust)
 import qualified Program.RunDay as R (runDay, Day)
@@ -15,7 +15,7 @@ import Data.Attoparsec.Text (Parser, sepBy, endOfLine, count,choice,  char, many
 import Data.Vector (Vector)
 import qualified Data.Vector as V
 import qualified Data.Array as Array
-{- ORMOLU_ENABLE -}
+
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2

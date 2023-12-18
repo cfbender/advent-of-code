@@ -7,7 +7,7 @@ module Days.Day15 where
 --
 -- really fun tho! hoping for more around this level of effort lol
 
-{- ORMOLU_DISABLE -}
+
 import Data.Attoparsec.Text
 import Data.Char (ord, digitToInt)
 import Data.Foldable (toList)
@@ -17,7 +17,7 @@ import Data.Sequence (Seq)
 import qualified Data.Map as M
 import qualified Data.Sequence as Seq
 import qualified Program.RunDay as R (runDay, Day)
-{- ORMOLU_ENABLE -}
+
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2

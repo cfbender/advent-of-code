@@ -5,16 +5,13 @@ module Days.Day02 where
 --  actually learned how it's working a bit more. Still a long way to go
 --  but I really needed this after yesterday
 
-{- ORMOLU_DISABLE -}
-import Data.Text (Text)
+import Data.Attoparsec.Text
 import Data.List
 import Data.Map.Strict (Map)
-import qualified Data.Map.Strict as Map
+import Data.Map.Strict qualified as Map
 import Data.Maybe
-
-import qualified Program.RunDay as R (runDay, Day)
-import Data.Attoparsec.Text 
-{- ORMOLU_ENABLE -}
+import Data.Text (Text)
+import Program.RunDay qualified as R (Day, runDay)
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2

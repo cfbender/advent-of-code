@@ -7,16 +7,13 @@ module Days.Day01 where
 --  to run, and it's not even a very helpful parser. In the end I got it,
 --  and hopefully the parsing isn't that hard later on but I'm sure it will be.
 
-{- ORMOLU_DISABLE -}
-import Data.Text (replace, unpack, pack,  Text)
+import Data.Attoparsec.Text
 import Data.Char
 import Data.List
 import Data.Maybe
-
-import qualified Program.RunDay as R (runDay, Day)
-import Data.Attoparsec.Text 
+import Data.Text (Text, pack, replace, unpack)
 import Data.Void
-{- ORMOLU_ENABLE -}
+import Program.RunDay qualified as R (Day, runDay)
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2

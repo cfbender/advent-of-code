@@ -7,18 +7,15 @@ module Days.Day03 where
 -- I feel like the solutions you get can be so elegant (though mine are not)
 -- but I'm not sure how readable any of this is to anyone else
 
-{- ORMOLU_DISABLE -}
-import Data.Char
-import Data.List
-import Data.Function (on)
-import Data.Map.Strict (Map)
-import qualified Data.Map.Strict as Map
-import Util.Parsers
-
-import qualified Program.RunDay as R (runDay, Day)
 import Data.Attoparsec.Text
+import Data.Char
+import Data.Function (on)
+import Data.List
+import Data.Map.Strict (Map)
+import Data.Map.Strict qualified as Map
+import Program.RunDay qualified as R (Day, runDay)
+import Util.Parsers
 import Util.Util (neighbors)
-{- ORMOLU_ENABLE -}
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2

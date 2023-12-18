@@ -1,17 +1,15 @@
 module Util.Util where
 
-{- ORMOLU_DISABLE -}
-import Data.List
 import Control.Applicative
-import Data.Traversable (sequenceA)
+import Data.List
 import Data.Map.Strict (Map)
-import qualified Data.Map.Strict as Map
+import Data.Map.Strict qualified as Map
+import Data.Maybe (fromMaybe)
+import Data.Set (Set)
+import Data.Set qualified as Set
+import Data.Traversable (sequenceA)
 import Debug.Trace (trace)
 import Util.Parsers (Coordinate)
-import Data.Maybe (fromMaybe)
-import qualified Data.Set as Set
-import Data.Set (Set)
-{- ORMOLU_ENABLE -}
 
 {-
 This module contains a series of miscellaneous utility functions that I have found helpful in the past.

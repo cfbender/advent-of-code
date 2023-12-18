@@ -5,7 +5,7 @@ module Days.Day07 where
 -- gold plated the HELL out of this, but I really had fun doing it and learned
 -- a lot, which is exactly what I do AoC for. so perfect!
 
-{- ORMOLU_DISABLE -}
+
 import Data.List
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
@@ -13,7 +13,7 @@ import qualified Util.Util as U
 
 import qualified Program.RunDay as R (runDay, Day)
 import Data.Attoparsec.Text
-{- ORMOLU_ENABLE -}
+
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2

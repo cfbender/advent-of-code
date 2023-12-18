@@ -22,7 +22,7 @@ module Days.Day05 where
 -- and it works. so fuck it. like 15 hours yikes why do people pay me
 -- to write software.
 
-{- ORMOLU_DISABLE -}
+
 import Data.List.Split (chunksOf)
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
@@ -30,7 +30,7 @@ import Data.Maybe
 
 import qualified Program.RunDay as R (runDay, Day)
 import Data.Attoparsec.Text
-{- ORMOLU_ENABLE -}
+
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2
