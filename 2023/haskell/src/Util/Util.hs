@@ -51,6 +51,10 @@ neighborsNoCorners (x, y) =
     (x, y + 1)
   ]
 
+-- gets all neighbors around a coordinate
+neighborsNoCornersSet :: (Int, Int) -> Set (Int, Int)
+neighborsNoCornersSet = Set.fromList . neighborsNoCorners
+
 -- Splits a list into chunks of the specified size.
 -- The final chunk may be smaller than the chunk size.
 -- Chunk size must be positive.
