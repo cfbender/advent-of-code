@@ -9,14 +9,12 @@ module Days.Day14 where
 -- just the old usual fighting the compiler like crazy and not being able to think in terms
 -- of one big function composition just yet. getting there.
 
-
-import qualified Program.RunDay as R (runDay, Day)
-import Data.Attoparsec.Text (Parser, sepBy, endOfLine)
+import Data.Attoparsec.Text (Parser, endOfLine, sepBy)
 import Data.Map (Map, keys)
-import qualified Data.Map as M
-import Util.Parsers (coordinateParser)
+import Data.Map qualified as M
 import Data.Maybe (isJust)
-
+import Program.RunDay qualified as R (Day, runDay)
+import Util.Parsers (coordinateParser)
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2
@@ -105,9 +103,6 @@ findCycle xxs = fCycle xxs xxs
     fLength x (y'@(_, y) : ys)
       | x == y = []
       | otherwise = y' : fLength x ys
-
-dropUntilSame :: (Eq a) => [a] -> [a]
-dropUntilSame xs = map fst $ dropWhile (uncurry (/=)) (zip xs (tail xs))
 
 part2 :: Input -> OutputB
 part2 i =
