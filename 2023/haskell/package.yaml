@@ -35,6 +35,7 @@ dependencies:
 - criterion
 - array
 - parallel
+- z3
 
 library:
   source-dirs: src
