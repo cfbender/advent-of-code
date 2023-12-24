@@ -1,10 +1,31 @@
 module Days.Day24 where
 
+-- well ain't this a treat way to wrap up the year
+-- I liked the part 1, tried to do it with Cramer's rule
+-- but I don't know shit about linear algebra so I just
+-- did the y = mx + b route.
+--
+-- then, part 2.
+--
+-- never heard of z3, but it seemed like that was the only real way people
+-- are doing it. so I did that here but this library BLOWS.
+-- it's so out of date and nearly impossible to use, and it really
+-- tested the limits of my haskell knowledge.
+--
+-- This works but it is horrifically slow, I ended up just reimplementing this in
+-- python and got the answer instantly.
+--
+-- maybe there's a way to speed this up since they're both just using the same
+-- C libraries underneath, but I don't care to learn anything more about this library.
+--
+-- in the future, if I need Z3 again I will be using python for sure
+--
+-- final day coming. finally.
+
 import Control.Monad.IO.Class (liftIO)
-import Data.Attoparsec.Text
+import Data.Attoparsec.Text (Parser, char, decimal, endOfLine, many1, sepBy, signed, space, string)
 import Data.List (tails)
 import Data.Maybe (catMaybes, mapMaybe)
-import Data.Void
 import Program.RunDay qualified as R (Day, runDay)
 import System.IO.Unsafe
 import Util.Util qualified as U
@@ -32,7 +53,7 @@ type Input = [Hailstone]
 
 type OutputA = Int
 
-type OutputB = [Integer]
+type OutputB = Integer
 
 ------------ PART A ------------
 slope :: Hailstone -> Double
@@ -94,8 +115,7 @@ solver hs = do
           pz <- mkMul [t, dz]
           gz <- mkAdd [z, pz]
           pz' <- mkMul [t, dz']
-          assert
-            =<< mkAnd
+          mkAnd
             =<< sequence
               -- assert time is in the future
               [ mkGt t =<< mkIntNum 0,
@@ -105,7 +125,6 @@ solver hs = do
                 mkEq gy =<< mkAdd [y', py'],
                 mkEq gz =<< mkAdd [z', pz']
               ]
-          return t
       )
       hs
   -- check and solve, return coordinates of thrown
@@ -121,6 +140,6 @@ run hs =
       return sol
 
 part2 :: Input -> OutputB
-part2 i = unsafePerformIO (run checkStones)
+part2 i = sum $ take 3 $ unsafePerformIO (run checkStones)
   where
-    checkStones = Prelude.take 3 i
+    checkStones = take 3 i
