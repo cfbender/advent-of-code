@@ -35,7 +35,8 @@ dependencies:
 - criterion
 - array
 - parallel
-- z3
+# uncomment to run day 24
+# - z3
 
 library:
   source-dirs: src

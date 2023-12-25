@@ -29,7 +29,8 @@ import Data.Maybe (catMaybes, mapMaybe)
 import Program.RunDay qualified as R (Day, runDay)
 import System.IO.Unsafe
 import Util.Util qualified as U
-import Z3.Monad
+
+-- import Z3.Monad
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2
@@ -84,62 +85,66 @@ part1 = length . filter inArea . mapMaybe (uncurry crossing) . combinations
     inArea (x, y) = x >= 200000000000000 && x <= 400000000000000 && y >= 200000000000000 && y <= 400000000000000
 
 ------------ PART B ------------
+-- NOTE: commenting out for compile on Mac
+--
+--
 -- find coordinates of stone thrown that hits every hailstone
-solver :: [Hailstone] -> Z3 (Maybe [Integer])
-solver hs = do
-  x <- mkFreshIntVar "x"
-  y <- mkFreshIntVar "y"
-  z <- mkFreshIntVar "z"
-  dx <- mkFreshIntVar "dx"
-  dy <- mkFreshIntVar "dy"
-  dz <- mkFreshIntVar "dz"
-  -- for x y and z
-  assert
-    =<< mkAnd
-    =<< mapM
-      ( \(Stone (x'', y'', z'') (dx'', dy'', dz'')) -> do
-          -- add time for each stone t
-          t <- mkFreshIntVar "t"
-          x' <- mkRealNum x''
-          dx' <- mkRealNum dx''
-          y' <- mkRealNum y''
-          dy' <- mkRealNum dy''
-          z' <- mkRealNum z''
-          dz' <- mkRealNum dz''
-          px <- mkMul [t, dx]
-          gx <- mkAdd [x, px]
-          px' <- mkMul [t, dx']
-          py <- mkMul [t, dy]
-          gy <- mkAdd [y, py]
-          py' <- mkMul [t, dy']
-          pz <- mkMul [t, dz]
-          gz <- mkAdd [z, pz]
-          pz' <- mkMul [t, dz']
-          mkAnd
-            =<< sequence
-              -- assert time is in the future
-              [ mkGt t =<< mkIntNum 0,
-                -- add constraint that each stone is hit by the formula
-                -- x + tK  * dx == x' + tK * dx'
-                mkEq gx =<< mkAdd [x', px'],
-                mkEq gy =<< mkAdd [y', py'],
-                mkEq gz =<< mkAdd [z', pz']
-              ]
-      )
-      hs
-  -- check and solve, return coordinates of thrown
-  fmap snd $ withModel $ \m ->
-    catMaybes <$> mapM (evalInt m) [x, y, z, dx, dy, dz]
-
-run :: [Hailstone] -> IO [Integer]
-run hs =
-  evalZ3 (solver hs) >>= \case
-    Nothing -> error "No solution found."
-    Just sol -> do
-      putStr "Solution: " >> print sol
-      return sol
+-- solver :: [Hailstone] -> Z3 (Maybe [Integer])
+-- solver hs = do
+--   x <- mkFreshBvVar "x" 64
+--   y <- mkFreshIntVar "y"
+--   z <- mkFreshIntVar "z"
+--   dx <- mkFreshIntVar "dx"
+--   dy <- mkFreshIntVar "dy"
+--   dz <- mkFreshIntVar "dz"
+--   -- for x y and z
+--   assert
+--     =<< mkAnd
+--     =<< mapM
+--       ( \(Stone (x'', y'', z'') (dx'', dy'', dz'')) -> do
+--           -- add time for each stone t
+--           t <- mkFreshIntVar "t"
+--           x' <- mkRealNum x''
+--           dx' <- mkRealNum dx''
+--           y' <- mkRealNum y''
+--           dy' <- mkRealNum dy''
+--           z' <- mkRealNum z''
+--           dz' <- mkRealNum dz''
+--           px <- mkMul [t, dx]
+--           gx <- mkAdd [x, px]
+--           px' <- mkMul [t, dx']
+--           py <- mkMul [t, dy]
+--           gy <- mkAdd [y, py]
+--           py' <- mkMul [t, dy']
+--           pz <- mkMul [t, dz]
+--           gz <- mkAdd [z, pz]
+--           pz' <- mkMul [t, dz']
+--           mkAnd
+--             =<< sequence
+--               -- assert time is in the future
+--               [ mkGt t =<< mkIntNum 0,
+--                 -- add constraint that each stone is hit by the formula
+--                 -- x + tK  * dx == x' + tK * dx'
+--                 mkEq gx =<< mkAdd [x', px'],
+--                 mkEq gy =<< mkAdd [y', py'],
+--                 mkEq gz =<< mkAdd [z', pz']
+--               ]
+--       )
+--       hs
+--   -- check and solve, return coordinates of thrown
+--   fmap snd $ withModel $ \m ->
+--     catMaybes <$> mapM (evalInt m) [x, y, z, dx, dy, dz]
+--
+-- run :: [Hailstone] -> IO [Integer]
+-- run hs =
+--   evalZ3 (solver hs) >>= \case
+--     Nothing -> error "No solution found."
+--     Just sol -> do
+--       putStr "Solution: " >> print sol
+--       return sol
 
 part2 :: Input -> OutputB
-part2 i = sum $ take 3 $ unsafePerformIO (run checkStones)
+part2 i = error "Part 2 solution commented out"
   where
+    -- result =  sum $ take 3 $ unsafePerformIO (run checkStones)
     checkStones = take 3 i

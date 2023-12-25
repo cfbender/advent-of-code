@@ -83,7 +83,6 @@ library
     , text
     , time
     , vector
-    , z3
   default-language: Haskell2010
 
 executable aoc-exe
@@ -119,7 +118,6 @@ executable aoc-exe
     , text
     , time
     , vector
-    , z3
   default-language: Haskell2010
 
 test-suite spec
@@ -217,7 +215,6 @@ test-suite spec
     , text
     , time
     , vector
-    , z3
   default-language: Haskell2010
 
 benchmark bench
@@ -254,5 +251,4 @@ benchmark bench
     , text
     , time
     , vector
-    , z3
   default-language: Haskell2010
