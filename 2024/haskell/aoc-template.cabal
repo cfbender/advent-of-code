@@ -5,7 +5,7 @@ cabal-version: 1.12
 -- see: https://github.com/sol/hpack
 
 name:           aoc-template
-version:        2023.0
+version:        2024.0
 description:    A template for Advent of Code projects in Haskell
 homepage:       https://github.com/samcoy3/advent-of-code-template#readme
 bug-reports:    https://github.com/samcoy3/advent-of-code-template/issues
