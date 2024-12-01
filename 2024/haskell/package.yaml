@@ -1,0 +1,69 @@
+name:                aoc-template
+version:             2023.0
+github:              "samcoy3/advent-of-code-template"
+license:             BSD3
+author:              "Sam Coy"
+maintainer:          "samcoy3@gmail.com"
+copyright:           "2023 Sam Coy"
+
+extra-source-files:
+- README.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         A template for Advent of Code projects in Haskell
+
+dependencies:
+- base >= 4.7 && < 5
+- time
+- ansi-terminal
+- directory
+- optparse-applicative
+- parser-combinators
+- attoparsec
+- containers
+- text
+- mtl
+- vector
+
+library:
+  source-dirs: src
+  default-extensions:
+    - LambdaCase
+    - MultiWayIf
+    - RecordWildCards
+    - OverloadedRecordDot
+    - OverloadedStrings
+    - GADTs
+    - GHC2021
+
+executables:
+  aoc-template-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N4
+    - -with-rtsopts=-qa
+    - -with-rtsopts=-C0
+    - -funfolding-use-threshold=16
+    - -fexcess-precision
+    - -optc-O3
+    - -optc-ffast-math
+    - -O2
+    default-extensions:
+    - LambdaCase
+    - MultiWayIf
+    - RecordWildCards
+    - OverloadedRecordDot
+    - OverloadedStrings
+    - GADTs
+    - GHC2021
+    dependencies:
+    - aoc-template
