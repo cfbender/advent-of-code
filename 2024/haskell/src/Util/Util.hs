@@ -147,3 +147,6 @@ printMap m display = do
     lines = map (concatMap display . line) [minY .. maxY]
     (minX, maxX, minY, maxY) = mapBoundingBox m
     line y = [m Map.!? (x, y) | x <- [minX .. maxX]]
+
+freqs :: Ord a => [a] -> Map a Int
+freqs = Map.fromListWith (+) . flip zip (repeat 1)

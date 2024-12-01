@@ -1,19 +1,17 @@
 module Days.Day01 (runDay) where
 
+--  Day 1 2024! Spent a lot of time refamiliarizing myself with haskell and getting
+--  my tooling fixed. SO much better than day 1 last year tho since it came back to me quickly.
+--  Should be good going forward, just gonna take some time to remember things like uncurry again
+
 {- ORMOLU_DISABLE -}
+import Data.Bifunctor (bimap)
 import Data.List
-import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
-import Data.Maybe
-import Data.Set (Set)
-import qualified Data.Set as Set
-import Data.Vector (Vector)
-import qualified Data.Vector as Vec
 import qualified Util.Util as U
 
 import qualified Program.RunDay as R (runDay, Day)
 import Data.Attoparsec.Text
-import Data.Void
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
@@ -21,19 +19,28 @@ runDay = R.runDay inputParser partA partB
 
 ------------ PARSER ------------
 inputParser :: Parser Input
-inputParser = error "Not implemented yet!"
+inputParser = unzip <$> line `sepBy` endOfLine
+ where
+  line = do
+    first <- decimal
+    many1 space
+    second <- decimal
+    return (first, second)
 
 ------------ TYPES ------------
-type Input = Void
+type Input = ([Int], [Int])
 
-type OutputA = Void
+type OutputA = Int
 
-type OutputB = Void
+type OutputB = Int
 
 ------------ PART A ------------
 partA :: Input -> OutputA
-partA = error "Not implemented yet!"
+partA = sum . uncurry (zipWith (\a b -> abs (a - b))) . bimap sort sort
 
 ------------ PART B ------------
 partB :: Input -> OutputB
-partB = error "Not implemented yet!"
+partB (xs, ys) = sum $ zipWith (*) xs similarities
+ where
+  similarities = map check xs
+  check x = Map.findWithDefault 0 x $ U.freqs ys
