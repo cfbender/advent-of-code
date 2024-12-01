@@ -36,7 +36,7 @@ type OutputB = Int
 
 ------------ PART A ------------
 partA :: Input -> OutputA
-partA = sum . uncurry (zipWith (\a b -> abs (a - b))) . bimap sort sort
+partA = sum . map abs . uncurry (zipWith subtract) . bimap sort sort
 
 ------------ PART B ------------
 partB :: Input -> OutputB
