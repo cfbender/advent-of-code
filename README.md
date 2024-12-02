@@ -31,7 +31,15 @@ iex > Aoc.main()
 
 ##### Haskell
 ```bash
-$ runhaskell <day file name>
+$ stack run -- -d <day number>
+```
+
+```bash
+function day { ghcid --run="Main.performDay (Options (OneDay $1 Nothing) Timings)" }
+```
+
+```nushell
+alias day = ghcid --run="Main.performDay (Options (OneDay $1 Nothing) Timings)"
 ```
 
 ##### Rust
@@ -42,4 +50,5 @@ $ cargo run
 
 ### Acknowledgements
 
-Thanks to [mhanberg for their wonderful starter repo](https://github.com/mhanberg/advent-of-code-elixir-starter)
+- Thanks to [mhanberg for their wonderful starter repo](https://github.com/mhanberg/advent-of-code-elixir-starter)
+- Thanks to [samcoy3 for their awesome haskell starter repo](https://github.com/samcoy3/advent-of-code-template)
