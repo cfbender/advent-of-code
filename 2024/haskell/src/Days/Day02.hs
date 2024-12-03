@@ -1,5 +1,10 @@
 module Days.Day02 where
 
+-- Not a bad day 2, pretty fun one! Still just a lot of time fighting the compiler
+-- as I ride the bumpy start of learning Haskell again. Loving it tho, it writes such pretty code
+-- even when my example here is pretty ugly.
+-- Onward!
+
 import Data.Attoparsec.Text (Parser, char, decimal, endOfLine, sepBy)
 import Data.Ix
 import Data.List

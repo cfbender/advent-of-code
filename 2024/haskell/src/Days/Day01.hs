@@ -1,5 +1,9 @@
 module Days.Day01 where
 
+--  Day 1 2024! Spent a lot of time refamiliarizing myself with haskell and getting
+--  my tooling fixed. SO much better than day 1 last year tho since it came back to me quickly.
+--  Should be good going forward, just gonna take some time to remember things like uncurry again
+
 import Data.Bifunctor (bimap)
 import Data.List
 import qualified Data.Map.Strict as Map
@@ -38,4 +42,4 @@ part2 :: Input -> OutputB
 part2 (xs, ys) = sum $ zipWith (*) xs similarities
  where
   similarities = map check xs
-  check x = Map.findWithDefault 0 x $ U.freqs ys
+  check x = Map.findWithDefault 0 x $ U.freq ys

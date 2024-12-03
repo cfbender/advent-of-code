@@ -14,6 +14,6 @@ spec = do
       part1 testInput `shouldBe` (161 :: Int)
 
     it "returns the correct answer for the test input for part 2" $ do
-      let testText = ""
+      let testText = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
       let Just testInput = parseTest inputParser testText
-      part2 testInput `shouldBe` undefined
+      part2 testInput `shouldBe` (48 :: Int)
