@@ -37,18 +37,18 @@ attachCoords x y ((l : ls) : lss) = ((x, y), l) : attachCoords x (y + 1) (ls : l
 neighbors :: (Int, Int) -> [(Int, Int)]
 neighbors (x, y) =
   [ (a, b)
-    | a <- [x - 1 .. x + 1],
-      b <- [y - 1 .. y + 1],
-      a /= x || b /= y
+  | a <- [x - 1 .. x + 1]
+  , b <- [y - 1 .. y + 1]
+  , a /= x || b /= y
   ]
 
 -- gets all neighbors around a coordinate
 neighborsNoCorners :: (Int, Int) -> [(Int, Int)]
 neighborsNoCorners (x, y) =
-  [ (x - 1, y),
-    (x + 1, y),
-    (x, y - 1),
-    (x, y + 1)
+  [ (x - 1, y)
+  , (x + 1, y)
+  , (x, y - 1)
+  , (x, y + 1)
   ]
 
 -- gets all neighbors around a coordinate
@@ -123,30 +123,27 @@ tsnd (_, x, _) = x
 
 dijkstras :: Coordinate -> Coordinate -> (Int -> a -> a -> Int) -> Map Coordinate a -> Int
 dijkstras start end mapper i = dijkstras' (Set.singleton (0, start)) Map.empty
-  where
-    isCheaper m (cost, p) = not (Map.member p m) || (cost < m Map.! p)
-    dijkstras' candidates costs =
-      let (c@(cost, curr), rest) = Set.deleteFindMin candidates
-          candidates' =
-            filter (isCheaper costs)
-              . map (\loc -> (mapper cost (i Map.! curr) (i Map.! loc), loc))
-              . filter (`Map.member` i)
-              $ neighborsNoCorners curr
-          newCandidates = Set.union (Set.fromList candidates') rest
-          candidateCosts = map (\(cost, coord) -> (coord, cost)) candidates'
-          newCosts = foldr (uncurry Map.insert) costs candidateCosts
-       in if curr == end
-            then cost
-            else dijkstras' newCandidates newCosts
+ where
+  isCheaper m (cost, p) = not (Map.member p m) || (cost < m Map.! p)
+  dijkstras' candidates costs =
+    let (c@(cost, curr), rest) = Set.deleteFindMin candidates
+        candidates' =
+          filter (isCheaper costs)
+            . map (\loc -> (mapper cost (i Map.! curr) (i Map.! loc), loc))
+            . filter (`Map.member` i)
+            $ neighborsNoCorners curr
+        newCandidates = Set.union (Set.fromList candidates') rest
+        candidateCosts = map (\(cost, coord) -> (coord, cost)) candidates'
+        newCosts = foldr (uncurry Map.insert) costs candidateCosts
+     in if curr == end
+          then cost
+          else dijkstras' newCandidates newCosts
 
 printMap :: Map Coordinate a -> (Maybe a -> String) -> IO (Map Coordinate a)
 printMap m display = do
   mapM_ putStrLn lines
   return m
-  where
-    lines = map (concatMap display . line) [minY .. maxY]
-    (minX, maxX, minY, maxY) = mapBoundingBox m
-    line y = [m Map.!? (x, y) | x <- [minX .. maxX]]
-    
-freqs :: Ord a => [a] -> Map a Int
-freqs = Map.fromListWith (+) . flip zip (repeat 1)
+ where
+  lines = map (concatMap display . line) [minY .. maxY]
+  (minX, maxX, minY, maxY) = mapBoundingBox m
+  line y = [m Map.!? (x, y) | x <- [minX .. maxX]]
