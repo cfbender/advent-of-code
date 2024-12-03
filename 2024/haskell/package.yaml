@@ -1,10 +1,10 @@
 name:                aoc
 version:             2024.0
-github:              "samcoy3/advent-of-code-template"
+github:              "cfbender/advent-of-code"
 license:             BSD3
-author:              "Sam Coy"
-maintainer:          "samcoy3@gmail.com"
-copyright:           "2023 Sam Coy"
+author:              "Cody Bender"
+maintainer:          "codyfbender@gmail.com"
+copyright:           "2024 Cody Bender"
 
 extra-source-files:
 - README.md
