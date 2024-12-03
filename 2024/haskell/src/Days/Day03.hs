@@ -28,7 +28,7 @@ inputParser = T.unpack . T.strip <$> takeText
 ------------ TYPES ------------
 type Input = String
 
-type OutputA = [String]
+type OutputA = Int
 
 type OutputB = Void
 
@@ -36,8 +36,14 @@ type OutputB = Void
 mulRegex :: String
 mulRegex = "mul\\(([[:digit:]]+),([[:digit:]]+)\\)"
 
+getPair:: String -> (Int, Int)
+getPair('m' : 'u' : 'l' : '(' : xs) = (read a, read b)
+ where
+  (a, ',' : b) = break (== ',') $ init xs
+
+-- 91174032 wrong
 part1 :: Input -> OutputA
-part1 input = getAllTextMatches (input =~ mulRegex) :: [String]
+part1 input = sum (map (uncurry (*) . getPair) (getAllTextMatches (input =~ mulRegex) :: [String]))
 
 ------------ PART 2 ------------
 part2 :: Input -> OutputB
