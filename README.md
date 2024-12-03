@@ -42,8 +42,10 @@ $ stack run -- -d <day number>
 function day { ghcid --run="Main.performDay (Options (OneDay $1 Nothing) Timings)" }
 ```
 
+In nushell:
 ```nushell
-def day [day: int] { ghcid --run=$"Main.performDay \(Options \(OneDay ($day) Nothing) Timings)" }
+source haskell.nu
+day 1
 ```
 
 ##### Rust
