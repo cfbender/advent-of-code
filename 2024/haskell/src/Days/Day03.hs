@@ -1,39 +1,44 @@
-module Days.Day03 (runDay) where
+module Days.Day03 where
 
-{- ORMOLU_DISABLE -}
-import Data.List
-import Data.Map.Strict (Map)
-import qualified Data.Map.Strict as Map
-import Data.Maybe
-import Data.Set (Set)
-import qualified Data.Set as Set
-import Data.Vector (Vector)
-import qualified Data.Vector as Vec
-import qualified Util.Util as U
-
-import qualified Program.RunDay as R (runDay, Day)
-import Data.Attoparsec.Text
+import Data.Attoparsec.Text (Parser, endOfLine, sepBy, takeText)
+import Data.Text qualified as T
 import Data.Void
-{- ORMOLU_ENABLE -}
+import Program.RunDay qualified as R (Day, runDay)
+import Text.Regex.TDFA
 
 runDay :: R.Day
-runDay = R.runDay inputParser partA partB
+runDay = R.runDay inputParser part1 part2
 
 ------------ PARSER ------------
 inputParser :: Parser Input
-inputParser = error "Not implemented yet!"
+inputParser = T.unpack . T.strip <$> takeText
+
+-- maybe I can make this work eventually
+-- inputParser = filter (/= (0,0)) <$> many' (choice
+--   [ do
+--       string "mul("
+--       x <- decimal
+--       char ','
+--       y <- decimal
+--       char ')'
+--       return (x, y)
+--   , anyChar >> return (0,0)
+--   ])
 
 ------------ TYPES ------------
-type Input = Void
+type Input = String
 
-type OutputA = Void
+type OutputA = [String]
 
 type OutputB = Void
 
------------- PART A ------------
-partA :: Input -> OutputA
-partA = error "Not implemented yet!"
+------------ PART 1 ------------
+mulRegex :: String
+mulRegex = "mul\\(([[:digit:]]+),([[:digit:]]+)\\)"
 
------------- PART B ------------
-partB :: Input -> OutputB
-partB = error "Not implemented yet!"
+part1 :: Input -> OutputA
+part1 input = getAllTextMatches (input =~ mulRegex) :: [String]
+
+------------ PART 2 ------------
+part2 :: Input -> OutputB
+part2 = error "Not implemented yet!"

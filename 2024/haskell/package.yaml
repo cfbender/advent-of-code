@@ -1,4 +1,4 @@
-name:                aoc-template
+name:                aoc
 version:             2024.0
 github:              "samcoy3/advent-of-code-template"
 license:             BSD3
@@ -30,6 +30,12 @@ dependencies:
 - text
 - mtl
 - vector
+- regex-tdfa ^>= 1.3.2
+- split
+- range
+- criterion
+- array
+- parallel
 
 library:
   source-dirs: src
@@ -43,7 +49,7 @@ library:
     - GHC2021
 
 executables:
-  aoc-template-exe:
+  aoc-exe:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
@@ -66,4 +72,51 @@ executables:
     - GADTs
     - GHC2021
     dependencies:
-    - aoc-template
+    - aoc
+
+benchmarks:
+  bench:
+    main:                Benchmark.hs
+    source-dirs:         bench
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N4
+    - -with-rtsopts=-qa
+    - -with-rtsopts=-C0
+    - -funfolding-use-threshold=16
+    - -fexcess-precision
+    - -optc-O3
+    - -optc-ffast-math
+    - -O2
+    default-extensions:
+    - LambdaCase
+    - MultiWayIf
+    - RecordWildCards
+    - OverloadedRecordDot
+    - OverloadedStrings
+    - GADTs
+    - GHC2021
+    dependencies:
+    - aoc
+
+tests:
+  spec:
+    cpp-options: -DTEST
+    main: Spec.hs
+    source-dirs:
+      - test
+      - src
+    default-extensions:
+    - LambdaCase
+    - MultiWayIf
+    - RecordWildCards
+    - OverloadedRecordDot
+    - OverloadedStrings
+    - GADTs
+    - GHC2021
+    dependencies:
+      - hspec == 2.*
+      - QuickCheck
+      - HUnit >= 1.6.0.0
+    build-tools: hspec-discover
