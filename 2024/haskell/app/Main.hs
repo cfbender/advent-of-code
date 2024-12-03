@@ -1,32 +1,32 @@
 module Main where
 
-{- ORMOLU_DISABLE -}
+
 --- Day imports
-import qualified Days.Day01 as Day01 (runDay)
-import qualified Days.Day02 as Day02 (runDay)
-import qualified Days.Day03 as Day03 (runDay)
-import qualified Days.Day04 as Day04 (runDay)
-import qualified Days.Day05 as Day05 (runDay)
-import qualified Days.Day06 as Day06 (runDay)
-import qualified Days.Day07 as Day07 (runDay)
-import qualified Days.Day08 as Day08 (runDay)
-import qualified Days.Day09 as Day09 (runDay)
-import qualified Days.Day10 as Day10 (runDay)
-import qualified Days.Day11 as Day11 (runDay)
-import qualified Days.Day12 as Day12 (runDay)
-import qualified Days.Day13 as Day13 (runDay)
-import qualified Days.Day14 as Day14 (runDay)
-import qualified Days.Day15 as Day15 (runDay)
-import qualified Days.Day16 as Day16 (runDay)
-import qualified Days.Day17 as Day17 (runDay)
-import qualified Days.Day18 as Day18 (runDay)
-import qualified Days.Day19 as Day19 (runDay)
-import qualified Days.Day20 as Day20 (runDay)
-import qualified Days.Day21 as Day21 (runDay)
-import qualified Days.Day22 as Day22 (runDay)
-import qualified Days.Day23 as Day23 (runDay)
-import qualified Days.Day24 as Day24 (runDay)
-import qualified Days.Day25 as Day25 (runDay)
+import qualified Days.Day01 as Day01
+import qualified Days.Day02 as Day02
+import qualified Days.Day03 as Day03
+import qualified Days.Day04 as Day04
+import qualified Days.Day05 as Day05
+import qualified Days.Day06 as Day06
+import qualified Days.Day07 as Day07
+import qualified Days.Day08 as Day08
+import qualified Days.Day09 as Day09
+import qualified Days.Day10 as Day10
+import qualified Days.Day11 as Day11
+import qualified Days.Day12 as Day12
+import qualified Days.Day13 as Day13
+import qualified Days.Day14 as Day14
+import qualified Days.Day15 as Day15
+import qualified Days.Day16 as Day16
+import qualified Days.Day17 as Day17
+import qualified Days.Day18 as Day18
+import qualified Days.Day19 as Day19
+import qualified Days.Day20 as Day20
+import qualified Days.Day21 as Day21
+import qualified Days.Day22 as Day22
+import qualified Days.Day23 as Day23
+import qualified Days.Day24 as Day24
+import qualified Days.Day25 as Day25
 
 --- Other imports
 import Data.Map (Map)
@@ -34,7 +34,7 @@ import qualified Data.Map as Map
 import Data.Maybe (fromMaybe)
 import Options.Applicative
 import qualified Control.Applicative.Combinators as C (option)
-import Program.RunDay (Day, Verbosity (Quiet, Timings, Verbose))
+import Program.RunDay (Day, Verbosity (Quiet, Timings, Verbose), RunType (Both))
 import Data.List (intercalate)
 import Control.Monad (unless, forM_)
 
@@ -42,7 +42,7 @@ import Control.Monad (unless, forM_)
 import Text.Printf (printf)
 import Program.Color ( withColor )
 import System.Console.ANSI (Color(..))
-{- ORMOLU_ENABLE -}
+
 
 data Days
   = AllDays
@@ -55,17 +55,21 @@ data Days
 data Options = Options Days Verbosity
 
 dayParser :: Parser Days
-dayParser = (OneDay <$> day <*> input) <|> allDays
+dayParser = OneDay <$> day <*> input <|> allDays
   where
     day =
       option auto $
-        long "day" <> short 'd' <> metavar "DAY"
+        long "day"
+          <> short 'd'
+          <> metavar "DAY"
           <> help "Present the solutions for one day."
 
     input =
       optional $
         strOption $
-          long "input" <> short 'i' <> metavar "FILE"
+          long "input"
+            <> short 'i'
+            <> metavar "FILE"
             <> help "The file to read the selected day's input from."
 
     allDays =
@@ -84,8 +88,10 @@ optionsParser = Options <$> dayParser <*> verbosityParser
     verbosityParser :: Parser Verbosity
     verbosityParser =
       C.option Quiet $
-        ( flag' Verbose $
-            long "verbose" <> short 'v'
+        flag'
+          Verbose
+          ( long "verbose"
+              <> short 'v'
               <> help
                 ( unwords
                     [ "Whether to print out extra info, such as the",
@@ -94,14 +100,16 @@ optionsParser = Options <$> dayParser <*> verbosityParser
                       "Also enables timing of solutions."
                     ]
                 )
-        )
-          <|> ( flag' Timings $
-                  long "timings" <> short 't'
-                    <> help
-                      ( unwords
-                          ["Whether to enable timing of the solutions."]
-                      )
-              )
+          )
+          <|> flag'
+            Timings
+            ( long "timings"
+                <> short 't'
+                <> help
+                  ( unwords
+                      ["Whether to enable timing of the solutions."]
+                  )
+            )
 
 days :: Map Int (Day, String)
 days =
@@ -139,7 +147,7 @@ performDay (Options d v) = case d of
     results <-
       let eachDay d (dayFunc, inputFile) = do
             withColor Magenta $ putStrLn $ printf "\n***Day %02d***" d
-            dayFunc v inputFile
+            dayFunc v inputFile Both
        in sequence $ Map.mapWithKey eachDay days
 
     printSummary results
@@ -148,7 +156,7 @@ performDay (Options d v) = case d of
     Just (dayFunc, inputFile) -> do
       let i' = fromMaybe inputFile input
       withColor Magenta $ putStrLn $ printf "\n***Day %02d***" day
-      dayFunc v i'
+      dayFunc v i' Both
       withColor Magenta $ putStrLn "************"
 
 printSummary :: Map Int (Maybe Double, Maybe Double) -> IO ()

@@ -1,21 +1,14 @@
-module Days.Day02 (runDay) where
+module Days.Day02 where
 
--- Not a bad day 2, pretty fun one! Still just a lot of time fighting the compiler
--- as I ride the bumpy start of learning Haskell again. Loving it tho, it writes such pretty code
--- even when my example here is pretty ugly.
--- Onward!
-
-{- ORMOLU_DISABLE -}
+import Data.Attoparsec.Text (Parser, char, decimal, endOfLine, sepBy)
+import Data.Ix
 import Data.List
 import Data.Maybe
-
-import qualified Program.RunDay as R (runDay, Day)
-import Data.Attoparsec.Text
-import Data.Ix
-{- ORMOLU_ENABLE -}
+import Data.Void
+import Program.RunDay qualified as R (Day, runDay)
 
 runDay :: R.Day
-runDay = R.runDay inputParser partA partB
+runDay = R.runDay inputParser part1 part2
 
 ------------ PARSER ------------
 inputParser :: Parser Input
@@ -33,7 +26,7 @@ type OutputB = Int
 data Finding = Safe | Unsafe
   deriving (Show, Eq)
 
------------- PART A ------------
+------------ PART 1 ------------
 valid :: Int -> Int -> Bool
 valid x y = inRange (1, 3) (abs (x - y))
 
@@ -46,12 +39,12 @@ check Safe (x : y : z : xs) = check safety (y : z : xs)
 -- getting to a 2 length list means we've compared all the windows
 check Safe [_, _] = Safe
 
-partA :: Input -> OutputA
-partA = length . filter (== Safe) . map (check Safe)
+part1 :: Input -> OutputA
+part1 = length . filter (== Safe) . map (check Safe)
 
------------- PART B ------------
-partB :: Input -> OutputB
-partB input = length $ mapMaybe (find (== Safe)) results
+------------ PART 2 ------------
+part2 :: Input -> OutputB
+part2 input = length $ mapMaybe (find (== Safe)) results
  where
   results :: [[Finding]]
   results = map (map (check Safe)) tests
