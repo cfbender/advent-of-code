@@ -42,6 +42,30 @@ neighbors (x, y) =
   , a /= x || b /= y
   ]
 
+-- gets neighbors in all directions and continues those
+-- for a specified number of steps
+rays :: Int -> (Int, Int) -> [[(Int, Int)]]
+rays z (x, y)
+  | z < 1 = []
+  | otherwise =
+      -- left
+      [ reverse [(a, y) | a <- [x - z .. x - 1]]
+      , -- right
+        [(a, y) | a <- [x + 1 .. x + z]]
+      , -- down
+        reverse [(x, b) | b <- [y - z .. y - 1]]
+      , -- up
+        [(x, b) | b <- [y + 1 .. y + z]]
+      , -- down-left
+        reverse [(a, b) | a <- [x - z .. x - 1], b <- [y - z .. y - 1], (b - y) == (a - x)]
+      , -- down-right
+        [(a, b) | a <- [x + 1 .. x + z], b <- [y - z .. y - 1], (y - b) == (a - x)]
+      , -- up-left
+        reverse [(a, b) | a <- [x - z .. x - 1], b <- [y + 1 .. y + z], (y - b) == (a - x)]
+      , -- up-right
+        [(a, b) | a <- [x + 1 .. x + z], b <- [y + 1 .. y + z], (b - y) == (a - x)]
+      ]
+
 -- gets all neighbors around a coordinate
 neighborsNoCorners :: (Int, Int) -> [(Int, Int)]
 neighborsNoCorners (x, y) =
@@ -54,6 +78,14 @@ neighborsNoCorners (x, y) =
 -- gets all neighbors around a coordinate
 neighborsNoCornersSet :: (Int, Int) -> Set (Int, Int)
 neighborsNoCornersSet = Set.fromList . neighborsNoCorners
+
+neighborsOnlyCorners :: (Int, Int) -> [(Int, Int)]
+neighborsOnlyCorners (x, y) =
+  [ (x - 1, y - 1)
+  , (x - 1, y + 1)
+  , (x + 1, y - 1)
+  , (x + 1, y + 1)
+  ]
 
 -- Splits a list into chunks of the specified size.
 -- The final chunk may be smaller than the chunk size.

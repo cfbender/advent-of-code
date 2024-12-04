@@ -9,11 +9,11 @@ spec :: Spec
 spec = do
   describe "Day 04" $ do
     it "returns the correct answer for the test input for part 1" $ do
-      let testText = ""
+      let testText = "MMMSXXMASM\nMSAMXMSMSA\nAMXSXMAAMM\nMSAMASMSMX\nXMASAMXAMM\nXXAMMXXAMA\nSMSMSASXSS\nSAXAMASAAA\nMAMMMXMMMM\nMXMXAXMASX"
       let Just testInput = parseTest inputParser testText
-      part1 testInput `shouldBe` undefined
+      part1 testInput `shouldBe` (18 :: Int)
 
     it "returns the correct answer for the test input for part 2" $ do
-      let testText = ""
+      let testText = "MMMSXXMASM\nMSAMXMSMSA\nAMXSXMAAMM\nMSAMASMSMX\nXMASAMXAMM\nXXAMMXXAMA\nSMSMSASXSS\nSAXAMASAAA\nMAMMMXMMMM\nMXMXAXMASX"
       let Just testInput = parseTest inputParser testText
-      part2 testInput `shouldBe` undefined
+      part2 testInput `shouldBe` (9 :: Int)
