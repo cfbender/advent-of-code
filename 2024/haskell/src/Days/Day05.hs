@@ -60,6 +60,7 @@ type OutputA = Int
 
 type OutputB = Int
 
+-- a map of a number to all the numbers it must be after
 type Rules = Map Int (Set Int)
 
 ------------ PART 1 ------------
@@ -74,7 +75,6 @@ sort' rules a b
   | otherwise = LT
  where
   x = M.findWithDefault S.empty a rules
-  y = M.findWithDefault S.empty b rules
 
 part1 :: Input -> OutputA
 part1 (rules, updates) =
