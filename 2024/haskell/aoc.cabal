@@ -76,6 +76,7 @@ library
     , directory
     , mtl
     , optparse-applicative
+    , ordered-containers
     , parallel
     , parser-combinators
     , range
@@ -112,6 +113,7 @@ executable aoc-exe
     , directory
     , mtl
     , optparse-applicative
+    , ordered-containers
     , parallel
     , parser-combinators
     , range
@@ -210,6 +212,7 @@ test-suite spec
     , hspec ==2.*
     , mtl
     , optparse-applicative
+    , ordered-containers
     , parallel
     , parser-combinators
     , range
@@ -247,6 +250,7 @@ benchmark bench
     , directory
     , mtl
     , optparse-applicative
+    , ordered-containers
     , parallel
     , parser-combinators
     , range
