@@ -27,6 +27,7 @@ dependencies:
 - parser-combinators
 - attoparsec
 - containers
+- ordered-containers
 - text
 - mtl
 - vector
