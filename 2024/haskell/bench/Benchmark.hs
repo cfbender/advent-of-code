@@ -33,31 +33,31 @@ import Text.Printf (printf)
 
 days =
   Map.fromList . zip [1 ..] $
-    [ (Day01.runDay, "input/Day01.txt"),
-      (Day02.runDay, "input/Day02.txt"),
-      (Day03.runDay, "input/Day03.txt"),
-      (Day04.runDay, "input/Day04.txt"),
-      (Day05.runDay, "input/Day05.txt"),
-      (Day06.runDay, "input/Day06.txt"),
-      (Day07.runDay, "input/Day07.txt"),
-      (Day08.runDay, "input/Day08.txt"),
-      (Day09.runDay, "input/Day09.txt"),
-      (Day10.runDay, "input/Day10.txt"),
-      (Day11.runDay, "input/Day11.txt"),
-      (Day12.runDay, "input/Day12.txt"),
-      (Day13.runDay, "input/Day13.txt"),
-      (Day14.runDay, "input/Day14.txt"),
-      (Day15.runDay, "input/Day15.txt"),
-      (Day16.runDay, "input/Day16.txt"),
-      (Day17.runDay, "input/Day17.txt"),
-      (Day18.runDay, "input/Day18.txt"),
-      (Day19.runDay, "input/Day19.txt"),
-      (Day20.runDay, "input/Day20.txt"),
-      (Day21.runDay, "input/Day21.txt"),
-      (Day22.runDay, "input/Day22.txt"),
-      (Day23.runDay, "input/Day23.txt"),
-      (Day24.runDay, "input/Day24.txt"),
-      (Day25.runDay, "input/Day25.txt")
+    [ (Day01.runDay, "input/Day01.txt")
+    , (Day02.runDay, "input/Day02.txt")
+    , (Day03.runDay, "input/Day03.txt")
+    , (Day04.runDay, "input/Day04.txt")
+    , (Day05.runDay, "input/Day05.txt")
+    , (Day06.runDay, "input/Day06.txt")
+    , (Day07.runDay, "input/Day07.txt")
+    , (Day08.runDay, "input/Day08.txt")
+    , (Day09.runDay, "input/Day09.txt")
+    , (Day10.runDay, "input/Day10.txt")
+    , (Day11.runDay, "input/Day11.txt")
+    , (Day12.runDay, "input/Day12.txt")
+    , (Day13.runDay, "input/Day13.txt")
+    , (Day14.runDay, "input/Day14.txt")
+    , (Day15.runDay, "input/Day15.txt")
+    , (Day16.runDay, "input/Day16.txt")
+    , (Day17.runDay, "input/Day17.txt")
+    , (Day18.runDay, "input/Day18.txt")
+    , (Day19.runDay, "input/Day19.txt")
+    , (Day20.runDay, "input/Day20.txt")
+    , (Day21.runDay, "input/Day21.txt")
+    , (Day22.runDay, "input/Day22.txt")
+    , (Day23.runDay, "input/Day23.txt")
+    , (Day24.runDay, "input/Day24.txt")
+    , (Day25.runDay, "input/Day25.txt")
     ]
 
 days :: Map Int (Day, String)
@@ -70,132 +70,129 @@ main =
     [ bgroup
         "day"
         [ bgroup
-            "1"
-            [ bench "1" $ whnfIO (runDay 1 Part1),
-              bench "2" $ whnfIO (runDay 1 Part2)
-            ],
-          bgroup
-            "2"
-            [ bench "1" $ whnfIO (runDay 2 Part1),
-              bench "2" $ whnfIO (runDay 2 Part2)
-            ],
-          bgroup
-            "2"
-            [ bench "1" $ whnfIO (runDay 2 Part1),
-              bench "2" $ whnfIO (runDay 2 Part2)
-            ],
-          bgroup
-            "3"
-            [ bench "1" $ whnfIO (runDay 3 Part1),
-              bench "2" $ whnfIO (runDay 3 Part2)
-            ],
-          bgroup
-            "4"
-            [ bench "1" $ whnfIO (runDay 4 Part1),
-              bench "2" $ whnfIO (runDay 4 Part2)
-            ],
-          bgroup
-            "5"
-            [ bench "1" $ whnfIO (runDay 5 Part1),
-              bench "2" $ whnfIO (runDay 5 Part2)
-            ],
-          bgroup
-            "6"
-            [ bench "1" $ whnfIO (runDay 6 Part1),
-              bench "2" $ whnfIO (runDay 6 Part2)
-            ],
-          bgroup
-            "7"
-            [ bench "1" $ whnfIO (runDay 7 Part1),
-              bench "2" $ whnfIO (runDay 7 Part2)
-            ],
-          bgroup
-            "8"
-            [ bench "1" $ whnfIO (runDay 8 Part1),
-              bench "2" $ whnfIO (runDay 8 Part2)
-            ],
-          bgroup
-            "9"
-            [ bench "1" $ whnfIO (runDay 9 Part1),
-              bench "2" $ whnfIO (runDay 9 Part2)
-            ],
-          bgroup
+            "01"
+            [ bench "1" $ whnfIO (runDay 1 Part1)
+            , bench "2" $ whnfIO (runDay 1 Part2)
+            ]
+        , bgroup
+            "02"
+            [ bench "1" $ whnfIO (runDay 2 Part1)
+            , bench "2" $ whnfIO (runDay 2 Part2)
+            ]
+        , bgroup
+            "03"
+            [ bench "1" $ whnfIO (runDay 3 Part1)
+            , bench "2" $ whnfIO (runDay 3 Part2)
+            ]
+        , bgroup
+            "04"
+            [ bench "1" $ whnfIO (runDay 4 Part1)
+            , bench "2" $ whnfIO (runDay 4 Part2)
+            ]
+        , bgroup
+            "05"
+            [ bench "1" $ nfIO (runDay 5 Part1)
+            , bench "2" $ nfIO (runDay 5 Part2)
+            ]
+        , bgroup
+            "06"
+            [ bench "1" $ whnfIO (runDay 6 Part1)
+            , bench "2" $ whnfIO (runDay 6 Part2)
+            ]
+        , bgroup
+            "07"
+            [ bench "1" $ whnfIO (runDay 7 Part1)
+            , bench "2" $ whnfIO (runDay 7 Part2)
+            ]
+        , bgroup
+            "08"
+            [ bench "1" $ whnfIO (runDay 8 Part1)
+            , bench "2" $ whnfIO (runDay 8 Part2)
+            ]
+        , bgroup
+            "09"
+            [ bench "1" $ whnfIO (runDay 9 Part1)
+            , bench "2" $ whnfIO (runDay 9 Part2)
+            ]
+        , bgroup
             "10"
-            [ bench "1" $ whnfIO (runDay 10 Part1),
-              bench "2" $ whnfIO (runDay 10 Part2)
-            ],
-          bgroup
+            [ bench "1" $ whnfIO (runDay 10 Part1)
+            , bench "2" $ whnfIO (runDay 10 Part2)
+            ]
+        , bgroup
             "11"
-            [ bench "1" $ whnfIO (runDay 11 Part1),
-              bench "2" $ whnfIO (runDay 11 Part2)
-            ],
-          bgroup
+            [ bench "1" $ whnfIO (runDay 11 Part1)
+            , bench "2" $ whnfIO (runDay 11 Part2)
+            ]
+        , bgroup
             "12"
-            [ bench "1" $ whnfIO (runDay 12 Part1),
-              bench "2" $ whnfIO (runDay 12 Part2)
-            ],
-          bgroup
+            [ bench "1" $ whnfIO (runDay 12 Part1)
+            , bench "2" $ whnfIO (runDay 12 Part2)
+            ]
+        , bgroup
             "13"
-            [ bench "1" $ whnfIO (runDay 13 Part1),
-              bench "2" $ whnfIO (runDay 13 Part2)
-            ],
-          bgroup
+            [ bench "1" $ whnfIO (runDay 13 Part1)
+            , bench "2" $ whnfIO (runDay 13 Part2)
+            ]
+        , bgroup
             "14"
-            [ bench "1" $ whnfIO (runDay 14 Part1),
-              bench "2" $ whnfIO (runDay 14 Part2)
-            ],
-          bgroup
+            [ bench "1" $ whnfIO (runDay 14 Part1)
+            , bench "2" $ whnfIO (runDay 14 Part2)
+            ]
+        , bgroup
             "15"
-            [ bench "1" $ whnfIO (runDay 15 Part1),
-              bench "2" $ whnfIO (runDay 15 Part2)
-            ],
-          bgroup
+            [ bench "1" $ whnfIO (runDay 15 Part1)
+            , bench "2" $ whnfIO (runDay 15 Part2)
+            ]
+        , bgroup
             "16"
-            [ bench "1" $ whnfIO (runDay 16 Part1),
-              bench "2" $ whnfIO (runDay 16 Part2)
-            ],
-          bgroup
+            [ bench "1" $ whnfIO (runDay 16 Part1)
+            , bench "2" $ whnfIO (runDay 16 Part2)
+            ]
+        , bgroup
             "17"
-            [ bench "1" $ whnfIO (runDay 17 Part1),
-              bench "2" $ whnfIO (runDay 17 Part2)
-            ],
-          bgroup
+            [ bench "1" $ whnfIO (runDay 17 Part1)
+            , bench "2" $ whnfIO (runDay 17 Part2)
+            ]
+        , bgroup
             "18"
-            [ bench "1" $ whnfIO (runDay 18 Part1),
-              bench "2" $ whnfIO (runDay 18 Part2)
-            ],
-          bgroup
+            [ bench "1" $ whnfIO (runDay 18 Part1)
+            , bench "2" $ whnfIO (runDay 18 Part2)
+            ]
+        , bgroup
             "19"
-            [ bench "1" $ whnfIO (runDay 19 Part1),
-              bench "2" $ whnfIO (runDay 19 Part2)
-            ],
-          bgroup
+            [ bench "1" $ whnfIO (runDay 19 Part1)
+            , bench "2" $ whnfIO (runDay 19 Part2)
+            ]
+        , bgroup
             "20"
-            [ bench "1" $ whnfIO (runDay 20 Part1),
-              bench "2" $ whnfIO (runDay 20 Part2)
-            ],
-          bgroup
+            [ bench "1" $ whnfIO (runDay 20 Part1)
+            , bench "2" $ whnfIO (runDay 20 Part2)
+            ]
+        , bgroup
             "21"
-            [ bench "1" $ whnfIO (runDay 21 Part1),
-              bench "2" $ whnfIO (runDay 21 Part2)
-            ],
-          bgroup
+            [ bench "1" $ whnfIO (runDay 21 Part1)
+            , bench "2" $ whnfIO (runDay 21 Part2)
+            ]
+        , bgroup
             "22"
-            [ bench "1" $ whnfIO (runDay 22 Part1),
-              bench "2" $ whnfIO (runDay 22 Part2)
-            ],
-          bgroup
+            [ bench "1" $ whnfIO (runDay 22 Part1)
+            , bench "2" $ whnfIO (runDay 22 Part2)
+            ]
+        , bgroup
             "23"
-            [ bench "1" $ whnfIO (runDay 23 Part1),
-              bench "2" $ whnfIO (runDay 23 Part2)
-            ],
-          bgroup
+            [ bench "1" $ whnfIO (runDay 23 Part1)
+            , bench "2" $ whnfIO (runDay 23 Part2)
+            ]
+        , bgroup
             "24"
-            [ bench "1" $ whnfIO (runDay 24 Part1),
-              bench "2" $ whnfIO (runDay 24 Part2)
-            ],
-          bgroup
+            [ bench "1" $ whnfIO (runDay 24 Part1)
+            , bench "2" $ whnfIO (runDay 24 Part2)
+            ]
+        , bgroup
             "25"
-            [bench "1" $ whnfIO (runDay 25 Part1), bench "2" $ whnfIO (runDay 25 Part2)]
+            [ bench "1" $ whnfIO (runDay 25 Part1)
+            , bench "2" $ whnfIO (runDay 25 Part2)
+            ]
         ]
     ]
