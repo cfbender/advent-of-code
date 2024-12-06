@@ -203,6 +203,7 @@ test-suite spec
       HUnit >=1.6.0.0
     , QuickCheck
     , ansi-terminal
+    , aoc
     , array
     , attoparsec
     , base >=4.7 && <5

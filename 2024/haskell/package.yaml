@@ -117,6 +117,7 @@ tests:
     - GADTs
     - GHC2021
     dependencies:
+      - aoc
       - hspec == 2.*
       - QuickCheck
       - HUnit >= 1.6.0.0
