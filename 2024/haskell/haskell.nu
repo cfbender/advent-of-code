@@ -3,7 +3,11 @@ def day [day: int] {
 }
 
 def bench [day: int] {
-  stack bench --benchmark-arguments $"day/($day)"
+  let strDay = match $day {
+    $x if $x < 10 => $"0($x)",
+    _ => ($day | into string)
+  }
+  stack bench --benchmark-arguments $"day/($strDay)"
 }
 
 def test [day: int] {
