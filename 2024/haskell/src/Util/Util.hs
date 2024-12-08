@@ -179,3 +179,6 @@ printMap m display = do
   lines = map (concatMap display . line) [minY .. maxY]
   (minX, maxX, minY, maxY) = mapBoundingBox m
   line y = [m Map.!? (x, y) | x <- [minX .. maxX]]
+
+groupBy :: (Ord a) => (t -> a) -> [t] -> Map a [t]
+groupBy mapper input = Map.fromListWith (++) (map (\x -> (mapper x, [x])) input)
