@@ -9,9 +9,9 @@ spec :: Spec
 spec = do
   describe "Day 09" $ do
     it "returns the correct answer for the test input for part 1" $ do
-      let testText = ""
+      let testText = "2333133121414131402"
       let Just testInput = parseTest inputParser testText
-      part1 testInput `shouldBe` undefined
+      part1 testInput `shouldBe` 1928
 
     it "returns the correct answer for the test input for part 2" $ do
       let testText = ""
