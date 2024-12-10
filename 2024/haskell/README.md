@@ -32,7 +32,7 @@
 | [Day 9](./src/Days/Day09.hs) | `662.0 µs` | `631.2 µs` |
 | [Day 10](./src/Days/Day10.hs) | `264.0 µs` | `208.3 µs` |
 
-**Total: 39m750.1439 ms (12.8566 ms/37,737.2873 ms)**
+**Total: 39,750.1439 ms (12.8566 ms/37,737.2873 ms)**
 <!--- benchmarking table --->
 
 This is a fork of [samcoy3's for their haskell starter repo](https://github.com/samcoy3/advent-of-code-template) with some changes and scripts for my usage.
