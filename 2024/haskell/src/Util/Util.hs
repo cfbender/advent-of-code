@@ -117,6 +117,19 @@ chunksByPredicate p ls
             then chunksByPredicate p $ dropWhile (not . p) rest
             else prefix : chunksByPredicate p (dropWhile (not . p) rest)
 
+-- Splits a list into two lists
+-- where those that satisfy the predicate are on the left
+-- and otherwise on the right
+splitWith :: (a -> Bool) -> [a] -> ([a], [a])
+splitWith p =
+  foldr
+    ( \x (a, b) ->
+        if p x
+          then (x : a, b)
+          else (a, x : b)
+    )
+    ([], [])
+
 -- Allows the user to log out some context and then the result of some expression
 -- For example, supposing a is 2, and b is 5:
 --     Input: traceShowIdWithContext (a, b) $ a + b
