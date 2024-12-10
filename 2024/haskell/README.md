@@ -1,4 +1,64 @@
-# aoc-template
+# Advent of Code Haskell Template
+
+<!--- advent_readme_stars table --->
+## 2024 Results
+
+| Day | Part 1 | Part 2 |
+| :---: | :---: | :---: |
+| [Day 1](https://adventofcode.com/2024/day/1) | ⭐ | ⭐ |
+| [Day 2](https://adventofcode.com/2024/day/2) | ⭐ | ⭐ |
+| [Day 3](https://adventofcode.com/2024/day/3) | ⭐ | ⭐ |
+| [Day 4](https://adventofcode.com/2024/day/4) | ⭐ | ⭐ |
+| [Day 5](https://adventofcode.com/2024/day/5) | ⭐ | ⭐ |
+| [Day 6](https://adventofcode.com/2024/day/6) | ⭐ | ⭐ |
+| [Day 7](https://adventofcode.com/2024/day/7) | ⭐ | ⭐ |
+| [Day 8](https://adventofcode.com/2024/day/8) | ⭐ | ⭐ |
+| [Day 9](https://adventofcode.com/2024/day/9) |  ⭐ | ⭐ |
+| [Day 10](https://adventofcode.com/2024/day/10) |  ⭐ | ⭐ |
+<!--- advent_readme_stars table --->
+<!--- benchmarking table --->
+## Benchmarks
+<!--- fill in value. here's the units for handy reference: µs, ms, s --->
+| Day | Part 1 | Part 2 |
+| :---: | :---: | :---:  |
+| [Day 1](./src/Days/Day01.hs) | `261.2 µs` | `259.7 µs` |
+| [Day 2](./src/Days/Day02.hs) | `573.1 µs` | `541.1 µs` |
+| [Day 3](./src/Days/Day03.hs) | `1.154 ms` | `1.128 ms` |
+| [Day 4](./src/Days/Day04.hs) | `3.981 ms` | `3.940 ms` |
+| [Day 5](./src/Days/Day05.hs) | `359.7 µs` | `365.4 µs` |
+| [Day 6](./src/Days/Day06.hs) | `4.445 ms` | `27.52 s` |
+| [Day 7](./src/Days/Day07.hs) | `938.7 µs` | `12.21 s` |
+| [Day 8](./src/Days/Day08.hs) | `217.9 µs` | `213.6 µs` |
+| [Day 9](./src/Days/Day09.hs) | `662.0 µs` | `631.2 µs` |
+| [Day 10](./src/Days/Day10.hs) | `264.0 µs` | `208.3 µs` |
+
+**Total: 39m750.1439 ms (12.8566 ms/37,737.2873 ms)**
+<!--- benchmarking table --->
+
+This is a fork of [samcoy3's for their haskell starter repo](https://github.com/samcoy3/advent-of-code-template) with some changes and scripts for my usage.
+
+## Additional dependencies
+- `regex-tdfa`: for regex operations just in case
+- `split`: for string and list splitting
+- `range`: for range operations
+- `criterion`: for benchmarking
+- `array`: when vector doesn't cut it 
+- `parallel`: for parallelizing when you're bad at optimizing
+
+## Tests
+
+The repo now has a `test` directory where unit tests live. I like to put the sample input there and the expected result.
+
+## Additional scripts and helpers
+
+I've added some helper scripts that do common actions like `test.sh` `bench.sh` and `day.sh`
+
+If using nushell, you can simply `source haskell.nu` and the scripts will be provided for you in the REPL as `test`, `bench` and `day`.
+
+Run a day like `day 1` or run it's example tests like `test 1`.
+
+
+## samcoy3's instructions (these should generally all hold true still but idk)
 
 This is an (opinionated) Advent of Code template for solutions in Haskell.
 
