@@ -7,7 +7,7 @@ def bench [day: int] {
     $x if $x < 10 => $"0($x)",
     _ => ($day | into string)
   }
-  stack bench --benchmark-arguments $"day/($strDay)"
+  cabal bench --benchmark-options=$"day/($strDay)"
 }
 
 def test [day: int] {
