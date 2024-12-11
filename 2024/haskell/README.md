@@ -3,37 +3,20 @@
 <!--- advent_readme_stars table --->
 ## 2024 Results
 
-| Day | Part 1 | Part 2 |
-| :---: | :---: | :---: |
-| [Day 1](https://adventofcode.com/2024/day/1) | ⭐ | ⭐ |
-| [Day 2](https://adventofcode.com/2024/day/2) | ⭐ | ⭐ |
-| [Day 3](https://adventofcode.com/2024/day/3) | ⭐ | ⭐ |
-| [Day 4](https://adventofcode.com/2024/day/4) | ⭐ | ⭐ |
-| [Day 5](https://adventofcode.com/2024/day/5) | ⭐ | ⭐ |
-| [Day 6](https://adventofcode.com/2024/day/6) | ⭐ | ⭐ |
-| [Day 7](https://adventofcode.com/2024/day/7) | ⭐ | ⭐ |
-| [Day 8](https://adventofcode.com/2024/day/8) | ⭐ | ⭐ |
-| [Day 9](https://adventofcode.com/2024/day/9) |  ⭐ | ⭐ |
-| [Day 10](https://adventofcode.com/2024/day/10) |  ⭐ | ⭐ |
+| Day | Part 1 | Part 2 | Solution |
+| :---: | :---: | :---: | :---:    |
+| [Day 1](https://adventofcode.com/2024/day/1) | ⭐ | ⭐ | [Solution](./src/Days/Day01.hs) |
+| [Day 2](https://adventofcode.com/2024/day/2) | ⭐ | ⭐ | [Solution](./src/Days/Day02.hs) |
+| [Day 3](https://adventofcode.com/2024/day/3) | ⭐ | ⭐ | [Solution](./src/Days/Day03.hs) |
+| [Day 4](https://adventofcode.com/2024/day/4) | ⭐ | ⭐ | [Solution](./src/Days/Day04.hs) |
+| [Day 5](https://adventofcode.com/2024/day/5) | ⭐ | ⭐ | [Solution](./src/Days/Day05.hs) |
+| [Day 6](https://adventofcode.com/2024/day/6) | ⭐ | ⭐ | [Solution](./src/Days/Day06.hs) |
+| [Day 7](https://adventofcode.com/2024/day/7) | ⭐ | ⭐ | [Solution](./src/Days/Day07.hs) |
+| [Day 8](https://adventofcode.com/2024/day/8) | ⭐ | ⭐ | [Solution](./src/Days/Day08.hs) |
+| [Day 9](https://adventofcode.com/2024/day/9) |  ⭐ | ⭐ | [Solution](./src/Days/Day09.hs) |
+| [Day 10](https://adventofcode.com/2024/day/10) |  ⭐ | ⭐ | [Solution](./src/Days/Day10.hs) |
+| [Day 11](https://adventofcode.com/2024/day/11) |  ⭐ | ⭐ | [Solution](./src/Days/Day11.hs) |
 <!--- advent_readme_stars table --->
-<!--- benchmarking table --->
-## Benchmarks
-<!--- fill in value. here's the units for handy reference: µs, ms, s --->
-| Day | Part 1 | Part 2 |
-| :---: | :---: | :---:  |
-| [Day 1](./src/Days/Day01.hs) | `261.2 µs` | `259.7 µs` |
-| [Day 2](./src/Days/Day02.hs) | `573.1 µs` | `541.1 µs` |
-| [Day 3](./src/Days/Day03.hs) | `1.154 ms` | `1.128 ms` |
-| [Day 4](./src/Days/Day04.hs) | `3.981 ms` | `3.940 ms` |
-| [Day 5](./src/Days/Day05.hs) | `359.7 µs` | `365.4 µs` |
-| [Day 6](./src/Days/Day06.hs) | `4.445 ms` | `27.52 s` |
-| [Day 7](./src/Days/Day07.hs) | `938.7 µs` | `12.21 s` |
-| [Day 8](./src/Days/Day08.hs) | `217.9 µs` | `213.6 µs` |
-| [Day 9](./src/Days/Day09.hs) | `662.0 µs` | `631.2 µs` |
-| [Day 10](./src/Days/Day10.hs) | `264.0 µs` | `208.3 µs` |
-
-**Total: 39,750.1439 ms (12.8566 ms/37,737.2873 ms)**
-<!--- benchmarking table --->
 
 ## Template
 

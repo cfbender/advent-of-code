@@ -195,3 +195,11 @@ printMap m display = do
 
 groupBy :: (Ord a) => (t -> a) -> [t] -> Map a [t]
 groupBy mapper input = Map.fromListWith (++) (map (\x -> (mapper x, [x])) input)
+
+-- split an integer into it's digits
+digits :: Int -> [Int]
+digits = map (read . (: [])) . show
+
+-- join a list of integer digits into a single integer
+undigits :: [Int] -> Int
+undigits = read . concatMap show
