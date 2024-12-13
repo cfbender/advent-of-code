@@ -17,3 +17,11 @@ def test [day: int] {
   }
   stack test --ta $"--match \"Day ($strDay)\"" --file-watch
 }
+
+def edit [day: int] {
+  let strDay = match $day {
+    $x if $x < 10 => $"0($x)",
+    _ => ($day | into string)
+  }
+  ^$env.EDITOR $"src/Days/Day($strDay).hs" $"input/day($strDay).txt" $"test/Days/Day($strDay)Spec.hs"
+}
