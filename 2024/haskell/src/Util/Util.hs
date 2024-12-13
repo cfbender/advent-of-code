@@ -4,6 +4,7 @@ import Control.Applicative
 import Data.List
 import Data.Map.Strict (Map)
 import Data.Map.Strict qualified as Map
+import Data.Set qualified as Set
 import Data.Traversable (sequenceA)
 import Debug.Trace (trace)
 import Util.Parsers (Coordinate)
@@ -98,3 +99,6 @@ digits = map (read . (: [])) . show
 -- join a list of integer digits into a single integer
 undigits :: [Int] -> Int
 undigits = read . concatMap show
+
+uniq :: (Ord a) => [a] -> [a]
+uniq = Set.toList . Set.fromList

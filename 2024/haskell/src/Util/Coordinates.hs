@@ -8,6 +8,8 @@ import Data.Set qualified as Set
 import Debug.Trace (trace)
 import Util.Parsers (Coordinate)
 
+data Direction = N | E | S | W | NE | SE | SW | NW deriving (Show, Eq)
+
 -- gets all neighbors around a coordinate
 neighbors :: (Int, Int) -> [(Int, Int)]
 neighbors (x, y) =
