@@ -13,8 +13,8 @@ import Data.Map (Map)
 import Data.Map qualified as M
 import Data.Maybe (mapMaybe)
 import Program.RunDay qualified as R (Day, runDay)
+import Util.Coordinates (neighborsOnlyCorners, rays)
 import Util.Parsers (Coordinate, coordinateParser)
-import Util.Util (neighborsOnlyCorners, rays)
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2

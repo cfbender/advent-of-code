@@ -51,6 +51,7 @@ library
       Days.Day25
       Program.Color
       Program.RunDay
+      Util.Coordinates
       Util.Pair
       Util.Parsers
       Util.Util
@@ -181,6 +182,7 @@ test-suite spec
       Days.Day25
       Program.Color
       Program.RunDay
+      Util.Coordinates
       Util.Pair
       Util.Parsers
       Util.Util

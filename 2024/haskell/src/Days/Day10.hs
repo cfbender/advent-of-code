@@ -19,8 +19,8 @@ import Data.Maybe (mapMaybe)
 import Data.Set (Set)
 import Data.Set qualified as S
 import Program.RunDay qualified as R (Day, runDay)
+import Util.Coordinates (neighborsNoCorners)
 import Util.Parsers (Coordinate, coordinateParser)
-import Util.Util (neighborsNoCorners)
 import Util.Util qualified as U
 
 runDay :: R.Day
