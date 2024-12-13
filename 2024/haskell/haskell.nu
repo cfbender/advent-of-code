@@ -23,5 +23,5 @@ def edit [day: int] {
     $x if $x < 10 => $"0($x)",
     _ => ($day | into string)
   }
-  ^$env.EDITOR $"src/Days/Day($strDay).hs" $"input/day($strDay).txt" $"test/Days/Day($strDay)Spec.hs"
+  ^$env.EDITOR $"src/Days/Day($strDay).hs" $"input/Day($strDay).txt" $"test/Days/Day($strDay)Spec.hs"
 }
