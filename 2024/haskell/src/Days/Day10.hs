@@ -29,8 +29,8 @@ runDay = R.runDay inputParser part1 part2
 ------------ PARSER ------------
 inputParser :: Parser Input
 inputParser = coordinateParser mapper 0
- where
-  mapper x = Just (digitToInt x)
+  where
+    mapper x = Just (digitToInt x)
 
 ------------ TYPES ------------
 type Input = Map Coordinate Int
@@ -43,31 +43,29 @@ type OutputB = Int
 
 next :: Input -> Coordinate -> [(Coordinate, Int)]
 next input x = mapMaybe check $ neighborsNoCorners x
- where
-  start = input M.! x
-  check x = do
-    let val = input M.!? x
-    -- only include values that are in the map and increment by one
-    if val == Just (start + 1)
-      then Just (x, start + 1)
-      else Nothing
+  where
+    start = input M.! x
+    check x = do
+      let val = input M.!? x
+      -- only include values that are in the map and increment by one
+      if val == Just (start + 1)
+        then Just (x, start + 1)
+        else Nothing
 
 hike :: Input -> Set Coordinate -> Coordinate -> Set Coordinate
 hike input acc x = case next input x of
   [] -> acc
   xs ->
-    let
-      (nines, checks) = U.splitWith ((== 9) . snd) xs
-      -- if we found any nines, split them out and add them to seen ends
-      ends = acc `S.union` S.fromList (map fst nines)
-     in
-      -- recurse with everything not a nine
-      foldr (S.union . hike input ends . fst) ends checks
+    let (nines, checks) = U.splitWith ((== 9) . snd) xs
+        -- if we found any nines, split them out and add them to seen ends
+        ends = acc `S.union` S.fromList (map fst nines)
+     in -- recurse with everything not a nine
+        foldr (S.union . hike input ends . fst) ends checks
 
 part1 :: Input -> OutputA
 part1 input = sum $ map (S.size . hike input S.empty) trailheads
- where
-  trailheads = M.keys $ M.filter (== 0) input
+  where
+    trailheads = M.keys $ M.filter (== 0) input
 
 ------------ PART 2 ------------
 hike' :: Input -> Coordinate -> Int
@@ -81,5 +79,5 @@ hike' input x = case next input x of
 
 part2 :: Input -> OutputB
 part2 input = sum $ map (hike' input) trailheads
- where
-  trailheads = M.keys $ M.filter (== 0) input
+  where
+    trailheads = M.keys $ M.filter (== 0) input

@@ -43,11 +43,11 @@ inputParser =
     )
     ((0, 0), M.empty)
     <$> coordinateParser mapper 0
- where
-  mapper '.' = Just Empty
-  mapper '#' = Just Obstacle
-  mapper '^' = Just Guard
-  mapper _ = Nothing
+  where
+    mapper '.' = Just Empty
+    mapper '#' = Just Obstacle
+    mapper '^' = Just Guard
+    mapper _ = Nothing
 
 ------------ TYPES ------------
 type PuzzleMap = Map Coordinate Location
@@ -59,6 +59,7 @@ type OutputA = Int
 type OutputB = Int
 
 data Location = Guard | Obstacle | Empty deriving (Show, Eq, Ord)
+
 data Direction = North | East | South | West deriving (Show, Eq, Ord)
 
 ------------ PART 1 ------------
@@ -86,10 +87,10 @@ part1 :: Input -> OutputA
 part1 (guard, input) =
   -- add one for dropping the final location
   (+ 1) $ length . S.fromList $ guard : unfoldr step (guard, North)
- where
-  step (coord, dir) = case check input coord dir of
-    Just (nextCoord, nextDir) -> Just (coord, (nextCoord, nextDir))
-    Nothing -> Nothing
+  where
+    step (coord, dir) = case check input coord dir of
+      Just (nextCoord, nextDir) -> Just (coord, (nextCoord, nextDir))
+      Nothing -> Nothing
 
 ------------ PART 2 ------------
 detectCycle' :: PuzzleMap -> (Coordinate, Direction) -> Set (Coordinate, Direction) -> Bool
@@ -116,5 +117,5 @@ part2 (guard, input) =
   length $
     filter isJust $
       parMap rdeepseq (detectCycle input (guard, North)) empties
- where
-  empties = M.keys $ M.filter (== Empty) input
+  where
+    empties = M.keys $ M.filter (== Empty) input

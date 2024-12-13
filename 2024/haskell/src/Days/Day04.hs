@@ -9,7 +9,6 @@ module Days.Day04 where
 -- but still not super comfy with haskell as a tool yet
 
 import Data.Attoparsec.Text (Parser, char, choice, endOfLine, sepBy)
-
 import Data.Map (Map)
 import Data.Map qualified as M
 import Data.Maybe (mapMaybe)
@@ -23,12 +22,12 @@ runDay = R.runDay inputParser part1 part2
 ------------ PARSER ------------
 inputParser :: Parser Input
 inputParser = coordinateParser xmas 0
- where
-  xmas 'X' = Just X
-  xmas 'M' = Just M
-  xmas 'A' = Just A
-  xmas 'S' = Just S
-  xmas _ = Nothing
+  where
+    xmas 'X' = Just X
+    xmas 'M' = Just M
+    xmas 'A' = Just A
+    xmas 'S' = Just S
+    xmas _ = Nothing
 
 ------------ TYPES ------------
 type Input = Map Coordinate XMAS
@@ -52,10 +51,10 @@ part1 input =
       >>= map
         -- convert coordinates from rays to letters
         (mapMaybe (input M.!?))
- where
-  xs = filter ((==) X . snd) $ M.toList input
-  -- get rays coming from Xs in order
-  checks = map (rays 3 . fst) xs
+  where
+    xs = filter ((==) X . snd) $ M.toList input
+    -- get rays coming from Xs in order
+    checks = map (rays 3 . fst) xs
 
 ------------ PART 2 ------------
 part2 :: Input -> OutputB
@@ -68,6 +67,6 @@ found' (M : M : S : S : _) = True
 found' (S : M : S : M : _) = True
 found' _ = False
 part2 input = length . filter found' $ map (mapMaybe (input M.!?)) checks
- where
-  as = filter ((==) A . snd) $ M.toList input
-  checks = map (neighborsOnlyCorners . fst) as
+  where
+    as = filter ((==) A . snd) $ M.toList input
+    checks = map (neighborsOnlyCorners . fst) as

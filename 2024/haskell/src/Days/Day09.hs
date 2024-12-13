@@ -27,10 +27,10 @@ runDay = R.runDay inputParser part1 part2
 ------------ PARSER ------------
 inputParser :: Parser Input
 inputParser = V.fromList . zipWith (curry convert) [0 ..] <$> many1 digit
- where
-  convert (i, x)
-    | even i = CFile (i `div` 2, digitToInt x)
-    | otherwise = CEmpty (digitToInt x)
+  where
+    convert (i, x)
+      | even i = CFile (i `div` 2, digitToInt x)
+      | otherwise = CEmpty (digitToInt x)
 
 ------------ TYPES ------------
 type Input = Vector CBlock
@@ -53,24 +53,24 @@ instance Ord Block where
 ------------ PART 1 ------------
 defrag :: [Block] -> [Block]
 defrag xs = take count $ reverse $ fst $ foldl step ([], stack) xs
- where
-  stack = reverse (filter (/= Empty) xs)
-  count = length stack
-  -- if block is empty, pop file from stack and replace
-  step (acc, f : rest) Empty = (f : acc, rest)
-  step (acc, stack) x = (x : acc, stack)
+  where
+    stack = reverse (filter (/= Empty) xs)
+    count = length stack
+    -- if block is empty, pop file from stack and replace
+    step (acc, f : rest) Empty = (f : acc, rest)
+    step (acc, stack) x = (x : acc, stack)
 
 checksum :: [Block] -> Int
 checksum = sum . zipWith (*) [0 ..] . map convert
- where
-  convert (File x) = x
-  convert Empty = 0
+  where
+    convert (File x) = x
+    convert Empty = 0
 
 ungroup :: [CBlock] -> [Block]
 ungroup = concatMap convert
- where
-  convert (CFile (x, i)) = replicate i (File x)
-  convert (CEmpty i) = replicate i Empty
+  where
+    convert (CFile (x, i)) = replicate i (File x)
+    convert (CEmpty i) = replicate i Empty
 
 part1 :: Input -> OutputA
 part1 = checksum . defrag . ungroup . V.toList
@@ -81,32 +81,32 @@ replace xs a b = V.map (\x -> if x == a then b else x) xs
 
 move :: Vector CBlock -> CBlock -> CBlock -> Vector CBlock
 move xs (CEmpty eSize) (CFile (fId, fSize)) = newLeft V.++ padding V.++ rest
- where
-  -- split at where the hole is
-  (left, right) = V.break (== CEmpty eSize) xs
-  -- take the right side and drop the hole, and replace the file with empty space
-  rest = replace (V.drop 1 right) (CFile (fId, fSize)) (CEmpty fSize)
-  -- add extra padding if the hole is bigger than the file
-  padding = V.fromList [CEmpty (eSize - fSize) | eSize > fSize]
-  -- add the moved file to the end of the left
-  newLeft = V.snoc left (CFile (fId, fSize))
+  where
+    -- split at where the hole is
+    (left, right) = V.break (== CEmpty eSize) xs
+    -- take the right side and drop the hole, and replace the file with empty space
+    rest = replace (V.drop 1 right) (CFile (fId, fSize)) (CEmpty fSize)
+    -- add extra padding if the hole is bigger than the file
+    padding = V.fromList [CEmpty (eSize - fSize) | eSize > fSize]
+    -- add the moved file to the end of the left
+    newLeft = V.snoc left (CFile (fId, fSize))
 
 defrag' :: Vector CBlock -> Vector CBlock
 defrag' xs = foldl step xs stack
- where
-  isFile (CEmpty _) = False
-  isFile _ = True
-  stack = sortBy (comparing Ord.Down) (filter isFile $ V.toList xs)
-  canFit x (CEmpty y) = x <= y
-  canFit _ _ = False
-  step :: Vector CBlock -> CBlock -> Vector CBlock
-  -- for each file on the stack, find the first empty block to move it to
-  step acc (CFile (id, size)) =
-    -- look only to the left of the file
-    let (left, _) = V.break (== CFile (id, size)) acc
-     in case V.find (canFit size) left of
-          Just (CEmpty x) -> move acc (CEmpty x) (CFile (id, size))
-          Nothing -> acc
+  where
+    isFile (CEmpty _) = False
+    isFile _ = True
+    stack = sortBy (comparing Ord.Down) (filter isFile $ V.toList xs)
+    canFit x (CEmpty y) = x <= y
+    canFit _ _ = False
+    step :: Vector CBlock -> CBlock -> Vector CBlock
+    -- for each file on the stack, find the first empty block to move it to
+    step acc (CFile (id, size)) =
+      -- look only to the left of the file
+      let (left, _) = V.break (== CFile (id, size)) acc
+       in case V.find (canFit size) left of
+            Just (CEmpty x) -> move acc (CEmpty x) (CFile (id, size))
+            Nothing -> acc
 
 part2 :: Input -> OutputB
 part2 = show . checksum . ungroup . V.toList . defrag'

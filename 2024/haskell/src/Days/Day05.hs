@@ -42,16 +42,16 @@ inputParser = do
   count 2 endOfLine
   updates <- update `sepBy` endOfLine
   return
-    ( foldr (\(a, b) -> M.insertWith S.union b (S.fromList [a])) M.empty rules
-    , filter (not . null) updates
+    ( foldr (\(a, b) -> M.insertWith S.union b (S.fromList [a])) M.empty rules,
+      filter (not . null) updates
     )
- where
-  rule = do
-    a <- decimal
-    char '|'
-    b <- decimal
-    return (a, b)
-  update = decimal `sepBy` ","
+  where
+    rule = do
+      a <- decimal
+      char '|'
+      b <- decimal
+      return (a, b)
+    update = decimal `sepBy` ","
 
 ------------ TYPES ------------
 type Input = (Rules, [[Int]])
@@ -73,8 +73,8 @@ sort' :: Rules -> Int -> Int -> Ordering
 sort' rules a b
   | b `S.member` x = GT
   | otherwise = LT
- where
-  x = M.findWithDefault S.empty a rules
+  where
+    x = M.findWithDefault S.empty a rules
 
 part1 :: Input -> OutputA
 part1 (rules, updates) =
@@ -90,11 +90,11 @@ part1 (rules, updates) =
 ------------ PART 2 ------------
 part2 :: Input -> OutputB
 part2 (rules, updates) = sum $ map middle fixed
- where
-  fixed =
-    mapMaybe
-      ( \update ->
-          let sorted = sortBy (sort' rules) update
-           in if sorted == update then Nothing else Just sorted
-      )
-      updates
+  where
+    fixed =
+      mapMaybe
+        ( \update ->
+            let sorted = sortBy (sort' rules) update
+             in if sorted == update then Nothing else Just sorted
+        )
+        updates

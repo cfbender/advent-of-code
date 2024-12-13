@@ -42,18 +42,18 @@ change x y stones
           stones' = M.alter add (U.undigits a) stones
        in M.alter add (U.undigits b) stones'
   | otherwise = M.alter add (x * 2024) stones
- where
-  digits = U.digits x
-  -- add the count of new stones to the previous based on how many came in
-  add (Just x) = Just (x + y)
-  add Nothing = Just y
+  where
+    digits = U.digits x
+    -- add the count of new stones to the previous based on how many came in
+    add (Just x) = Just (x + y)
+    add Nothing = Just y
 
 blink :: Int -> [Int] -> Int
 blink n input = M.foldr (+) 0 $ foldr simulate stones [1 .. n]
- where
-  stones = U.freq input
-  -- go over each stone and change it passing along the current number
-  simulate _ = M.foldrWithKey change M.empty
+  where
+    stones = U.freq input
+    -- go over each stone and change it passing along the current number
+    simulate _ = M.foldrWithKey change M.empty
 
 part1 :: Input -> OutputA
 part1 = blink 25

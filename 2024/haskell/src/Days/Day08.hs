@@ -26,9 +26,9 @@ runDay = R.runDay inputParser part1 part2
 ------------ PARSER ------------
 inputParser :: Parser Input
 inputParser = coordinateParser point 0
- where
-  point '.' = Just Empty
-  point x = Just (Antenna x)
+  where
+    point '.' = Just Empty
+    point x = Just (Antenna x)
 
 ------------ TYPES ------------
 type Input = Map Coordinate Point
@@ -46,17 +46,17 @@ distance ((x1, y1), (x2, y2)) = (x1 - x2, y1 - y2)
 antinodes :: Int -> (Coordinate, Coordinate) -> [Coordinate]
 antinodes n (a, b) =
   concat
-    [ [ (x1 + (d * dx), y1 + (d * dy))
-      , (x2 - (d * dx), y2 - (d * dy))
+    [ [ (x1 + (d * dx), y1 + (d * dy)),
+        (x2 - (d * dx), y2 - (d * dy))
       ]
-    | d <- multipliers
+      | d <- multipliers
     ]
- where
-  (dx, dy) = distance (a, b)
-  (x1, y1) = a
-  (x2, y2) = b
-  -- only count the point itself if checking outside of 1 range (part 2)
-  multipliers = if n == 1 then [1] else [0 .. n]
+  where
+    (dx, dy) = distance (a, b)
+    (x1, y1) = a
+    (x2, y2) = b
+    -- only count the point itself if checking outside of 1 range (part 2)
+    multipliers = if n == 1 then [1] else [0 .. n]
 
 solve :: ((Coordinate, Coordinate) -> [Coordinate]) -> Input -> Int
 solve generator input =
@@ -64,19 +64,19 @@ solve generator input =
     S.fromList $
       concat $
         pairs >>= map (filter (`M.member` input) . generator)
- where
-  -- group across the map by antenna name
-  antennas = M.map (map fst) . groupBy snd $ M.toList $ M.filter (/= Empty) input
-  -- map across each antenna to get all the combinations of points into tuples
-  pairs =
-    map
-      ( map
-          (\(a : b : _) -> (a, b))
-          . filter ((2 ==) . length)
-          . subsequences
-          . snd
-      )
-      (M.toList antennas)
+  where
+    -- group across the map by antenna name
+    antennas = M.map (map fst) . groupBy snd $ M.toList $ M.filter (/= Empty) input
+    -- map across each antenna to get all the combinations of points into tuples
+    pairs =
+      map
+        ( map
+            (\(a : b : _) -> (a, b))
+            . filter ((2 ==) . length)
+            . subsequences
+            . snd
+        )
+        (M.toList antennas)
 
 part1 :: Input -> OutputA
 part1 = solve (antinodes 1)

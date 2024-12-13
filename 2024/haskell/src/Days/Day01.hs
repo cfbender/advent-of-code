@@ -4,13 +4,13 @@ module Days.Day01 where
 --  my tooling fixed. SO much better than day 1 last year tho since it came back to me quickly.
 --  Should be good going forward, just gonna take some time to remember things like uncurry again
 
+import Data.Attoparsec.Text (Parser, decimal, endOfLine, many1, sepBy, space)
 import Data.Bifunctor (bimap)
 import Data.List
-import qualified Data.Map.Strict as Map
-import qualified Util.Util as U
-import Data.Attoparsec.Text (Parser, endOfLine, sepBy, decimal, space, many1)
+import Data.Map.Strict qualified as Map
 import Data.Void
 import Program.RunDay qualified as R (Day, runDay)
+import Util.Util qualified as U
 
 runDay :: R.Day
 runDay = R.runDay inputParser part1 part2
@@ -18,13 +18,12 @@ runDay = R.runDay inputParser part1 part2
 ------------ PARSER ------------
 inputParser :: Parser Input
 inputParser = unzip <$> line `sepBy` endOfLine
- where
-  line = do
-    first <- decimal
-    many1 space
-    second <- decimal
-    return (first, second)
-
+  where
+    line = do
+      first <- decimal
+      many1 space
+      second <- decimal
+      return (first, second)
 
 ------------ TYPES ------------
 type Input = ([Int], [Int])
@@ -40,6 +39,6 @@ part1 = sum . map abs . uncurry (zipWith subtract) . bimap sort sort
 ------------ PART 2 ------------
 part2 :: Input -> OutputB
 part2 (xs, ys) = sum $ zipWith (*) xs similarities
- where
-  similarities = map check xs
-  check x = Map.findWithDefault 0 x $ U.freq ys
+  where
+    similarities = map check xs
+    check x = Map.findWithDefault 0 x $ U.freq ys

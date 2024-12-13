@@ -22,13 +22,13 @@ runDay = R.runDay inputParser part1 part2
 ------------ PARSER ------------
 inputParser :: Parser Input
 inputParser = calibration `sepBy` endOfLine
- where
-  calibration = do
-    total <- decimal
-    char ':'
-    space
-    nums <- decimal `sepBy` char ' '
-    return (total, nums)
+  where
+    calibration = do
+      total <- decimal
+      char ':'
+      space
+      nums <- decimal `sepBy` char ' '
+      return (total, nums)
 
 ------------ TYPES ------------
 type Input = [(Int, [Int])]
