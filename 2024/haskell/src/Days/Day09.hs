@@ -37,7 +37,7 @@ type Input = Vector CBlock
 
 type OutputA = Int
 
-type OutputB = String
+type OutputB = Int
 
 -- File ID or Empty
 data Block = File Int | Empty deriving (Show, Eq)
@@ -109,4 +109,4 @@ defrag' xs = foldl step xs stack
             Nothing -> acc
 
 part2 :: Input -> OutputB
-part2 = show . checksum . ungroup . V.toList . defrag'
+part2 = checksum . ungroup . V.toList . defrag'

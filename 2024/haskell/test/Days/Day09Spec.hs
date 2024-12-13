@@ -14,6 +14,6 @@ spec = do
       part1 testInput `shouldBe` 1928
 
     it "returns the correct answer for the test input for part 2" $ do
-      let testText = ""
+      let testText = "2333133121414131402"
       let Just testInput = parseTest inputParser testText
-      part2 testInput `shouldBe` undefined
+      part2 testInput `shouldBe` 2858
