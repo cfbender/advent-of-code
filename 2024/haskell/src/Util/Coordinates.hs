@@ -1,5 +1,6 @@
 module Util.Coordinates where
 
+import Data.List (intercalate)
 import Data.Map.Strict (Map)
 import Data.Map.Strict qualified as Map
 import Data.Maybe (fromMaybe)
@@ -107,6 +108,13 @@ printMap :: Map Coordinate a -> (Maybe a -> String) -> IO (Map Coordinate a)
 printMap m display = do
   mapM_ putStrLn lines
   return m
+  where
+    lines = map (concatMap display . line) [minY .. maxY]
+    (minX, maxX, minY, maxY) = mapBoundingBox m
+    line y = [m Map.!? (x, y) | x <- [minX .. maxX]]
+
+toPrintable :: Map Coordinate a -> (Maybe a -> String) -> String
+toPrintable m display = intercalate "\n" lines
   where
     lines = map (concatMap display . line) [minY .. maxY]
     (minX, maxX, minY, maxY) = mapBoundingBox m

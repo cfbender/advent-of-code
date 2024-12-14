@@ -29,9 +29,9 @@ runDay inputParser part1 part2 verbosity inputFile runType = do
         else
           throwError $
             unwords
-              [ "I couldn't read the input!"
-              , "I was expecting it to be at"
-              , inputFile
+              [ "I couldn't read the input!",
+                "I was expecting it to be at",
+                inputFile
               ]
     case parseOnly inputParser . pack $ fileContents of
       Left e -> throwError $ "Parser failed to read input. Error:\n" ++ e
