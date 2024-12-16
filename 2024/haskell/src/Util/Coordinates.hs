@@ -9,7 +9,7 @@ import Data.Set qualified as Set
 import Debug.Trace (trace)
 import Util.Parsers (Coordinate)
 
-data Direction = N | E | S | W | NE | SE | SW | NW deriving (Show, Eq)
+data Direction = N | E | S | W | NE | SE | SW | NW deriving (Show, Eq, Ord)
 
 -- move in a given direction
 move :: Coordinate -> Direction -> Coordinate
@@ -94,8 +94,6 @@ setBoundingBox m =
     (maximum . fmap fst . Set.toList $ m)
     (minimum . fmap snd . Set.toList $ m)
     (maximum . fmap snd . Set.toList $ m)
-
-tsnd (_, x, _) = x
 
 dijkstras :: Coordinate -> Coordinate -> (Int -> a -> a -> Int) -> Map Coordinate a -> Int
 dijkstras start end mapper i = dijkstras' (Set.singleton (0, start)) Map.empty

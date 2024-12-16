@@ -102,3 +102,7 @@ undigits = read . concatMap show
 
 uniq :: (Ord a) => [a] -> [a]
 uniq = Set.toList . Set.fromList
+
+tsnd (_, x, _) = x
+
+third (_, _, x) = x
