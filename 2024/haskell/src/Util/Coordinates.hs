@@ -11,6 +11,17 @@ import Util.Parsers (Coordinate)
 
 data Direction = N | E | S | W | NE | SE | SW | NW deriving (Show, Eq)
 
+-- move in a given direction
+move :: Coordinate -> Direction -> Coordinate
+move (x, y) N = (x, y - 1)
+move (x, y) E = (x + 1, y)
+move (x, y) S = (x, y + 1)
+move (x, y) W = (x - 1, y)
+move (x, y) NE = (x + 1, y - 1)
+move (x, y) SE = (x + 1, y + 1)
+move (x, y) SW = (x - 1, y + 1)
+move (x, y) NW = (x - 1, y - 1)
+
 -- gets all neighbors around a coordinate
 neighbors :: (Int, Int) -> [(Int, Int)]
 neighbors (x, y) =
