@@ -1,10 +1,25 @@
 module Days.Day15 where
 
+<<<<<<< HEAD
 import Data.Attoparsec.Text (Parser, anyChar, choice, count, endOfLine, many1, skipSpace)
 import Data.List (find)
 import Data.Map (Map)
 import Data.Map qualified as Map
 import Data.Maybe (fromJust)
+||||||| parent of a445180 (feat: 2024 day 15 hs part 1)
+import Data.Attoparsec.Text (Parser, endOfLine, sepBy)
+=======
+-- part 1:
+-- took me too long to just recurse to have the box push other boxes. also spent like 2 hours just parsing
+-- because of the grid PLUS other things
+-- maybe I'll come back to part 2 later idk
+
+import Data.Attoparsec.Text (Parser, anyChar, choice, count, endOfLine, many1, skipSpace)
+import Data.List (find)
+import Data.Map (Map)
+import Data.Map qualified as Map
+import Data.Maybe (fromJust)
+>>>>>>> a445180 (feat: 2024 day 15 hs part 1)
 import Data.Void
 import Program.RunDay qualified as R (Day, runDay)
 import Util.Coordinates (Direction (E, N, S, W), move)
