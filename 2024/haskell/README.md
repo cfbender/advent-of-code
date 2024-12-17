@@ -21,6 +21,7 @@
 | [Day 14](https://adventofcode.com/2024/day/14) |  ⭐ | ⭐ | [Solution](./src/Days/Day14.hs) |
 | [Day 15](https://adventofcode.com/2024/day/15) |  ⭐ |   | [Solution](./src/Days/Day15.hs) |
 | [Day 16](https://adventofcode.com/2024/day/16) |  ⭐ |   | [Solution](./src/Days/Day16.hs) |
+| [Day 17](https://adventofcode.com/2024/day/17) |  ⭐ |   | [Solution](./src/Days/Day17.hs) |
 <!--- advent_readme_stars table --->
 
 ## Template
