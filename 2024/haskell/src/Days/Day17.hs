@@ -8,6 +8,7 @@ module Days.Day17 where
 import Data.Attoparsec.Text (Parser, decimal, endOfLine, sepBy)
 import Data.Bits (xor)
 import Data.List (find, intercalate, unfoldr)
+import Data.Maybe (fromJust)
 import Data.Vector (Vector)
 import Data.Vector qualified as V
 import Data.Void
@@ -32,7 +33,7 @@ type Input = (Registers, Vector Int)
 
 type OutputA = String
 
-type OutputB = String
+type OutputB = Int
 
 data Registers = Registers
   { a :: Int,
@@ -87,6 +88,10 @@ part1 (regs, instructions) = run instructions (0, regs, [])
 
 ------------ PART 2 ------------
 part2 :: Input -> OutputB
-part2 (regs, instructions) = show . find ((== correct) . snd) $ [(x, run instructions (0, regs {a = x}, [])) | x <- [0 ..]]
+part2 (regs, instructions) =
+  fst
+    . fromJust
+    . find ((== correct) . snd)
+    $ [(x, run instructions (0, regs {a = x}, [])) | x <- [0 ..]]
   where
     correct = traceShowIdWithContext "correct" $ intercalate "," $ map show $ V.toList instructions
