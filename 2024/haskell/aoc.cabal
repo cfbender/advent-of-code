@@ -74,6 +74,7 @@ library
     , base >=4.7 && <5
     , containers
     , criterion
+    , data-memocombinators
     , directory
     , mtl
     , optparse-applicative
@@ -111,6 +112,7 @@ executable aoc-exe
     , base >=4.7 && <5
     , containers
     , criterion
+    , data-memocombinators
     , directory
     , mtl
     , optparse-applicative
@@ -211,6 +213,7 @@ test-suite spec
     , base >=4.7 && <5
     , containers
     , criterion
+    , data-memocombinators
     , directory
     , hspec ==2.*
     , mtl
@@ -250,6 +253,7 @@ benchmark bench
     , base >=4.7 && <5
     , containers
     , criterion
+    , data-memocombinators
     , directory
     , mtl
     , optparse-applicative

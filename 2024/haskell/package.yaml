@@ -37,6 +37,7 @@ dependencies:
 - criterion
 - array
 - parallel
+- data-memocombinators
 
 library:
   source-dirs: src
