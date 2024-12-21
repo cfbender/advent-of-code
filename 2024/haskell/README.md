@@ -23,6 +23,8 @@
 | [Day 16](https://adventofcode.com/2024/day/16) |  ⭐ |   | [Solution](./src/Days/Day16.hs) |
 | [Day 17](https://adventofcode.com/2024/day/17) |  ⭐ |   | [Solution](./src/Days/Day17.hs) |
 | [Day 18](https://adventofcode.com/2024/day/18) |  ⭐ | ⭐ | [Solution](./src/Days/Day18.hs) |
+| [Day 19](https://adventofcode.com/2024/day/19) |  ⭐ | ⭐ | [Solution](./src/Days/Day19.hs) |
+| [Day 20](https://adventofcode.com/2024/day/20) |  ⭐ |   | [Solution](./src/Days/Day20.hs) |
 <!--- advent_readme_stars table --->
 
 ## Template
