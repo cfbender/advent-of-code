@@ -1,5 +1,8 @@
 module Days.Day21 where
 
+-- yeah this ain't happening. LOVE the puzzle design tho it's so funny. but
+-- just seems too complex to be worth the time for me
+
 import Data.Attoparsec.Text (Parser, anyChar, char, choice, digit, endOfLine, letter, many1, sepBy)
 import Data.Void
 import Program.RunDay qualified as R (Day, runDay)
@@ -10,21 +13,21 @@ runDay = R.runDay inputParser part1 part2
 ------------ PARSER ------------
 inputParser :: Parser Input
 inputParser = instructions `sepBy` endOfLine
- where
-  instructions = do
-    instructions <- many1 (choice [digit, char 'A'])
-    return (map instruction instructions)
-  instruction '0' = Zero
-  instruction '1' = One
-  instruction '2' = Two
-  instruction '3' = Three
-  instruction '4' = Four
-  instruction '5' = Five
-  instruction '6' = Six
-  instruction '7' = Seven
-  instruction '8' = Eight
-  instruction '9' = Nine
-  instruction 'A' = Push
+  where
+    instructions = do
+      instructions <- many1 (choice [digit, char 'A'])
+      return (map instruction instructions)
+    instruction '0' = Zero
+    instruction '1' = One
+    instruction '2' = Two
+    instruction '3' = Three
+    instruction '4' = Four
+    instruction '5' = Five
+    instruction '6' = Six
+    instruction '7' = Seven
+    instruction '8' = Eight
+    instruction '9' = Nine
+    instruction 'A' = Push
 
 ------------ TYPES ------------
 type Input = [[NumInstruction]]
