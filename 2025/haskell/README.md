@@ -1,12 +1,12 @@
 # Advent of Code Haskell Template
 <!--- advent_readme_stars table --->
-## <YEAR> Results
+## 2025 Results
 <!--- fill in spots with ⭐ --->
 <!--- fill year with current year--->
 
 | Day | Part 1 | Part 2 | Solution |
 | :---: | :---: | :---: | :---:    |
-| [Day 1](https://adventofcode.com/YEAR/day/1) |   |   | [Solution](./src/Days/Day01.hs) |
+| [Day 1](https://adventofcode.com/2025/day/1) | ⭐ | ⭐ | [Solution](./src/Days/Day01.hs) |
 
 ## Template
 
