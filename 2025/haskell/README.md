@@ -8,6 +8,7 @@
 | :---: | :---: | :---: | :---:    |
 | [Day 1](https://adventofcode.com/2025/day/1) | ⭐ | ⭐ | [Solution](./src/Days/Day01.hs) |
 | [Day 2](https://adventofcode.com/2025/day/2) | ⭐ | ⭐ | [Solution](./src/Days/Day02.hs) |
+| [Day 3](https://adventofcode.com/2025/day/3) | ⭐ | ⭐ | [Solution](./src/Days/Day03.hs) |
 
 ## Template
 
