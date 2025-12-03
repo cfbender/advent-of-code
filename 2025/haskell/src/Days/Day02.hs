@@ -12,12 +12,12 @@ runDay = R.runDay inputParser part1 part2
 ------------ PARSER ------------
 inputParser :: Parser Input
 inputParser = range `sepBy` char ','
- where
-  range = do
-    start <- decimal
-    _ <- char '-'
-    end <- decimal
-    return (start, end)
+  where
+    range = do
+        start <- decimal
+        _ <- char '-'
+        end <- decimal
+        return (start, end)
 
 ------------ TYPES ------------
 type Input = [(Int, Int)]
@@ -30,30 +30,30 @@ type OutputB = Int
 -- Check if a number is made of two identical halves
 invalid :: Int -> Bool
 invalid num =
-  let s = show num
-      n = length s
-   in even n && take (n `div` 2) s == drop (n `div` 2) s
+    let s = show num
+        n = length s
+     in even n && take (n `div` 2) s == drop (n `div` 2) s
 
 part1 :: Input -> OutputA
 part1 = sum . concatMap filterInvalid
- where
-  filterInvalid :: (Int, Int) -> [Int]
-  filterInvalid (start, end) = [n | n <- [start .. end], invalid n]
+  where
+    filterInvalid :: (Int, Int) -> [Int]
+    filterInvalid (start, end) = [n | n <- [start .. end], invalid n]
 
 ------------ PART 2 ------------
 -- Check if a number is made of a pattern repeated at least twice
 invalid2 :: Int -> Bool
 invalid2 num = any isRepeatingPattern [1 .. length s `div` 2]
- where
-  s = show num
-  isRepeatingPattern patternLen =
-    length s `mod` patternLen == 0
-      && let pattern = take patternLen s
-             numRepeats = length s `div` patternLen
-          in numRepeats >= 2 && concat (replicate numRepeats pattern) == s
+  where
+    s = show num
+    isRepeatingPattern patternLen =
+        length s `mod` patternLen == 0
+            && let p = take patternLen s
+                   numRepeats = length s `div` patternLen
+                in numRepeats >= 2 && concat (replicate numRepeats p) == s
 
 part2 :: Input -> OutputB
 part2 = sum . concatMap filterInvalid2
- where
-  filterInvalid2 :: (Int, Int) -> [Int]
-  filterInvalid2 (start, end) = [n | n <- [start .. end], invalid2 n]
+  where
+    filterInvalid2 :: (Int, Int) -> [Int]
+    filterInvalid2 (start, end) = [n | n <- [start .. end], invalid2 n]
