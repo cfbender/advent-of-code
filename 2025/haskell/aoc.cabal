@@ -36,19 +36,6 @@ library
       Days.Day10
       Days.Day11
       Days.Day12
-      Days.Day13
-      Days.Day14
-      Days.Day15
-      Days.Day16
-      Days.Day17
-      Days.Day18
-      Days.Day19
-      Days.Day20
-      Days.Day21
-      Days.Day22
-      Days.Day23
-      Days.Day24
-      Days.Day25
       Program.Color
       Program.RunDay
       Util.Coordinates
@@ -139,19 +126,6 @@ test-suite spec
       Days.Day10Spec
       Days.Day11Spec
       Days.Day12Spec
-      Days.Day13Spec
-      Days.Day14Spec
-      Days.Day15Spec
-      Days.Day16Spec
-      Days.Day17Spec
-      Days.Day18Spec
-      Days.Day19Spec
-      Days.Day20Spec
-      Days.Day21Spec
-      Days.Day22Spec
-      Days.Day23Spec
-      Days.Day24Spec
-      Days.Day25Spec
       Util.Helpers
       Days.Day01
       Days.Day02
@@ -165,19 +139,6 @@ test-suite spec
       Days.Day10
       Days.Day11
       Days.Day12
-      Days.Day13
-      Days.Day14
-      Days.Day15
-      Days.Day16
-      Days.Day17
-      Days.Day18
-      Days.Day19
-      Days.Day20
-      Days.Day21
-      Days.Day22
-      Days.Day23
-      Days.Day24
-      Days.Day25
       Program.Color
       Program.RunDay
       Util.Coordinates

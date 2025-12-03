@@ -14,19 +14,6 @@ import qualified Days.Day09 as Day09
 import qualified Days.Day10 as Day10
 import qualified Days.Day11 as Day11
 import qualified Days.Day12 as Day12
-import qualified Days.Day13 as Day13
-import qualified Days.Day14 as Day14
-import qualified Days.Day15 as Day15
-import qualified Days.Day16 as Day16
-import qualified Days.Day17 as Day17
-import qualified Days.Day18 as Day18
-import qualified Days.Day19 as Day19
-import qualified Days.Day20 as Day20
-import qualified Days.Day21 as Day21
-import qualified Days.Day22 as Day22
-import qualified Days.Day23 as Day23
-import qualified Days.Day24 as Day24
-import qualified Days.Day25 as Day25
 
 --- Other imports
 import Data.Map (Map)
@@ -125,20 +112,7 @@ days =
       (Day09.runDay, "input/Day09.txt"),
       (Day10.runDay, "input/Day10.txt"),
       (Day11.runDay, "input/Day11.txt"),
-      (Day12.runDay, "input/Day12.txt"),
-      (Day13.runDay, "input/Day13.txt"),
-      (Day14.runDay, "input/Day14.txt"),
-      (Day15.runDay, "input/Day15.txt"),
-      (Day16.runDay, "input/Day16.txt"),
-      (Day17.runDay, "input/Day17.txt"),
-      (Day18.runDay, "input/Day18.txt"),
-      (Day19.runDay, "input/Day19.txt"),
-      (Day20.runDay, "input/Day20.txt"),
-      (Day21.runDay, "input/Day21.txt"),
-      (Day22.runDay, "input/Day22.txt"),
-      (Day23.runDay, "input/Day23.txt"),
-      (Day24.runDay, "input/Day24.txt"),
-      (Day25.runDay, "input/Day25.txt")
+      (Day12.runDay, "input/Day12.txt")
     ]
 
 performDay :: Options -> IO ()
