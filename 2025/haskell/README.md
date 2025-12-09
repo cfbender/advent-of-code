@@ -9,6 +9,9 @@
 | [Day 1](https://adventofcode.com/2025/day/1) | ⭐ | ⭐ | [Solution](./src/Days/Day01.hs) |
 | [Day 2](https://adventofcode.com/2025/day/2) | ⭐ | ⭐ | [Solution](./src/Days/Day02.hs) |
 | [Day 3](https://adventofcode.com/2025/day/3) | ⭐ | ⭐ | [Solution](./src/Days/Day03.hs) |
+| [Day 4](https://adventofcode.com/2025/day/4) | ⭐ | ⭐ | [Solution](./src/Days/Day04.hs) |
+| [Day 5](https://adventofcode.com/2025/day/5) | ⭐ | ⭐ | [Solution](./src/Days/Day05.hs) |
+| [Day 6](https://adventofcode.com/2025/day/6) | ⭐ | ⭐ | [Solution](./src/Days/Day06.hs) |
 
 ## Template
 
