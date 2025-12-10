@@ -13,3 +13,6 @@ Cargo.lock
 .idea
 
 input.txt
+
+.claude
+.vscode

@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(/bin/bash -c 'cd /Users/cfb/code/github/advent-of-code/2025/haskell && stack test --ta \"\"--match \\\"\"Day 07\\\"\"\"\"')"
-    ],
-    "deny": [],
-    "ask": []
-  }
-}
