@@ -14,6 +14,7 @@
 | [Day 6](https://adventofcode.com/2025/day/6) | ⭐ | ⭐ | [Solution](./src/Days/Day06.hs) |
 | [Day 7](https://adventofcode.com/2025/day/7) | ⭐ | ⭐ | [Solution](./src/Days/Day07.hs) |
 | [Day 8](https://adventofcode.com/2025/day/8) | ⭐ | ⭐ | [Solution](./src/Days/Day08.hs) |
+| [Day 9](https://adventofcode.com/2025/day/9) | ⭐ | ⭐ | [Solution](./src/Days/Day09.hs) |
 
 ## Template
 

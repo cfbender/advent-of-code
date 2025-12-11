@@ -1,5 +1,7 @@
 # Advent of Code 
 
+- [AoC 2025](https://adventofcode.com/2025/about)
+
 - [AoC 2024](https://adventofcode.com/2024/about)
 
 - [AoC 2023](https://adventofcode.com/2023/about)

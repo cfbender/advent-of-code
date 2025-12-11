@@ -36,10 +36,10 @@ attachCoords x y ((l : ls) : lss) = ((x, y), l) : attachCoords x (y + 1) (ls : l
 -- Chunk size must be positive.
 chunksOf :: Int -> [a] -> [[a]]
 chunksOf n ls
-  | n <= 0 = error "Cannot split into chunks of negative length."
-  | null ls = []
-  | length ls < n = [ls]
-  | otherwise = take n ls : chunksOf n (drop n ls)
+    | n <= 0 = error "Cannot split into chunks of negative length."
+    | null ls = []
+    | length ls < n = [ls]
+    | otherwise = take n ls : chunksOf n (drop n ls)
 
 -- Gets a sliding window in the list of the specified size.
 -- Example:
@@ -54,25 +54,25 @@ windows m = getZipList . traverse ZipList . take m . tails
 --     Output: [[5,4],[7,6],[4]]
 chunksByPredicate :: (a -> Bool) -> [a] -> [[a]]
 chunksByPredicate p ls
-  | null ls = []
-  | otherwise =
-      let (prefix, rest) = span p ls
-       in if null prefix
-            then chunksByPredicate p $ dropWhile (not . p) rest
-            else prefix : chunksByPredicate p (dropWhile (not . p) rest)
+    | null ls = []
+    | otherwise =
+        let (prefix, rest) = span p ls
+         in if null prefix
+                then chunksByPredicate p $ dropWhile (not . p) rest
+                else prefix : chunksByPredicate p (dropWhile (not . p) rest)
 
 -- Splits a list into two lists
 -- where those that satisfy the predicate are on the left
 -- and otherwise on the right
 splitWith :: (a -> Bool) -> [a] -> ([a], [a])
 splitWith p =
-  foldr
-    ( \x (a, b) ->
-        if p x
-          then (x : a, b)
-          else (a, x : b)
-    )
-    ([], [])
+    foldr
+        ( \x (a, b) ->
+            if p x
+                then (x : a, b)
+                else (a, x : b)
+        )
+        ([], [])
 
 -- Allows the user to log out some context and then the result of some expression
 -- For example, supposing a is 2, and b is 5:
@@ -84,10 +84,10 @@ traceShowIdWithContext context result = trace (show context ++ "\t" ++ show resu
 -- Like !!, but with bounds checking
 (!!?) :: [a] -> Int -> Maybe a
 list !!? index =
-  if
-    | index < 0 -> Nothing
-    | index >= length list -> Nothing
-    | otherwise -> Just $ list !! index
+    if
+        | index < 0 -> Nothing
+        | index >= length list -> Nothing
+        | otherwise -> Just $ list !! index
 
 groupBy :: (Ord a) => (t -> a) -> [t] -> Map a [t]
 groupBy mapper input = Map.fromListWith (++) (map (\x -> (mapper x, [x])) input)
@@ -106,3 +106,7 @@ uniq = Set.toList . Set.fromList
 tsnd (_, x, _) = x
 
 third (_, _, x) = x
+
+safeHead :: [a] -> a
+safeHead [] = error "safeHead: empty list"
+safeHead (x : _) = x
